@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Go the Distance</string>
+
+    <string name="title_discover">Discover</string>
+    <string name="title_plan">Plan</string>
+    <string name="title_saved">Saved Places</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
