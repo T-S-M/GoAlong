@@ -53,6 +53,15 @@
         />
         -->
 
+    <GridView
+        android:id="@+id/main_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:columnWidth="200dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="spacingWidthUniform" />
+
 
 </android.support.design.widget.CoordinatorLayout>
     <!--android:transitionName="@string/transition_name_new_trip_fab"-->

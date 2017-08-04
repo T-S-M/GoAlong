@@ -1,6 +1,7 @@
 package com.tsm.way;
 
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Location;
@@ -15,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.tsm.way.utils.CategoriesUtil;
 
 
 /**
@@ -39,6 +43,7 @@ public class DiscoverFragment extends Fragment implements OnMapReadyCallback {
     private boolean mLocationPermissionGranted;
     private Location mLastKnownLocation;
     private CameraPosition mCameraPosition;
+    private GridView categoriesGridView;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -54,6 +59,18 @@ public class DiscoverFragment extends Fragment implements OnMapReadyCallback {
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        categoriesGridView = (GridView) rootView.findViewById(R.id.main_categories);
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getContext(), CategoriesUtil.getCategories());
+        categoriesGridView.setAdapter(categoriesAdapter);
+        categoriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), PlaceDetailActivity.class);
+                //intent.putExtra("type", categories[position]);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }
