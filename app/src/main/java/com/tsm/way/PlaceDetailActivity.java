@@ -23,7 +23,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         TextView name = (TextView) findViewById(R.id.temp_detail);
-        final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
+        //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
 
         /*if(getIntent().hasExtra("name")){
             CharSequence placeName = getIntent().getCharSequenceExtra("name");
@@ -45,12 +45,18 @@ public class PlaceDetailActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             // Display the first 500 characters of the response string.
-                            jsonTView.setText("Response is: " + response.substring(0));
+                            //jsonTView.setText("Response is: " + response.substring(0));
+                            PlaceDetailParser detailParser = new PlaceDetailParser(response.substring(0));
+                            try {
+                                detailParser.getPlaceDetail();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    jsonTView.setText("That didn't work!");
+                    //jsonTView.setText("That didn't work!");
                 }
             });
             // Add the request to the RequestQueue.

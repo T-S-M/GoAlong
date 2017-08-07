@@ -23,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/namePlaceHolder"
+            android:id="@+id/temp_detail"
             android:textAllCaps="true"
             android:textColor="#fff"
             android:textSize="16sp"
