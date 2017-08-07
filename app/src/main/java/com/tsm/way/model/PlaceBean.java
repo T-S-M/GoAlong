@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.model;
 
 import java.io.Serializable;
 
@@ -19,16 +19,32 @@ public class PlaceBean implements Serializable {
         return latitude;
     }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
     public int getId(){
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getName(){
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isOpen(){
@@ -39,44 +55,28 @@ public class PlaceBean implements Serializable {
         return rating;
     }
 
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
     public String getVicinity() {
         return vicinity;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setVicinity(String vicinity) {
         this.vicinity = vicinity;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
     public void setIsOpen(boolean isOpen) {
         this.isOpen = isOpen;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
     }
 
     public String getPlaceref() {

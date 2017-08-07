@@ -1,34 +1,23 @@
-package com.tsm.way;
-
-/**
- * Created by Sakib on 8/7/2017.
- */
+package com.tsm.way.utils;
 
 import android.util.Log;
+
+import com.tsm.way.model.PlaceBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.SSLException;
-
-public class JSONParser {
+public class PlaceListJSONParser {
 
     private List<PlaceBean> placeBeanList;
     private String placesData;
     private String kind;
 
-    public JSONParser(String data, String kind){
+    public PlaceListJSONParser(String data, String kind) {
         placeBeanList = new ArrayList<>();
         this.placesData = data;
         this.kind = kind;

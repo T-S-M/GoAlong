@@ -35,7 +35,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
             String s = temp.getName() + "\n" + temp.getAddress() + "\n" + temp.getRating() + "\n" + temp.getPhoneNumber() + "\n" + temp.getWebsiteUri() + "\n";
             name.setText(s);
 
-            String urlString = PlaceUtils.getUrlString(this, temp.getId());
+            String urlString = PlaceUtils.getDetailUrlString(this, temp.getId());
 
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
