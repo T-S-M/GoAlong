@@ -1,10 +1,15 @@
 package com.tsm.way;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,10 +27,11 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
+    static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
+    public static boolean mLocationPermissionGranted;
+    public static Location mLastKnownLocation;
     static GoogleApiClient mGoogleApiClient;
-    int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
-
-
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -62,8 +68,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //for default
-        navigation.setSelectedItemId(R.id.navigation_discover);
-
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -73,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .build();
 
         mGoogleApiClient.connect();
+        getDeviceLocation();
+
+        navigation.setSelectedItemId(R.id.navigation_discover);
     }
 
 
@@ -118,6 +125,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
+                Intent intent = new Intent(this, PlaceDetailActivity.class);
+                //intent.putExtra("name", place.getName());
+                intent.putExtra("place", (Parcelable) place);
+                startActivity(intent);
                 //Log.i("TAG", "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
@@ -129,5 +140,46 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         }
     }
+
+    private boolean getDeviceLocation() {
+
+        checkLocationPermission();
+
+        if (mLocationPermissionGranted) {
+            mLastKnownLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(MainActivity.mGoogleApiClient);
+        }
+        return mLastKnownLocation != null;
+
+    }
+
+    private void checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            mLocationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        MainActivity.mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    MainActivity.mLocationPermissionGranted = true;
+                }
+            }
+        }
+    }
+
 
 }
