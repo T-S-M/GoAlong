@@ -1,83 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="5"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:background="@color/colorPrimary"
-        android:id="@+id/contentDescription">
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:scaleType="centerInside"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_arrow_back_white_24dp"
-            android:id="@+id/back" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/temp_detail"
-            android:textAllCaps="true"
-            android:textColor="#fff"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:scrollHorizontally="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:gravity="center"
-            android:text="Details"/>
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:scaleType="centerInside"
-            android:layout_margin="16dp"
-            android:src="@drawable/ic_search"
-            android:id="@+id/search" />
-    </LinearLayout>
-
-    <com.infinity.dev.nearby.SlidingTabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:paddingTop="10dp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@+id/contentDescription"
-        android:layout_gravity="center_horizontal|top" />
-
-    <LinearLayout
-        android:id="@+id/grad"
-        android:layout_width="match_parent"
-        android:layout_height="6dp"
-        android:background="@color/md_grey_700"
-        android:orientation="horizontal"
-        android:layout_below="@+id/tabs"
-        android:layout_gravity="center_horizontal|top">
-    </LinearLayout>
-
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/places_detail"
-        android:layout_gravity="center"
-        android:layout_below="@+id/grad">
-    </android.support.v4.view.ViewPager>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/message"
-        android:layout_below="@+id/contentDescription"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
         android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_below="@+id/name"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/address"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_below="@+id/space"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
         android:layout_alignParentLeft="true">
 
-    </FrameLayout>
+    </View>
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/view1"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/space2"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
+
 
 </RelativeLayout>

@@ -16,13 +16,17 @@ import com.tsm.way.utils.PlaceUtils;
 public class PlaceDetailActivity extends AppCompatActivity {
 
     Place place;
+    PlaceDetailBean detailbean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        TextView name = (TextView) findViewById(R.id.temp_detail);
+        final TextView name = (TextView) findViewById(R.id.name);
+        final TextView address = (TextView) findViewById(R.id.address);
+        final TextView contact = (TextView) findViewById(R.id.contact);
+
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
 
         /*if(getIntent().hasExtra("name")){
@@ -31,7 +35,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         }
         */
         if (getIntent().hasExtra("place")) {
-            Place temp = getIntent().getParcelableExtra("place");
+            final Place temp = getIntent().getParcelableExtra("place");
             String s = temp.getName() + "\n" + temp.getAddress() + "\n" + temp.getRating() + "\n" + temp.getPhoneNumber() + "\n" + temp.getWebsiteUri() + "\n";
             name.setText(s);
 
@@ -47,8 +51,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
                             // Display the first 500 characters of the response string.
                             //jsonTView.setText("Response is: " + response.substring(0));
                             PlaceDetailParser detailParser = new PlaceDetailParser(response.substring(0));
+
                             try {
-                                detailParser.getPlaceDetail();
+                                detailbean = detailParser.getPlaceDetail();
+                                name.setText(detailbean.getName());
+                                address.setText("Address: " +detailbean.getFormatted_address());
+                                contact.setText("Contact No. : "+detailbean.getFormatted_phone_number());
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
