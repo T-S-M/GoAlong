@@ -54,9 +54,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                             try {
                                 detailbean = detailParser.getPlaceDetail();
-                                name.setText(detailbean.getName());
+                                name.setText(detailbean.getName()+"\n");
                                 address.setText("Address: " +detailbean.getFormatted_address());
-                                contact.setText("Contact No. : "+detailbean.getFormatted_phone_number());
+                                contact.setText("Contact No. : "+detailbean.getFormatted_phone_number()+"\nInterbational Phone No. :"+detailbean.getInternational_phone_number());
 
                             } catch (Exception e) {
                                 e.printStackTrace();
