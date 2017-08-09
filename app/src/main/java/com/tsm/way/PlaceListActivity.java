@@ -36,11 +36,12 @@ import static com.tsm.way.MainActivity.mLastKnownLocation;
 public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String TAG = "PlaceListActivity";
-    private static final float DEFAULT_ZOOM = 16;
+    private static final float DEFAULT_ZOOM = 15;
     MapFragment mapFragment;
     RecyclerView placesRecyclerView;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
+    String type;
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
 
@@ -51,6 +52,10 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (getIntent().hasExtra("type")) {
+            type = getIntent().getStringExtra("type");
+        }
 
         mRequestQueue = Volley.newRequestQueue(this);
 
@@ -74,7 +79,17 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void populateRecyclerview() {
 
-        String urlString = PlaceUtils.getCategoryPlaceUrlString(this, "23.8103", "90.4125", "restaurant");
+        String latitude = "23.8103";
+        String longitude = "90.4125";
+        if (mLastKnownLocation != null) {
+            latitude = String.valueOf(mLastKnownLocation.getLatitude());
+            longitude = String.valueOf(mLastKnownLocation.getLongitude());
+        }
+        if (type == null) {
+            type = "hospital";
+        }
+
+        String urlString = PlaceUtils.getCategoryPlaceUrlString(this, latitude, longitude, type);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString,
                 new Response.Listener<String>() {

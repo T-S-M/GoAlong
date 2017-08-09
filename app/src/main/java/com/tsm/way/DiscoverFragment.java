@@ -39,7 +39,7 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), PlaceListActivity.class);
-                //intent.putExtra("type", categories[position]);
+                intent.putExtra("type", (String) view.getTag());
                 startActivity(intent);
             }
         });

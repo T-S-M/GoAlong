@@ -8,9 +8,23 @@ public class CategoriesUtil {
                 new Category("Event", R.drawable.ic_restaurant_black_24dp),
                 new Category("Restaurant", R.drawable.ic_restaurant_black_24dp),
                 new Category("Cafe", R.drawable.ic_restaurant_black_24dp),
-                new Category("Park", R.drawable.ic_restaurant_black_24dp)
+                new Category("Park", R.drawable.ic_restaurant_black_24dp),
+                new Category("ATM", R.drawable.ic_restaurant_black_24dp),
+                new Category("Movie Theatre", R.drawable.ic_restaurant_black_24dp),
+                new Category("Museum", R.drawable.ic_restaurant_black_24dp),
+                new Category("Bar", R.drawable.ic_restaurant_black_24dp),
+                new Category("Spa", R.drawable.ic_restaurant_black_24dp),
+                new Category("Zoo", R.drawable.ic_restaurant_black_24dp)
         };
 
         return categories;
+    }
+
+    public static String getApiplaceType(String name) {
+        if (name.equals("Movie Theatre")) {
+            return "movie_theater";
+        } else {
+            return name.toLowerCase();
+        }
     }
 }

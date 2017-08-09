@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.tsm.way.model.PlaceBean;
@@ -39,7 +40,13 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
     public void onBindViewHolder(PlaceListAdapterViewHolder holder, int position) {
         PlaceBean pb = placeBeanList.get(position);
         holder.nameTextView.setText(pb.getName());
-        holder.openTextView.setText(pb.getVicinity());
+        holder.addressTextView.setText(pb.getVicinity());
+        holder.ratng.setRating(pb.getRating());
+        if (pb.isOpen()) {
+            holder.openTextView.setText(R.string.place_status_open);
+        } else {
+            holder.openTextView.setText(R.string.place_status_closed);
+        }
     }
 
     @Override
@@ -51,11 +58,15 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
 
         TextView nameTextView;
         TextView openTextView;
+        TextView addressTextView;
+        RatingBar ratng;
 
         public PlaceListAdapterViewHolder(View itemView) {
             super(itemView);
             openTextView = (TextView) itemView.findViewById(R.id.open_now_in_list);
             nameTextView = (TextView) itemView.findViewById(R.id.place_name_now_in_list);
+            addressTextView = (TextView) itemView.findViewById(R.id.address_in_list);
+            ratng = (RatingBar) itemView.findViewById(R.id.rating_single_place_in_list);
 
         }
 

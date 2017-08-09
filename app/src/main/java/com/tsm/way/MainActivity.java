@@ -20,10 +20,13 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static boolean mLocationPermissionGranted;
     public static Location mLastKnownLocation;
     static GoogleApiClient mGoogleApiClient;
+    private FusedLocationProviderClient mFusedLocationClient;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -77,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .build();
 
         mGoogleApiClient.connect();
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();
 
         navigation.setSelectedItemId(R.id.navigation_discover);
@@ -112,10 +118,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             .build(this);
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
-            // TODO: Handle the error.
             Toast.makeText(this, "Update play service", Toast.LENGTH_SHORT).show();
         } catch (GooglePlayServicesNotAvailableException e) {
-            // TODO: Handle the error.
             Toast.makeText(this, "No play service", Toast.LENGTH_SHORT).show();
         }
     }
@@ -141,15 +145,29 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-    private boolean getDeviceLocation() {
+    private void getDeviceLocation() {
 
         checkLocationPermission();
 
         if (mLocationPermissionGranted) {
-            mLastKnownLocation = LocationServices.FusedLocationApi
-                    .getLastLocation(MainActivity.mGoogleApiClient);
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                mLastKnownLocation = location;
+                            }
+                        }
+                    })
+                    .addOnFailureListener(this, new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "Can not get Location", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            //mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(MainActivity.mGoogleApiClient);
         }
-        return mLastKnownLocation != null;
 
     }
 
@@ -178,6 +196,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     MainActivity.mLocationPermissionGranted = true;
                 }
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
         }
     }
 

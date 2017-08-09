@@ -1,7 +1,9 @@
 package com.tsm.way;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -38,6 +40,15 @@ public class PlanFragment extends Fragment {
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_plan);
         tabLayout.setupWithViewPager(viewPager);
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_plan);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CreatePlanActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return rootView;
     }

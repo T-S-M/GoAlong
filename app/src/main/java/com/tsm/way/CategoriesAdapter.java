@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tsm.way.utils.CategoriesUtil;
 import com.tsm.way.utils.Category;
 
 public class CategoriesAdapter extends BaseAdapter {
@@ -39,7 +40,6 @@ public class CategoriesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final Category category = categories[position];
 
-        // 2
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.single_category, null);
@@ -49,7 +49,10 @@ public class CategoriesAdapter extends BaseAdapter {
         final TextView nameTextView = (TextView) convertView.findViewById(R.id.category_item_name);
 
         imageView.setImageResource(category.getIconID());
-        nameTextView.setText(category.getName());
+        String name = category.getName();
+        nameTextView.setText(name);
+
+        convertView.setTag(CategoriesUtil.getApiplaceType(name));
 
         return convertView;
     }

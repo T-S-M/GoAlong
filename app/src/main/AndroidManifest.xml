@@ -32,6 +32,9 @@
         <activity
             android:name=".PlaceListActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CreatePlanActivity"
+            android:parentActivityName=".MainActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

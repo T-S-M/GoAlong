@@ -8,4 +8,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_search_autocomplete">Search</string>
+
+    <string name="place_status_open">Open Now</string>
+    <string name="place_status_closed">Closed</string>
+    <string name="type_restaurant" translatable="false">restaurant</string>
+    <string name="type_cafe" translatable="false">cafe</string>
 </resources>
