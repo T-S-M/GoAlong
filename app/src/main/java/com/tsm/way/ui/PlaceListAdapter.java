@@ -73,12 +73,10 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
             rating = (RatingBar) itemView.findViewById(R.id.rating_single_place_in_list);
             timeTextView = (TextView) itemView.findViewById(R.id.journey_time_in_list);
             distanceTextView = (TextView) itemView.findViewById(R.id.distance_in_list);
-
         }
 
         @Override
         public void onClick(View v) {
-
         }
     }
 }

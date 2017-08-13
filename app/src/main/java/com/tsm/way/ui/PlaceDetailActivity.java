@@ -2,6 +2,7 @@ package com.tsm.way.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -29,7 +30,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         final TextView name = (TextView) findViewById(R.id.name);
         final TextView address = (TextView) findViewById(R.id.address);
         final TextView contact = (TextView) findViewById(R.id.contact);
-
+        final RatingBar rating = (RatingBar) findViewById(R.id.rating);
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
 
         /*if(getIntent().hasExtra("name")){
@@ -60,7 +61,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                 name.setText(detailbean.getName()+"\n");
                                 address.setText("Address: " +detailbean.getFormatted_address());
                                 contact.setText("Contact No. : "+detailbean.getFormatted_phone_number()+"\nInterbational Phone No. :"+detailbean.getInternational_phone_number());
-
+                                rating.setRating(detailbean.getRating());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
