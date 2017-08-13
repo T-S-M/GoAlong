@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.places.Place;
+import com.tsm.way.R;
+import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.PlaceUtils;
 
 public class PlaceDetailActivity extends AppCompatActivity {

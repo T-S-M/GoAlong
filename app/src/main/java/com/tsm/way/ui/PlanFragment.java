@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.ui;
 
 
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.tsm.way.R;
 
 
 /**

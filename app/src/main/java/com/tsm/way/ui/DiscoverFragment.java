@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.ui;
 
 
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.tsm.way.R;
 import com.tsm.way.utils.CategoriesUtil;
 
 

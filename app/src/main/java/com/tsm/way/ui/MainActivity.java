@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -27,6 +27,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.tsm.way.R;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 

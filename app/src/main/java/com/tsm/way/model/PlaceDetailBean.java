@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.model;
 
 import java.io.Serializable;
 

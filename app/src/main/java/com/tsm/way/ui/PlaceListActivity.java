@@ -1,4 +1,4 @@
-package com.tsm.way;
+package com.tsm.way.ui;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -25,13 +25,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.utils.PlaceListJSONParser;
 import com.tsm.way.utils.PlaceUtils;
 
 import java.util.List;
 
-import static com.tsm.way.MainActivity.mLastKnownLocation;
+import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 
 public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
