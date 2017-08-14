@@ -2,9 +2,6 @@ package com.tsm.way.model;
 
 import java.util.Date;
 
-/**
- * Created by User on 13-Aug-17.
- */
 class Plan {
     String event_type;
     String place;
