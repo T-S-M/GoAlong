@@ -4,22 +4,26 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
+import com.tsm.way.utils.PlaceUtils;
 
 import java.util.List;
 
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceListAdapterViewHolder> {
 
-    private final PlaceListAdapterViewHolder mClickHandler;
+    private final PlaceListAdapterOnclickHandler mClickHandler;
     Context mContext;
     List<PlaceBean> placeBeanList;
 
-    public PlaceListAdapter(Context mContext, List<PlaceBean> placeBeanList, PlaceListAdapterViewHolder mClickHandler) {
+    public PlaceListAdapter(Context mContext, List<PlaceBean> placeBeanList, PlaceListAdapterOnclickHandler mClickHandler) {
         this.mContext = mContext;
         this.placeBeanList = placeBeanList;
         this.mClickHandler = mClickHandler;
@@ -49,6 +53,12 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
         } else {
             holder.openTextView.setText(R.string.place_status_closed);
         }
+        if (pb.getPhotoref() != null) {
+            String imageUrl = PlaceUtils.getSinglePhotoUrlString(mContext, pb.getPhotoref(), "350", "300");
+            Picasso.with(mContext)
+                    .load(imageUrl)
+                    .into(holder.thumbnailImage);
+        }
     }
 
     @Override
@@ -56,14 +66,17 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
         return placeBeanList.size();
     }
 
-    public class PlaceListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public interface PlaceListAdapterOnclickHandler {
+        void onClick(String id);
+    }
+
+    public class PlaceListAdapterViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 
         TextView nameTextView;
         TextView openTextView;
-        TextView distanceTextView;
-        TextView timeTextView;
         TextView addressTextView;
         RatingBar rating;
+        ImageView thumbnailImage;
 
         public PlaceListAdapterViewHolder(View itemView) {
             super(itemView);
@@ -71,14 +84,15 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
             nameTextView = (TextView) itemView.findViewById(R.id.place_name_now_in_list);
             addressTextView = (TextView) itemView.findViewById(R.id.address_in_list);
             rating = (RatingBar) itemView.findViewById(R.id.rating_single_place_in_list);
-            timeTextView = (TextView) itemView.findViewById(R.id.journey_time_in_list);
-            distanceTextView = (TextView) itemView.findViewById(R.id.distance_in_list);
+            thumbnailImage = (ImageView) itemView.findViewById(R.id.place_image_thumb);
+            itemView.setOnClickListener(this);
 
         }
 
         @Override
         public void onClick(View v) {
-
+            String placeID = placeBeanList.get(getAdapterPosition()).getPlaceref();
+            mClickHandler.onClick(placeID);
         }
     }
 }

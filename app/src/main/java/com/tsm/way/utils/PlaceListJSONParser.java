@@ -42,6 +42,7 @@ public class PlaceListJSONParser {
 
         double latitude, longitude;
         String id, name, vicinity, type;
+        String photoref = null;
         boolean isOpen = false;
         float rating;
 
@@ -124,6 +125,11 @@ public class PlaceListJSONParser {
                 else {
                     type = "Not Available";
                 }
+                if (jsonObject.has("photos")) {
+                    JSONArray temp = jsonObject.getJSONArray("photos");
+                    JSONObject photos = temp.getJSONObject(0);
+                    photoref = photos.getString("photo_reference");
+                }
 
                 pb.setLatitude(latitude);
                 pb.setLongitude(longitude);
@@ -134,6 +140,7 @@ public class PlaceListJSONParser {
                 pb.setVicinity(vicinity);
                 pb.setType(type);
                 pb.setKind(kind);
+                pb.setPhotoref(photoref);
 
                 placeBeanList.add(pb);
             }

@@ -14,6 +14,15 @@ public class PlaceBean implements Serializable {
     private String vicinity;
     private String type;
     private String kind;
+    private String photoref;
+
+    public String getPhotoref() {
+        return photoref;
+    }
+
+    public void setPhotoref(String photoref) {
+        this.photoref = photoref;
+    }
 
     public double getLatitude() {
         return latitude;

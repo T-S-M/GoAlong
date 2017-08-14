@@ -1,6 +1,7 @@
 package com.tsm.way.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -34,7 +35,7 @@ import java.util.List;
 
 import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 
-public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCallback, PlaceListAdapter.PlaceListAdapterOnclickHandler {
 
     public static final String TAG = "PlaceListActivity";
     private static final float DEFAULT_ZOOM = 15;
@@ -101,7 +102,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            placesRecyclerView.setAdapter(new PlaceListAdapter(PlaceListActivity.this, placelist, null));
+                            placesRecyclerView.setAdapter(new PlaceListAdapter(PlaceListActivity.this, placelist, PlaceListActivity.this));
                             placesRecyclerView.setVisibility(View.VISIBLE);
 
                         } catch (Exception e) {
@@ -182,4 +183,11 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    @Override
+    public void onClick(String id) {
+        Log.v("Clicked", "Yuuuuuuuuuu");
+        Intent intentToStartDetail = new Intent(PlaceListActivity.this, PlaceDetailActivity.class);
+        intentToStartDetail.putExtra("id", id);
+        startActivity(intentToStartDetail);
+    }
 }

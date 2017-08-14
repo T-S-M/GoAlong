@@ -8,6 +8,7 @@ public class PlaceUtils {
 
     static String detailBaseUrl = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
     static String categoryBaseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";
+    static String singlePhotoBaseUrl = "https://maps.googleapis.com/maps/api/place/photo?";
 
     public static String getDetailUrlString(Context context, String id) {
 
@@ -22,6 +23,14 @@ public class PlaceUtils {
         String key = context.getString(R.string.GOOGLE_PLACES_API_KEY);
 
         return categoryBaseUrl + latitude + "," + longitude + "&rankby=distance&types=" + type + "&key=" + key;
+
+    }
+
+    public static String getSinglePhotoUrlString(Context context, String photoReference, String width, String height) {
+
+        String key = context.getString(R.string.GOOGLE_PLACES_API_KEY);
+
+        return singlePhotoBaseUrl + "&maxwidth=" + width + "&maxheight=" + height + "&photoreference=" + photoReference + "&key=" + key;
 
     }
 }

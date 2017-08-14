@@ -10,7 +10,9 @@
     <string name="title_search_autocomplete">Search</string>
 
     <string name="place_status_open">Open Now</string>
-    <string name="place_status_closed">Closed</string>
+    <string name="place_status_closed">Currently Closed</string>
     <string name="type_restaurant" translatable="false">restaurant</string>
     <string name="type_cafe" translatable="false">cafe</string>
+    <string name="address_title">Address: </string>
+    <string name="rating_title_text_view">Rating:</string>
 </resources>
