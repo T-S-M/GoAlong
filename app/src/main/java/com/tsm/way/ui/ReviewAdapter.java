@@ -9,9 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.R;
+
 import java.util.List;
 
 /**
@@ -40,8 +41,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceLi
     }
 
     @Override
-    public PlaceListAdapter.PlaceListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
+    public ReviewAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ReviewAdapterViewHolder(view);
     }
 
     @Override
@@ -63,14 +64,14 @@ public class ReviewAdapter extends RecyclerView.Adapter<PlaceListAdapter.PlaceLi
         return placeBeanList.size();
     }
 
-    public class PlaceListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ReviewAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView icon;
         TextView author_name;
         TextView author_text;
         RatingBar author_rating;
 
-        public PlaceListAdapterViewHolder(View itemView) {
+        public ReviewAdapterViewHolder(View itemView) {
             super(itemView);
 
             ImageView icon = (ImageView) findViewById(R.id.author_icon);

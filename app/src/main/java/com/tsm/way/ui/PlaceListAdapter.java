@@ -7,9 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
+import com.tsm.way.R;
 
 import java.util.List;
 
