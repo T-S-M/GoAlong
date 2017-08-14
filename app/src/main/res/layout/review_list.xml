@@ -14,12 +14,13 @@
     android:padding="16dp"
     android:orientation="horizontal"
     android:id="@+id/review_item">
-    <com.infinity.dev.PlaceDetail.RoundImageView
+
+    <com.tsm.way.ui.RoundImageView
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:id="@+id/author_icon"
         android:background="@drawable/circle"
-        android:src="@drawable/ic_person_white_"
+        android:src="@drawable/ic_person_white_24dp"
         android:gravity="center"
         android:scaleType="center" />
 
