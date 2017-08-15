@@ -1,6 +1,8 @@
 package com.tsm.way.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,12 +27,25 @@ public class PlaceDetailActivity extends AppCompatActivity {
     String placeID;
     PlaceDetailBean detailbean;
     RecyclerView reviewRecyclerView;
+    FloatingActionButton add_place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        add_place =(FloatingActionButton) findViewById(R.id.add_plan);
+        add_place.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(PlaceDetailActivity.this, CreatePlanActivity.class));
+                finish();
+
+                }
+            }
+        );
+
         final TextView name = (TextView) findViewById(R.id.name);
         final TextView address = (TextView) findViewById(R.id.address);
         final TextView contact = (TextView) findViewById(R.id.contact);
