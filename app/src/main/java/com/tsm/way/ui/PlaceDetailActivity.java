@@ -2,6 +2,10 @@ package com.tsm.way.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -18,8 +22,9 @@ import com.tsm.way.utils.PlaceUtils;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    Place place;
+    String placeID;
     PlaceDetailBean detailbean;
+    RecyclerView reviewRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,20 +34,26 @@ public class PlaceDetailActivity extends AppCompatActivity {
         final TextView name = (TextView) findViewById(R.id.name);
         final TextView address = (TextView) findViewById(R.id.address);
         final TextView contact = (TextView) findViewById(R.id.contact);
-
+        final RatingBar rating = (RatingBar) findViewById(R.id.rating);
+        reviewRecyclerView = (RecyclerView) findViewById(R.id.review_recyclerview);
+        reviewRecyclerView.setVisibility(View.INVISIBLE);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        reviewRecyclerView.setHasFixedSize(true);
+        reviewRecyclerView.setLayoutManager(layoutManager);
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
 
-        /*if(getIntent().hasExtra("name")){
-            CharSequence placeName = getIntent().getCharSequenceExtra("name");
-            name.setText(placeName);
+        if (getIntent().hasExtra("id")) {
+            placeID = getIntent().getStringExtra("id");
         }
-        */
-        if (getIntent().hasExtra("place")) {
-            final Place temp = getIntent().getParcelableExtra("place");
-            String s = temp.getName() + "\n" + temp.getAddress() + "\n" + temp.getRating() + "\n" + temp.getPhoneNumber() + "\n" + temp.getWebsiteUri() + "\n";
-            name.setText(s);
 
-            String urlString = PlaceUtils.getDetailUrlString(this, temp.getId());
+        if (getIntent().hasExtra("place")) {
+            Place temp = getIntent().getParcelableExtra("place");
+            placeID = temp.getId();
+        }
+
+        if (placeID != null) {
+
+            String urlString = PlaceUtils.getDetailUrlString(this, placeID);
 
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -60,7 +71,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                 name.setText(detailbean.getName()+"\n");
                                 address.setText("Address: " +detailbean.getFormatted_address());
                                 contact.setText("Contact No. : "+detailbean.getFormatted_phone_number()+"\nInterbational Phone No. :"+detailbean.getInternational_phone_number());
-
+                                rating.setRating(detailbean.getRating());
+                                reviewRecyclerView.setAdapter(new ReviewAdapter(detailbean.getReviews(), PlaceDetailActivity.this));
+                                reviewRecyclerView.setVisibility(View.VISIBLE);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
