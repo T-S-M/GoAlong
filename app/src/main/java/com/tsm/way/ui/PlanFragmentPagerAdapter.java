@@ -13,7 +13,7 @@ public class PlanFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         //TODO: Change these fragments later when implemented
         if (position == 0) {
-            return new DiscoverEventsFragment();
+            return new LocalPlansFragment();
         } else {
             return new DiscoverEventsFragment();
         }
