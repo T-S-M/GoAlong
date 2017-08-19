@@ -30,6 +30,7 @@ public class SavedPlacesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_saved_places, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         return rootView;
     }
 

@@ -35,6 +35,7 @@ public class PlanFragment extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("My Plans");
+        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
 
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager_plan);
         PlanFragmentPagerAdapter adapter = new PlanFragmentPagerAdapter(getChildFragmentManager());

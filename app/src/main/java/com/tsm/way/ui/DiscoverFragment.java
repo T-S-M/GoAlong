@@ -33,6 +33,7 @@ public class DiscoverFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         categoriesGridView = (GridView) rootView.findViewById(R.id.main_categories);
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getContext(), CategoriesUtil.getCategories());
         categoriesGridView.setAdapter(categoriesAdapter);

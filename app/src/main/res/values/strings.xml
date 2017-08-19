@@ -15,4 +15,5 @@
     <string name="type_cafe" translatable="false">cafe</string>
     <string name="address_title">Address: </string>
     <string name="rating_title_text_view">Rating:</string>
+    <string name="signout">Sign Out</string>
 </resources>
