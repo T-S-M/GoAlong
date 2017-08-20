@@ -16,4 +16,6 @@
     <string name="address_title">Address: </string>
     <string name="rating_title_text_view">Rating:</string>
     <string name="signout">Sign Out</string>
+    <string name="facebook_application_id" translatable="false">APP_ID</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fbAPP_ID</string>
 </resources>
