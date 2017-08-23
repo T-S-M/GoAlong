@@ -48,6 +48,7 @@ import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
@@ -148,7 +149,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         item1,
                         new DividerDrawerItem(),
                         item2,
-                        new SecondaryDrawerItem().withName("Settings")
+                        new SecondaryDrawerItem().withName("About"),
+                        new SecondaryDrawerItem().withName("Help & Feedback")
+
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
