@@ -11,25 +11,35 @@ public class PlanFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        //TODO: Change these fragments later when implemented
-        if (position == 0) {
-            return new LocalPlansFragment();
-        } else {
-            return new DiscoverEventsFragment();
+
+        switch (position) {
+            case 0:
+                return new PlanDashboardFragment();
+            case 1:
+                return new UpcomingPlansFragment();
+            case 2:
+                return new UpcomingPlansFragment();
+            default:
+                return null;
         }
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        if (position == 0) {
-            return "Upcoming";
-        } else {
-            return "Past";
+        switch (position) {
+            case 0:
+                return "Dasboard";
+            case 1:
+                return "Upcoming";
+            case 2:
+                return "Pending";
+            default:
+                return "";
         }
     }
 }

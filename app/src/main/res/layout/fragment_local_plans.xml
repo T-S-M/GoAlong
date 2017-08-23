@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.tsm.way.ui.LocalPlansFragment">
+    tools:context="com.tsm.way.ui.UpcomingPlansFragment">
 
     <TextView
         android:id="@+id/temp_tv"

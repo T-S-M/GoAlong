@@ -25,7 +25,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".ui.PlaceDetailActivity"
             android:parentActivityName=".ui.MainActivity"

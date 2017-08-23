@@ -19,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
 
-public class LocalPlansFragment extends Fragment {
+public class UpcomingPlansFragment extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference allUsersRef = database.getReference("users");
@@ -29,7 +29,7 @@ public class LocalPlansFragment extends Fragment {
     FirebaseUser user;
 
 
-    public LocalPlansFragment() {
+    public UpcomingPlansFragment() {
         // Required empty public constructor
     }
 
