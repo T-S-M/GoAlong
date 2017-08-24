@@ -150,7 +150,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         new DividerDrawerItem(),
                         item2,
                         new SecondaryDrawerItem().withName("About"),
-                        new SecondaryDrawerItem().withName("Help & Feedback")
+                        new SecondaryDrawerItem().withName("Help & Feedback"),
+                        new SecondaryDrawerItem().withName("Link with Facebook")
 
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {

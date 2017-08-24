@@ -33,7 +33,7 @@ public class PlanFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Dasboard";
+                return "Dashboard";
             case 1:
                 return "Upcoming";
             case 2:

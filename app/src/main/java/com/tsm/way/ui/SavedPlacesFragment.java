@@ -1,6 +1,7 @@
 package com.tsm.way.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.tsm.way.R;
+import com.tsm.way.firebase.LinkFacebookActivity;
 
 
 /**
@@ -31,6 +34,13 @@ public class SavedPlacesFragment extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
+        FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.fb_test);
+        fb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), LinkFacebookActivity.class));
+            }
+        });
         return rootView;
     }
 
