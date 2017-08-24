@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/back"
     tools:context="com.tsm.way.ui.CreatePlanActivity">
 
     <ImageView
         android:id="@+id/photo_up"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="1dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="1dp" />
 
 
     <Button
@@ -103,26 +103,26 @@
         android:id="@+id/editText6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="60dp"
         android:text="New Event"
         android:textSize="25sp"
         tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="84dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp" />
+        tools:layout_editor_absoluteY="84dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add an upcoming concert or party"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="127dp"
         android:layout_alignBottom="@+id/photo_up"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="23dp" />
+        android:layout_marginBottom="23dp"
+        android:text="Add an upcoming concert or party"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="127dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -179,14 +179,14 @@
         android:id="@+id/timepick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:hint="Pick Time"
-        android:textSize="20sp"
         android:layout_above="@+id/textView4"
-        android:layout_alignRight="@+id/button2"
         android:layout_alignEnd="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_below="@+id/textView2"
+        android:layout_toEndOf="@+id/img_upButton"
         android:layout_toRightOf="@+id/img_upButton"
-        android:layout_toEndOf="@+id/img_upButton" />
+        android:hint="Pick Time"
+        android:textSize="20sp" />
 
 
 </RelativeLayout>

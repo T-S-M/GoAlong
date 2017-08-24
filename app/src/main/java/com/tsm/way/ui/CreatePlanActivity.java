@@ -3,8 +3,6 @@ package com.tsm.way.ui;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 
 import java.util.Calendar;
@@ -24,14 +23,13 @@ import java.util.Calendar;
 public class CreatePlanActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "CreatePlanActivity";
-    private static final int RESULT_LOAD_IMAGE= 1;
-
+    private static final int RESULT_LOAD_IMAGE = 14543;
+    ImageView photo_up;
+    Button img_upButton, createEventButton;
     private TextView mDisplayDate;
     private TextView mDisplayTime;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
-    ImageView photo_up;
-    Button img_upButton, createEventButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +48,9 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         CreatePlanActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListener,
                         year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
@@ -78,10 +75,9 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
 
                 TimePickerDialog dialog = new TimePickerDialog(
                         CreatePlanActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mTimeSetListener,
                         hour, minute, false);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
         });
@@ -126,7 +122,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
             super.onActivityResult(requestCode,resultCode,data);
            if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data !=null){
                Uri selectedImage = data.getData();
-               photo_up.setImageURI(selectedImage);
+               Picasso.with(this).load(selectedImage).into(photo_up);
            }
        }
     }
