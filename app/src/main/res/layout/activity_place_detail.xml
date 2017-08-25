@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerHorizontal="true"
@@ -83,25 +83,40 @@
         android:visibility="invisible"
          />
 
-    <com.github.clans.fab.FloatingActionMenu
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:id="@+id/fab_menu_place_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/review_recyclerview"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        fab:fab_addButtonPlusIconColor="@color/colorPrimaryDark"
+        fab:fab_labelStyle="@style/menu_labels_style">
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_plan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:backgroundTint="@color/md_light_blue_200"
-            app:srcCompat="@drawable/ic_add_circle_black_24dp" />
+            fab:fab_icon="@drawable/ic_event_note_black_24dp"
+            fab:fab_title="@string/option_create_plan_label" />
 
-    </com.github.clans.fab.FloatingActionMenu>
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/save_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_save_black_24dp"
+            fab:fab_title="@string/option_save_place_label" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/call_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_icon="@drawable/ic_call_black_24dp"
+            fab:fab_title="@string/option_to_call_place_label" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
 
 </RelativeLayout>

@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:text="Saved places" />
 
-    <com.github.clans.fab.FloatingActionButton
+    <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/fb_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
