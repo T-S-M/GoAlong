@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.clans.fab.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
 

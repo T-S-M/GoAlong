@@ -15,8 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceDetailBean;
@@ -28,7 +28,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     String placeID;
     PlaceDetailBean detailbean;
     RecyclerView reviewRecyclerView;
-    FloatingActionMenu fabMenu;
+    FloatingActionsMenu fabMenu;
     FloatingActionButton addPlan;
 
     @Override
@@ -37,7 +37,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_place_detail);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fab_menu_place_detail);
+        fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu_place_detail);
         addPlan = (FloatingActionButton) findViewById(R.id.add_plan);
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -24,4 +24,8 @@
         <item name="colorControlActivated">@color/md_light_blue_600</item>
     </style>
 
+    <style name="menu_labels_style">
+        <item name="android:textColor">@color/md_black_1000</item>
+    </style>
+
 </resources>
