@@ -2,29 +2,112 @@ package com.tsm.way.model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.Date;
-
 @IgnoreExtraProperties
 public class Plan {
-    String event_type;
-    String place;
-    Date startTime;
-    Date endTime;
+    private String eventType;
+    private String placeAddress, placeLat, placeLong;
+    private long startTime, endTime;
+    private String coverUrl;
+    private String title, description;
+    private int confirmedCount, pendingCount;
+    private boolean status;
 
     public Plan() {
     }
 
-    public Plan(String place, String event_type) {
-        this.event_type = event_type;
-        this.place = place;
-    }
-/*
-    void setEvent_type(String event_type) {
-        this.event_type = event_type;
+    public String getEventType() {
+        return eventType;
     }
 
-    void setPlace(String place) {
-        this.place = place;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
     }
-*/
+
+    public String getPlaceAddress() {
+        return placeAddress;
+    }
+
+    public void setPlaceAddress(String placeAddress) {
+        this.placeAddress = placeAddress;
+    }
+
+    public String getPlaceLat() {
+        return placeLat;
+    }
+
+    public void setPlaceLat(String placeLat) {
+        this.placeLat = placeLat;
+    }
+
+    public String getPlaceLong() {
+        return placeLong;
+    }
+
+    public void setPlaceLong(String placeLong) {
+        this.placeLong = placeLong;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String coverUrl) {
+        this.coverUrl = coverUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getConfirmedCount() {
+        return confirmedCount;
+    }
+
+    public void setConfirmedCount(int confirmedCount) {
+        this.confirmedCount = confirmedCount;
+    }
+
+    public int getPendingCount() {
+        return pendingCount;
+    }
+
+    public void setPendingCount(int pendingCount) {
+        this.pendingCount = pendingCount;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 }

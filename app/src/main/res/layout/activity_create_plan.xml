@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,185 +8,154 @@
 
     <ImageView
         android:id="@+id/photo_up"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_width="0dp"
+        android:layout_height="160dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:scaleType="fitXY"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="1dp" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_photo_camera_black_24dp" />
 
 
     <Button
         android:id="@+id/button2"
         android:layout_width="105dp"
         android:layout_height="61dp"
-        android:layout_alignEnd="@+id/photo_up"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/photo_up"
-        android:layout_marginBottom="22dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:backgroundTint="@color/md_amber_100"
         android:text="Add Event"
-        tools:layout_editor_absoluteX="242dp"
-        tools:layout_editor_absoluteY="484dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
     <EditText
-        android:id="@+id/editText5"
+        android:id="@+id/name_editText"
         android:layout_width="294dp"
         android:layout_height="44dp"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_alignTop="@+id/imageView"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:hint="Name"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="72dp"
-        tools:layout_editor_absoluteY="201dp" />
+        app:layout_constraintLeft_toRightOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/photo_up" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_above="@+id/textView2"
-        android:layout_alignLeft="@+id/imageView2"
-        android:layout_alignStart="@+id/imageView2"
-        app:srcCompat="@drawable/ic_edit_black_24dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="201dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/photo_up"
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_alignLeft="@+id/imageView3"
-        android:layout_alignStart="@+id/imageView3"
-        android:layout_below="@+id/editText5"
-        app:srcCompat="@drawable/what_icon"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="257dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:srcCompat="@drawable/what_icon" />
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_above="@+id/imageView5"
-        android:layout_alignLeft="@+id/imageView5"
-        android:layout_alignStart="@+id/imageView5"
-        app:srcCompat="@drawable/ic_today_black_24dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="312dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        app:srcCompat="@drawable/ic_today_black_24dp" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_above="@+id/imageView6"
-        android:layout_alignLeft="@+id/imageView6"
-        android:layout_alignStart="@+id/imageView6"
-        app:srcCompat="@drawable/ic_add_location_black_24dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="369dp" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/textView4"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        app:srcCompat="@drawable/ic_photo_camera_black_24dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="425dp" />
-
-    <TextView
-        android:id="@+id/editText6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="60dp"
-        android:text="New Event"
-        android:textSize="25sp"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="84dp" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/photo_up"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="23dp"
-        android:text="Add an upcoming concert or party"
-        tools:layout_editor_absoluteX="31dp"
-        tools:layout_editor_absoluteY="127dp" />
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:srcCompat="@drawable/ic_add_location_black_24dp" />
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignLeft="@+id/datepick"
-        android:layout_alignStart="@+id/datepick"
-        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
         android:text="What"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="255dp" />
+        app:layout_constraintLeft_toRightOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/name_editText" />
 
     <TextView
         android:id="@+id/datepick"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignLeft="@+id/textView4"
-        android:layout_alignStart="@+id/textView4"
-        android:layout_below="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:hint="Pick a Date"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="313dp" />
+        app:layout_constraintLeft_toRightOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_alignLeft="@+id/img_upButton"
-        android:layout_alignStart="@+id/img_upButton"
-        android:layout_below="@+id/datepick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
         android:text="Where"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="372dp" />
-
-    <Button
-        android:id="@+id/img_upButton"
-        android:layout_width="150dp"
-        android:layout_height="45dp"
-        android:layout_below="@+id/textView4"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/button2"
-        android:layout_toStartOf="@+id/button2"
-        android:text="Upload Photo"
-        android:textAlignment="gravity"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="75dp"
-        tools:layout_editor_absoluteY="425dp" />
+        app:layout_constraintLeft_toRightOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/datepick" />
 
     <TextView
         android:id="@+id/timepick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView4"
-        android:layout_alignEnd="@+id/button2"
-        android:layout_alignRight="@+id/button2"
-        android:layout_below="@+id/textView2"
-        android:layout_toEndOf="@+id/img_upButton"
-        android:layout_toRightOf="@+id/img_upButton"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:hint="Pick Time"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintLeft_toRightOf="@+id/datepick"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/desc_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/write_plan_desc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

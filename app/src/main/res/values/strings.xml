@@ -21,4 +21,7 @@
     <string name="signout">Sign Out</string>
     <string name="facebook_application_id" translatable="false">172572739954464</string>
     <string name="fb_login_protocol_scheme">fb172572739954464</string>
+    <string name="pick_time">Pick Time</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="write_plan_desc">Write Description</string>
 </resources>
