@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
-import com.tsm.way.utils.PlaceUtils;
+import com.tsm.way.utils.UrlsUtil;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.Plac
             holder.openTextView.setText(R.string.place_status_closed);
         }
         if (pb.getPhotoref() != null) {
-            String imageUrl = PlaceUtils.getSinglePhotoUrlString(mContext, pb.getPhotoref(), "350", "300");
+            String imageUrl = UrlsUtil.getSinglePhotoUrlString(mContext, pb.getPhotoref(), "350", "300");
             Picasso.with(mContext)
                     .load(imageUrl)
                     .into(holder.thumbnailImage);

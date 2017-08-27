@@ -21,7 +21,7 @@ import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceDetailBean;
 import com.tsm.way.utils.PlaceDetailParser;
-import com.tsm.way.utils.PlaceUtils;
+import com.tsm.way.utils.UrlsUtil;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
@@ -71,7 +71,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         if (placeID != null) {
 
-            String urlString = PlaceUtils.getDetailUrlString(this, placeID);
+            String urlString = UrlsUtil.getDetailUrlString(this, placeID);
 
             // Instantiate the RequestQueue.
             RequestQueue queue = Volley.newRequestQueue(this);

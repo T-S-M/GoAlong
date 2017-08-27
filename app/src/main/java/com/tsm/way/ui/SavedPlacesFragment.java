@@ -6,20 +6,22 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
-import com.tsm.way.utils.PlaceListJSONParser;
 
 
 /**
@@ -49,11 +51,11 @@ public class SavedPlacesFragment extends Fragment {
             }
         });
 
-        String YOUR_TOKEN = AccessToken.getCurrentAccessToken().toString();
-        String requestURL = "https://graph.facebook.com/search?&q=dhaka&type=event&fields=id,name,cover,start_time,end _time,description&access_token="+"YOUR_TOKEN";
+        String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
+        Log.v("Token", YOUR_TOKEN);
+        String requestURL = "https://graph.facebook.com/search?&q=dhaka&type=event&fields=id,name,cover,start_time,end_time,description&access_token=" + YOUR_TOKEN;
 
-        final TextView textView = null;
-        textView.findViewById(R.id.text_json);
+        final TextView textView = (TextView) rootView.findViewById(R.id.text_json);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, requestURL,
                 new Response.Listener<String>() {
@@ -62,7 +64,7 @@ public class SavedPlacesFragment extends Fragment {
                     public void onResponse(String response) {
 
                         textView.setText("Response is: " + response.substring(0));
-                        //PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
+                        //PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0));
                         //try {
                         //
                         //
@@ -76,6 +78,8 @@ public class SavedPlacesFragment extends Fragment {
                 textView.setText("That didn't work!");
             }
         });
+        RequestQueue mRequestQueue = Volley.newRequestQueue(getContext());
+        mRequestQueue.add(stringRequest);
         return rootView;
     }
 

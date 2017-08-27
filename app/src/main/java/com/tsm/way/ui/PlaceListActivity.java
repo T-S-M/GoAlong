@@ -29,7 +29,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.utils.PlaceListJSONParser;
-import com.tsm.way.utils.PlaceUtils;
+import com.tsm.way.utils.UrlsUtil;
 
 import java.util.List;
 
@@ -91,7 +91,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             type = "hospital";
         }
 
-        String urlString = PlaceUtils.getCategoryPlaceUrlString(this, latitude, longitude, type);
+        String urlString = UrlsUtil.getCategoryPlaceUrlString(this, latitude, longitude, type);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString,
                 new Response.Listener<String>() {
