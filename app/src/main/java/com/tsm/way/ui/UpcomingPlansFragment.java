@@ -3,30 +3,28 @@ package com.tsm.way.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
 
 public class UpcomingPlansFragment extends Fragment {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference allUsersRef = database.getReference("users");
-    DatabaseReference userRef;
+    DatabaseReference planRef;
     DatabaseReference userPlanRef;
-
     FirebaseUser user;
+
+    FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
 
 
     public UpcomingPlansFragment() {
@@ -37,13 +35,31 @@ public class UpcomingPlansFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_local_plans, container, false);
-        Button tempButton = (Button) view.findViewById(R.id.temp_db_button);
-        final TextView textText = (TextView) view.findViewById(R.id.temp_tv);
+        View view = inflater.inflate(R.layout.fragment_upcoming_plans, container, false);
+        RecyclerView upcomingPlansRecycler = (RecyclerView) view.findViewById(R.id.upcoming_plan_recyclerview);
+        upcomingPlansRecycler.setHasFixedSize(true);
+        upcomingPlansRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        userRef = allUsersRef.child(user.getUid());
-        userPlanRef = userRef.child("plans");
+        planRef = database.getReference("userPlans");
+        userPlanRef = planRef.child(user.getUid());
+
+        mAdapter = new FirebaseRecyclerAdapter<Plan, PlanCardViewHolder>(
+                Plan.class,
+                R.layout.plan_card,
+                PlanCardViewHolder.class,
+                userPlanRef) {
+            @Override
+            protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
+                viewHolder.setPlanName(model.getTitle());
+                viewHolder.setDescription(model.getDescription());
+                viewHolder.setPlanDateTime(String.valueOf(model.getStartTime()));
+
+            }
+        };
+
+        upcomingPlansRecycler.setAdapter(mAdapter);
+        upcomingPlansRecycler.setVisibility(View.VISIBLE);
 
         //allUsersRef.setValue("Hello, World!");
         /*
@@ -62,28 +78,13 @@ public class UpcomingPlansFragment extends Fragment {
             }
         });
         */
-
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String u = dataSnapshot.child("name").getValue(String.class);
-                textText.setText(u);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        tempButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //userRef.setValue(new AppUser(user.getDisplayName(), user.getEmail()));
-                userPlanRef.push().setValue(new Plan("Dhaka", "hangout"));
-            }
-        });
         return view;
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.cleanup();
+    }
 }
