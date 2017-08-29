@@ -5,7 +5,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Plan {
     private String eventType;
-    private String placeAddress, placeLat, placeLong;
+    private String placeAddress;
+    private double placeLat, placeLong;
     private long startTime, endTime;
     private String coverUrl;
     private String title, description;
@@ -31,19 +32,19 @@ public class Plan {
         this.placeAddress = placeAddress;
     }
 
-    public String getPlaceLat() {
+    public double getPlaceLat() {
         return placeLat;
     }
 
-    public void setPlaceLat(String placeLat) {
+    public void setPlaceLat(double placeLat) {
         this.placeLat = placeLat;
     }
 
-    public String getPlaceLong() {
+    public double getPlaceLong() {
         return placeLong;
     }
 
-    public void setPlaceLong(String placeLong) {
+    public void setPlaceLong(double placeLong) {
         this.placeLong = placeLong;
     }
 

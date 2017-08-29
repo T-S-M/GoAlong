@@ -22,6 +22,7 @@ public class UpcomingPlansFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference planRef;
     DatabaseReference userPlanRef;
+    DatabaseReference allPlansRef;
     FirebaseUser user;
 
     FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
@@ -51,10 +52,7 @@ public class UpcomingPlansFragment extends Fragment {
                 userPlanRef) {
             @Override
             protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
-                viewHolder.setPlanName(model.getTitle());
-                viewHolder.setDescription(model.getDescription());
-                viewHolder.setPlanDateTime(String.valueOf(model.getStartTime()));
-
+                viewHolder.bindDataToViewHolder(model, getContext());
             }
         };
 

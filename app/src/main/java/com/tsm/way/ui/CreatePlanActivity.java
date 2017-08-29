@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,10 +19,20 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
@@ -28,33 +40,45 @@ import com.tsm.way.model.Plan;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Map;
 
 public class CreatePlanActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "CreatePlanActivity";
     private static final int RESULT_LOAD_IMAGE = 14543;
+    int PLACE_PICKER_REQUEST = 9321;
     ImageView photo_up;
     Button createEventButton;
     EditText planName;
     EditText planDescriptionEditText;
     HashMap<String, Integer> dateStore;
     Plan mPlan;
-    Calendar mTime;
+    Uri selectedImage;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference planAttendeeRef;
     DatabaseReference planRef;
     DatabaseReference userPlanRef;
     FirebaseUser user;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
+    private TextView whereTextView;
     private TextView mDisplayDate;
     private TextView mDisplayTime;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private UploadTask uploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_plan);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("New Plan");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setSubtitle("Add an Upcoming event");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+        planAttendeeRef = database.getReference("planAttendee");
         planRef = database.getReference("userPlans");
         userPlanRef = planRef.child(user.getUid());
 
@@ -64,6 +88,20 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         planName = (EditText) findViewById(R.id.name_editText);
         planDescriptionEditText = (EditText) findViewById(R.id.desc_edittext);
         dateStore = new HashMap<>();
+        whereTextView = (TextView) findViewById(R.id.where_textview);
+        whereTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                try {
+                    startActivityForResult(builder.build(CreatePlanActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +176,33 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (selectedImage == null) {
+                    preparePlan();
+                } else {
+                    uploadPhotoThenPrepaparePlan();
+                }
+            }
+        });
+    }
+
+    private void uploadPhotoThenPrepaparePlan() {
+        Toast.makeText(this, "Uploading photo", Toast.LENGTH_SHORT).show();
+        StorageReference coverPhotoRef = storageRef.child("planCoverPhoto/" + selectedImage.getLastPathSegment());
+        uploadTask = coverPhotoRef.putFile(selectedImage);
+
+        // Register observers to listen for when the download is done or if it fails
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(CreatePlanActivity.this, "Uploading Failed :(", Toast.LENGTH_SHORT).show();
+                preparePlan();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+                mPlan.setCoverUrl(downloadUrl.toString());
                 preparePlan();
             }
         });
@@ -163,7 +228,12 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         //TODO Hard coding info, change later
         mPlan.setPlaceAddress("Dhaka");
 
-        userPlanRef.push().setValue(mPlan);
+        String pushKey = userPlanRef.push().getKey();
+        userPlanRef.child(pushKey).setValue(mPlan);
+        Map tempMap = new HashMap<String, Boolean>();
+        tempMap.put(user.getUid(), true);
+        planAttendeeRef.child(pushKey).updateChildren(tempMap);
+        //userPlanRef.push().setValue(mPlan);
         Toast.makeText(this, "Plan added", Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -181,12 +251,21 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
        }
        @Override
        protected void onActivityResult(int requestCode, int resultCode, Intent data){
-            super.onActivityResult(requestCode,resultCode,data);
            if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data !=null){
-               Uri selectedImage = data.getData();
+               selectedImage = data.getData();
+               photo_up.setScaleType(ImageView.ScaleType.FIT_XY);
                Picasso.with(this).load(selectedImage).into(photo_up);
+           } else if (requestCode == PLACE_PICKER_REQUEST) {
+               if (resultCode == RESULT_OK) {
+                   Place place = PlacePicker.getPlace(this, data);
+                   String address = place.getAddress().toString();
+                   mPlan.setPlaceAddress(address);
+                   LatLng latLng = place.getLatLng();
+                   mPlan.setPlaceLat(latLng.latitude);
+                   mPlan.setPlaceLong(latLng.longitude);
+                   whereTextView.setText(address);
+
+               }
            }
        }
     }
-
-
