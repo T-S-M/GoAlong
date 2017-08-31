@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.tsm.way.R;
 
-public class UrlsUtil {
+public final class UrlsUtil {
 
     static String detailBaseUrl = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
     static String categoryBaseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=";

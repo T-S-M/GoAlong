@@ -36,6 +36,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
+import com.tsm.way.utils.ConstantsUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -76,7 +77,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         actionBar.setTitle("New Plan");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setSubtitle("Add an Upcoming event");
-
+        handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
         planRef = database.getReference("userPlans");
@@ -164,8 +165,8 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
                     hour -= 12;
                 }
 
-                Log.d(TAG, "onTimeSet: hour:minute " + hour + ":" + minute + ":" + ampm);
-                String time = hour + ":" + minute + ":" + ampm;
+                //Log.d(TAG, "onTimeSet: hour:minute " + hour + ":" + minute + ":" + ampm);
+                //String time = hour + ":" + minute + ":" + ampm;
                 mDisplayTime.setText(String.format("%02d:%02d %s ", hour, minute, ampm));
             }
         };
@@ -183,6 +184,14 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
                 }
             }
         });
+    }
+
+    private void handleIntentExtras(Intent intent) {
+        if (intent.hasExtra("fb_event")) {
+
+        } else if (intent.hasExtra("place_info")) {
+
+        }
     }
 
     private void uploadPhotoThenPrepaparePlan() {
@@ -256,14 +265,19 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
            } else if (requestCode == PLACE_PICKER_REQUEST) {
                if (resultCode == RESULT_OK) {
                    Place place = PlacePicker.getPlace(this, data);
-                   String address = place.getAddress().toString();
-                   mPlan.setPlaceAddress(address);
-                   LatLng latLng = place.getLatLng();
-                   mPlan.setPlaceLat(latLng.latitude);
-                   mPlan.setPlaceLong(latLng.longitude);
-                   whereTextView.setText(address);
-
+                   assignPlaceInfoForPlan(place);
                }
            }
        }
+
+    private void assignPlaceInfoForPlan(Place place) {
+        String placeName = place.getName().toString();
+        mPlan.setPlaceAddress(place.getAddress().toString());
+        LatLng latLng = place.getLatLng();
+        mPlan.setPlaceLat(latLng.latitude);
+        mPlan.setPlaceLong(latLng.longitude);
+        mPlan.setPlaceName(placeName);
+        whereTextView.setText(placeName);
+        mPlan.setEventType(ConstantsUtil.PLAN_TYPE_PRIVATE_EVENT);
     }
+}

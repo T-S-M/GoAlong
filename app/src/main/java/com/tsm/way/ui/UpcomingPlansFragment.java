@@ -27,11 +27,9 @@ public class UpcomingPlansFragment extends Fragment {
 
     FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
 
-
     public UpcomingPlansFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,24 +56,6 @@ public class UpcomingPlansFragment extends Fragment {
 
         upcomingPlansRecycler.setAdapter(mAdapter);
         upcomingPlansRecycler.setVisibility(View.VISIBLE);
-
-        //allUsersRef.setValue("Hello, World!");
-        /*
-        allUsersRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                //AppUser u = dataSnapshot.getValue(AppUser.class);
-                //textText.setText(u.getName());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-            }
-        });
-        */
         return view;
 
     }
