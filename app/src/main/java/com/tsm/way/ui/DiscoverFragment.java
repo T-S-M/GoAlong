@@ -126,7 +126,14 @@ public class DiscoverFragment extends Fragment {
         // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
     }
-
+    /*@Override
+    public void onClick(String id) {
+        Log.v("Clicked", "You");
+        Intent intentToStartDetail = new Intent(getContext(), DiscoverFragment.class);
+        intentToStartDetail.putExtra("id", id);
+        startActivity(intentToStartDetail);
+    }
+*/
 }
 
 
