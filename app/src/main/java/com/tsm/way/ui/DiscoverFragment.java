@@ -107,10 +107,10 @@ public class DiscoverFragment extends Fragment {
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            events_recyclerview.setAdapter(new PlaceListAdapter(getContext(), placelist, null));
+                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, null));
                             events_recyclerview.setVisibility(View.VISIBLE);
 
-                            resturants_recyclerview.setAdapter(new PlaceListAdapter(getContext(), placelist, null));
+                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, null));
                             resturants_recyclerview.setVisibility(View.VISIBLE);
 
                         } catch (Exception e) {
