@@ -46,12 +46,7 @@ public class FixedPlaceListAdapter extends RecyclerView.Adapter<FixedPlaceListAd
         holder.nameTextView.setText(pb.getName());
         holder.addressTextView.setText(pb.getVicinity());
         holder.rating.setRating(pb.getRating());
-        /*holder.timeTextView.setText(pb.);
-        if (pb.isOpen()) {
-            holder.openTextView.setText(R.string.place_status_open);
-        } else {
-            holder.openTextView.setText(R.string.place_status_closed);
-        }*/
+
         if (pb.getPhotoref() != null) {
             String imageUrl = UrlsUtil.getSinglePhotoUrlString(mContext, pb.getPhotoref(), "350", "300");
             Picasso.with(mContext)
@@ -72,20 +67,17 @@ public class FixedPlaceListAdapter extends RecyclerView.Adapter<FixedPlaceListAd
     public class FixedPlaceListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView nameTextView;
-        TextView openTextView;
         TextView addressTextView;
         RatingBar rating;
         ImageView thumbnailImage;
 
         public FixedPlaceListAdapterViewHolder(View itemView) {
             super(itemView);
-            //openTextView = (TextView) itemView.findViewById(R.id.open_now_in_list);
             nameTextView = (TextView) itemView.findViewById(R.id.place_name_now_in_list);
             addressTextView = (TextView) itemView.findViewById(R.id.address_in_list);
             rating = (RatingBar) itemView.findViewById(R.id.rating_single_place_in_list);
             thumbnailImage = (ImageView) itemView.findViewById(R.id.place_image_thumb);
             itemView.setOnClickListener(this);
-
         }
 
         @Override
