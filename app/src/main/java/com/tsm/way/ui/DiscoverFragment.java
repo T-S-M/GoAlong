@@ -113,7 +113,7 @@ public class DiscoverFragment extends Fragment implements  PlaceListAdapter.Plac
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, getmClickHandler())); //ClickListener doesn't work :'(
+                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, mClickHandler)); //ClickListener doesn't work :'(
                             events_recyclerview.setVisibility(View.VISIBLE);
 
                             resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, getmClickHandler()));

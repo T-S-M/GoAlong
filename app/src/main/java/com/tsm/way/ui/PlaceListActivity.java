@@ -66,7 +66,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         placesRecyclerView.setLayoutManager(layoutManager);
 
-        populateRecyclerview();
+        populateRecyclerview(); // RecyclerView implementation
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,7 +76,6 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             updateLocationUI();
             updateMapLocation();
         }
-
     }
 
     private void populateRecyclerview() {
@@ -104,7 +103,6 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
                             placelist = parser.getPlaceBeanList();
                             placesRecyclerView.setAdapter(new PlaceListAdapter(PlaceListActivity.this, placelist, PlaceListActivity.this));
                             placesRecyclerView.setVisibility(View.VISIBLE);
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -172,7 +170,6 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             // mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
-
     }
 
     @Override
