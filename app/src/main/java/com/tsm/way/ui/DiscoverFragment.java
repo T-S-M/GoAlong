@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +35,20 @@ import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment implements  PlaceListAdapter.PlaceListAdapterOnclickHandler{
 
     public static final String TAG = "DiscoverFragment";
+    FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
 
     private GridView categoriesGridView;
     RecyclerView events_recyclerview,resturants_recyclerview;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
+
+    public FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler getmClickHandler() {
+        return mClickHandler;
+    }
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -107,10 +113,10 @@ public class DiscoverFragment extends Fragment {
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, null));
+                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, getmClickHandler())); //ClickListener doesn't work :'(
                             events_recyclerview.setVisibility(View.VISIBLE);
 
-                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, null));
+                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, getmClickHandler()));
                             resturants_recyclerview.setVisibility(View.VISIBLE);
 
                         } catch (Exception e) {
@@ -126,14 +132,14 @@ public class DiscoverFragment extends Fragment {
         // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
     }
-    /*@Override
+    @Override
     public void onClick(String id) {
         Log.v("Clicked", "You");
         Intent intentToStartDetail = new Intent(getContext(), DiscoverFragment.class);
         intentToStartDetail.putExtra("id", id);
         startActivity(intentToStartDetail);
     }
-*/
+
 }
 
 
