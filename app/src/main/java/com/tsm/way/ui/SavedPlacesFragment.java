@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +50,12 @@ public class SavedPlacesFragment extends Fragment {
             }
         });
 
+        if (AccessToken.getCurrentAccessToken() == null) {
+            return rootView;
+        }
+
         String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
-        Log.v("Token", YOUR_TOKEN);
+        //Log.v("Token", YOUR_TOKEN);
         String requestURL = "https://graph.facebook.com/search?&q=dhaka&type=event&fields=id,name,cover,start_time,end_time,description&access_token=" + YOUR_TOKEN;
 
         final TextView textView = (TextView) rootView.findViewById(R.id.text_json);

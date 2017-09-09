@@ -24,4 +24,10 @@
     <string name="pick_time">Pick Time</string>
     <string name="pick_date">Pick Date</string>
     <string name="write_plan_desc">Write Description</string>
+    <string name="title_activity_plan_details">Plan Details</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add_new_event">Add an Upcoming event</string>
+    <string name="new_plan">New Plan</string>
+    <string name="add_plan">Add Plan</string>
 </resources>

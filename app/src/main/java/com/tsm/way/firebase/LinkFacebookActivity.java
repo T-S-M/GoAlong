@@ -81,10 +81,8 @@ public class LinkFacebookActivity extends AppCompatActivity {
                             //updateUI(user);
                             finish();
                         } else {
-                            // Log.w(TAG, "linkWithCredential:failure", task.getException());
                             Toast.makeText(LinkFacebookActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
                         }
 
                     }

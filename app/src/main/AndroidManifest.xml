@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,8 +34,19 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.CreatePlanActivity"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <activity android:name=".firebase.LinkFacebookActivity" />
+
+        <activity
+            android:name=".ui.PlanDetailsActivity"
+            android:label="@string/title_activity_plan_details"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppThemeWithActionBar" />
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tsm.way.ui.MainActivity" />
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -45,7 +55,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".firebase.LinkFacebookActivity"></activity>
     </application>
 
 </manifest>

@@ -12,8 +12,33 @@ public class Plan {
     private String title, description;
     private int confirmedCount, pendingCount;
     private boolean status;
+    private String fbEventId, googlePlaceID, discussionID;
 
     public Plan() {
+    }
+
+    public String getFbEventId() {
+        return fbEventId;
+    }
+
+    public void setFbEventId(String fbEventId) {
+        this.fbEventId = fbEventId;
+    }
+
+    public String getGooglePlaceID() {
+        return googlePlaceID;
+    }
+
+    public void setGooglePlaceID(String googlePlaceID) {
+        this.googlePlaceID = googlePlaceID;
+    }
+
+    public String getDiscussionID() {
+        return discussionID;
+    }
+
+    public void setDiscussionID(String discussionID) {
+        this.discussionID = discussionID;
     }
 
     public int getEventType() {

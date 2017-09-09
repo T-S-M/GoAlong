@@ -31,12 +31,10 @@ public class AuthActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // AppUser is signed in
                     // Toast.makeText(AuthActivity.this, "You're now signed in. Welcome", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AuthActivity.this, MainActivity.class));
                     finish();
                 } else {
-                    // AppUser is signed out
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()

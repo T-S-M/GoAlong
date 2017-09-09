@@ -1,11 +1,11 @@
 package com.tsm.way.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
@@ -47,7 +47,7 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         viewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, PlanDetailsActivity.class));
             }
         });
     }

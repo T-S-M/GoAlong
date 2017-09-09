@@ -7,14 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -67,16 +68,20 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
     private TextView mDisplayTime;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
+    private Toolbar toolbar;
+    private ProgressBar createPlanProgressBar;
     private UploadTask uploadTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_plan);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("New Plan");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setSubtitle("Add an Upcoming event");
+        createPlanProgressBar = (ProgressBar) findViewById(R.id.create_plan_progress);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_create_plan);
+        toolbar.setTitle(R.string.new_plan);
+        toolbar.setSubtitle(R.string.add_new_event);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
@@ -177,6 +182,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                createPlanProgressBar.setVisibility(View.VISIBLE);
                 if (selectedImage == null) {
                     preparePlan();
                 } else {
@@ -240,6 +246,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         Map tempMap = new HashMap<String, Boolean>();
         tempMap.put(user.getUid(), true);
         planAttendeeRef.child(pushKey).updateChildren(tempMap);
+        createPlanProgressBar.setVisibility(View.GONE);
         //userPlanRef.push().setValue(mPlan);
         Toast.makeText(this, "Plan added", Toast.LENGTH_SHORT).show();
         finish();
@@ -260,6 +267,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
        protected void onActivityResult(int requestCode, int resultCode, Intent data){
            if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data !=null){
                selectedImage = data.getData();
+               photo_up.setPadding(0, 0, 0, 0);
                photo_up.setScaleType(ImageView.ScaleType.FIT_XY);
                Picasso.with(this).load(selectedImage).into(photo_up);
            } else if (requestCode == PLACE_PICKER_REQUEST) {
@@ -279,5 +287,6 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         mPlan.setPlaceName(placeName);
         whereTextView.setText(placeName);
         mPlan.setEventType(ConstantsUtil.PLAN_TYPE_PRIVATE_EVENT);
+        mPlan.setGooglePlaceID(place.getId());
     }
 }

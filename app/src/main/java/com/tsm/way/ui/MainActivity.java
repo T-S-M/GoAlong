@@ -188,6 +188,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             case R.id.action_search:
                 launchAutocompleteSearch();
                 return true;
+            case R.id.action_signout:
+                return true;
         }
         return false;
 
