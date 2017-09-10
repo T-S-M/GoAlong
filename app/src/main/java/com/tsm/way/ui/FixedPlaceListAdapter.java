@@ -18,7 +18,7 @@ import java.util.List;
 
 public class FixedPlaceListAdapter extends RecyclerView.Adapter<FixedPlaceListAdapter.FixedPlaceListAdapterViewHolder> {
 
-    private final FixedPlaceListAdapterOnclickHandler mClickHandler;
+    FixedPlaceListAdapterOnclickHandler mClickHandler;
     Context mContext;
     List<PlaceBean> placeBeanList;
 

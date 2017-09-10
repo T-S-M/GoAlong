@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.utils.CategoriesUtil;
+import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -35,20 +35,15 @@ import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscoverFragment extends Fragment implements  PlaceListAdapter.PlaceListAdapterOnclickHandler{
+public class DiscoverFragment extends Fragment {
 
     public static final String TAG = "DiscoverFragment";
     FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
-
-    private GridView categoriesGridView;
     RecyclerView events_recyclerview,resturants_recyclerview;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
-
-    public FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler getmClickHandler() {
-        return mClickHandler;
-    }
+    private GridView categoriesGridView;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -99,7 +94,7 @@ public class DiscoverFragment extends Fragment implements  PlaceListAdapter.Plac
             longitude = String.valueOf(mLastKnownLocation.getLongitude());
         }
         if (type == null) {
-            type = "hospital";
+            type = "restaurant";
         }
 
         String urlString1 = UrlsUtil.getCategoryPlaceUrlString(getContext(), latitude, longitude, type);
@@ -113,10 +108,10 @@ public class DiscoverFragment extends Fragment implements  PlaceListAdapter.Plac
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, mClickHandler)); //ClickListener doesn't work :'(
+                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext())));
                             events_recyclerview.setVisibility(View.VISIBLE);
 
-                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, getmClickHandler()));
+                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext())));
                             resturants_recyclerview.setVisibility(View.VISIBLE);
 
                         } catch (Exception e) {
@@ -131,13 +126,6 @@ public class DiscoverFragment extends Fragment implements  PlaceListAdapter.Plac
         });
         // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
-    }
-    @Override
-    public void onClick(String id) {
-        Log.v("Clicked", "You");
-        Intent intentToStartDetail = new Intent(getContext(), DiscoverFragment.class);
-        intentToStartDetail.putExtra("id", id);
-        startActivity(intentToStartDetail);
     }
 
 }
