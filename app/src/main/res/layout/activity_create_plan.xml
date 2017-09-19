@@ -122,17 +122,17 @@
                 app:srcCompat="@drawable/ic_add_location_black_24dp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/plan_type_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
-                android:text="What"
                 android:textSize="20sp"
                 app:layout_constraintLeft_toRightOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView"
+                tools:text="Personal Event" />
 
             <TextView
                 android:id="@+id/datepick"

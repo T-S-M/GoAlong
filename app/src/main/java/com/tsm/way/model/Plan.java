@@ -1,9 +1,23 @@
 package com.tsm.way.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Plan {
+public class Plan implements Parcelable {
+    public static final Creator<Plan> CREATOR = new Creator<Plan>() {
+        @Override
+        public Plan createFromParcel(Parcel in) {
+            return new Plan(in);
+        }
+
+        @Override
+        public Plan[] newArray(int size) {
+            return new Plan[size];
+        }
+    };
     private int eventType;
     private String placeName, placeAddress;
     private double placeLat, placeLong;
@@ -15,6 +29,25 @@ public class Plan {
     private String fbEventId, googlePlaceID, discussionID;
 
     public Plan() {
+    }
+
+    protected Plan(Parcel in) {
+        eventType = in.readInt();
+        placeName = in.readString();
+        placeAddress = in.readString();
+        placeLat = in.readDouble();
+        placeLong = in.readDouble();
+        startTime = in.readLong();
+        endTime = in.readLong();
+        coverUrl = in.readString();
+        title = in.readString();
+        description = in.readString();
+        confirmedCount = in.readInt();
+        pendingCount = in.readInt();
+        status = in.readByte() != 0;
+        fbEventId = in.readString();
+        googlePlaceID = in.readString();
+        discussionID = in.readString();
     }
 
     public String getFbEventId() {
@@ -143,5 +176,30 @@ public class Plan {
 
     public void setPlaceName(String placeName) {
         this.placeName = placeName;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(eventType);
+        dest.writeString(placeName);
+        dest.writeString(placeAddress);
+        dest.writeDouble(placeLat);
+        dest.writeDouble(placeLong);
+        dest.writeLong(startTime);
+        dest.writeLong(endTime);
+        dest.writeString(coverUrl);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(confirmedCount);
+        dest.writeInt(pendingCount);
+        dest.writeByte((byte) (status ? 1 : 0));
+        dest.writeString(fbEventId);
+        dest.writeString(googlePlaceID);
+        dest.writeString(discussionID);
     }
 }

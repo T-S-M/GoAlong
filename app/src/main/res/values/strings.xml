@@ -30,4 +30,5 @@
     <string name="add_new_event">Add an Upcoming event</string>
     <string name="new_plan">New Plan</string>
     <string name="add_plan">Add Plan</string>
+    <string name="plan_type_personal">Personal Plan</string>
 </resources>

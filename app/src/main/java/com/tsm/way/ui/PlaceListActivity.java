@@ -25,6 +25,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.utils.PlaceCardClickHandler;
@@ -59,14 +60,10 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             type = getIntent().getStringExtra("type");
         }
 
-        mRequestQueue = Volley.newRequestQueue(this);
-
         placesRecyclerView = (RecyclerView) findViewById(R.id.places_list_recyclerview);
         placesRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         placesRecyclerView.setLayoutManager(layoutManager);
-
-        populateRecyclerview(); // RecyclerView implementation
 
         mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -76,6 +73,9 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             updateLocationUI();
             updateMapLocation();
         }
+
+        mRequestQueue = Volley.newRequestQueue(this);
+        populateRecyclerview();
     }
 
     private void populateRecyclerview() {
@@ -103,6 +103,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
                             placelist = parser.getPlaceBeanList();
                             placesRecyclerView.setAdapter(new PlaceListAdapter(PlaceListActivity.this, placelist, new PlaceCardClickHandler(PlaceListActivity.this)));
                             placesRecyclerView.setVisibility(View.VISIBLE);
+                            addMapMarkers(placelist);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -115,6 +116,19 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
         });
         // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
+    }
+
+    private void addMapMarkers(List<PlaceBean> placelist) {
+        if (mMap != null) {
+            for (PlaceBean place : placelist) {
+                MarkerOptions markerOptions = new MarkerOptions();
+                LatLng latLng = new LatLng(place.getLatitude(), place.getLongitude());
+                markerOptions.position(latLng);
+                markerOptions.title(place.getName() + " : " + place.getVicinity());
+
+                mMap.addMarker(markerOptions);
+            }
+        }
     }
 
     @Override

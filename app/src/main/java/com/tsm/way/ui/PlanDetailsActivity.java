@@ -1,7 +1,7 @@
 package com.tsm.way.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,13 +13,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.model.Plan;
 
 public class PlanDetailsActivity extends AppCompatActivity {
 
+    ImageView cover;
+    Plan plan;
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
     private ViewPager mViewPager;
 
     @Override
@@ -30,18 +35,18 @@ public class PlanDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager_plan_detail);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        cover = (ImageView) findViewById(R.id.plan_cover_image);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_plan_detail);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,6 +55,18 @@ public class PlanDetailsActivity extends AppCompatActivity {
             }
         });
 
+        Intent intentThatStartedThisActivity = getIntent();
+        if (intentThatStartedThisActivity.hasExtra("plan")) {
+            plan = intentThatStartedThisActivity.getParcelableExtra("plan");
+        }
+        showImageWithTransition(plan.getCoverUrl());
+
+    }
+
+    private void showImageWithTransition(String coverUrl) {
+        Picasso.with(this)
+                .load(coverUrl)
+                .into(cover);
     }
 
 

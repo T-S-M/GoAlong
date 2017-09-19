@@ -47,7 +47,10 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         viewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, PlanDetailsActivity.class));
+                Intent intentDetail = new Intent(context, PlanDetailsActivity.class);
+                intentDetail.putExtra("plan", model);
+
+                context.startActivity(intentDetail);
             }
         });
     }

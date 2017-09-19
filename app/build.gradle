@@ -35,6 +35,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
+    compile('com.mikepenz:materialdrawer:5.3.3@aar') {
+        transitive = true
+    }
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:design:25.4.0'
     compile 'com.android.support:support-vector-drawable:25.4.0'
@@ -53,9 +56,6 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-database:2.2.0'
     compile 'com.firebaseui:firebase-ui-auth:2.2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.22.1'
-    compile('com.mikepenz:materialdrawer:5.3.3@aar') {
-        transitive = true
-    }
     compile 'com.getbase:floatingactionbutton:1.10.1'
     testCompile 'junit:junit:4.12'
 }

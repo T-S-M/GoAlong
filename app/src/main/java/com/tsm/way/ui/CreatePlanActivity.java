@@ -66,6 +66,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
     private TextView whereTextView;
     private TextView mDisplayDate;
     private TextView mDisplayTime;
+    private TextView plantypeTextview;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private Toolbar toolbar;
@@ -82,6 +83,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         toolbar.setSubtitle(R.string.add_new_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        plantypeTextview = (TextView) findViewById(R.id.plan_type_textview);
         handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
@@ -197,6 +199,8 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
 
         } else if (intent.hasExtra("place_info")) {
 
+        } else {
+            plantypeTextview.setText(R.string.plan_type_personal);
         }
     }
 

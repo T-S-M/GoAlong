@@ -14,11 +14,11 @@ public class PlanFragmentPagerAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 0:
-                return new PlanDashboardFragment();
+                return new UpcomingPlansFragment();
             case 1:
-                return new UpcomingPlansFragment();
+                return new PendingPlansFragment();
             case 2:
-                return new UpcomingPlansFragment();
+                return new PlanDashboardFragment();
             default:
                 return null;
         }
@@ -32,11 +32,11 @@ public class PlanFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0:
-                return "Dashboard";
-            case 1:
-                return "Upcoming";
             case 2:
+                return "Dashboard";
+            case 0:
+                return "Upcoming";
+            case 1:
                 return "Pending";
             default:
                 return "";
