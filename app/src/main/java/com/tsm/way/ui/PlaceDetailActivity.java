@@ -44,7 +44,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
             public void onClick(View v){
                 startActivity(new Intent(PlaceDetailActivity.this, CreatePlanActivity.class));
                 finish();
-
                 }
             }
         );
