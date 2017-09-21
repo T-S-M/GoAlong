@@ -83,6 +83,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             .replace(R.id.content_main, new SavedPlacesFragment())
                             .commit();
                     return true;
+                case R.id.navigation_profile:
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.content_main, new ProfileFragment())
+                            .commit();
+                    return true;
             }
             return false;
         }

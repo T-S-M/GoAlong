@@ -15,5 +15,9 @@
         android:id="@+id/navigation_saved"
         android:icon="@drawable/ic_save_black_24dp"
         android:title="@string/title_saved" />
+    <item
+        android:id="@+id/navigation_profile"
+        android:icon="@drawable/ic_person_white_24dp"
+        android:title="@string/title_profile" />
 
 </menu>

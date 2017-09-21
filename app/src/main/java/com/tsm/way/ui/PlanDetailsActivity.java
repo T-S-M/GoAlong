@@ -24,6 +24,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
     ImageView cover;
     Plan plan;
+    Bundle planBundle;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
@@ -58,6 +59,8 @@ public class PlanDetailsActivity extends AppCompatActivity {
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
+            planBundle = new Bundle();
+            planBundle.putParcelable("plan", plan);
         }
         showImageWithTransition(plan.getCoverUrl());
 
@@ -99,9 +102,14 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            switch (position) {
+                case 0:
+                    Fragment detail = new PlanInfoDetailFragment();
+                    detail.setArguments(planBundle);
+                    return detail;
+                default:
+                    return PlaceholderFragment.newInstance(position + 1);
+            }
         }
 
         @Override

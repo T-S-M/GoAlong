@@ -72,6 +72,7 @@
         app:layout_anchorGravity="bottom|right|end"
         fab:fab_colorNormal="@color/colorAccent"
         fab:fab_colorPressed="@color/md_pink_200"
-        fab:fab_icon="@drawable/ic_add_black_24dp" />
+        fab:fab_icon="@drawable/ic_edit_black_24dp"
+        fab:layout_behavior="" />
 
 </android.support.design.widget.CoordinatorLayout>

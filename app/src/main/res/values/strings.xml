@@ -3,7 +3,7 @@
 
     <string name="title_discover">Discover</string>
     <string name="title_plan">Plan</string>
-    <string name="title_saved">Saved Places</string>
+    <string name="title_saved">Saved</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_search_autocomplete">Search</string>
@@ -31,4 +31,14 @@
     <string name="new_plan">New Plan</string>
     <string name="add_plan">Add Plan</string>
     <string name="plan_type_personal">Personal Plan</string>
+    <string name="button_text_accept">Accept</string>
+    <string name="button_text_ignore">Ignore</string>
+    <string name="button_text_details">Details</string>
+    <string name="show_on_map">Show on Map</string>
+    <string name="date_and_time">Time and Date</string>
+    <string name="description">Description</string>
+    <string name="host_guest_info">Host and Guest Information</string>
+    <string name="place_name_title">Place Information</string>
+    <string name="place_info_title">Place Information</string>
+    <string name="title_profile">Profile</string>
 </resources>
