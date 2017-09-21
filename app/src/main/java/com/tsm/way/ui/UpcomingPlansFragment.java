@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +23,6 @@ public class UpcomingPlansFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference planRef;
     DatabaseReference userPlanRef;
-    DatabaseReference allPlansRef;
     FirebaseUser user;
 
     FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
@@ -40,14 +40,15 @@ public class UpcomingPlansFragment extends Fragment {
         upcomingPlansRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        planRef = database.getReference("userPlans");
-        userPlanRef = planRef.child(user.getUid());
+        planRef = database.getReference("plans");
+        userPlanRef = database.getReference("userPlans").child(user.getUid());
 
-        mAdapter = new FirebaseRecyclerAdapter<Plan, PlanCardViewHolder>(
+        mAdapter = new FirebaseIndexRecyclerAdapter<Plan, PlanCardViewHolder>(
                 Plan.class,
                 R.layout.plan_card,
                 PlanCardViewHolder.class,
-                userPlanRef) {
+                userPlanRef,
+                planRef) {
             @Override
             protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
                 viewHolder.bindDataToViewHolder(model, getContext());

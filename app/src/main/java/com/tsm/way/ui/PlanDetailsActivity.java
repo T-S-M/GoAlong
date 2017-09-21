@@ -25,6 +25,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
     ImageView cover;
     Plan plan;
     Bundle planBundle;
+    Fragment discussion = new PlanDiscussionFragment();
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
@@ -61,6 +62,9 @@ public class PlanDetailsActivity extends AppCompatActivity {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
             planBundle = new Bundle();
             planBundle.putParcelable("plan", plan);
+            Bundle discussionbundle = new Bundle();
+            discussionbundle.putString("id", plan.getDiscussionID());
+            discussion.setArguments(discussionbundle);
         }
         showImageWithTransition(plan.getCoverUrl());
 
@@ -107,8 +111,10 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     Fragment detail = new PlanInfoDetailFragment();
                     detail.setArguments(planBundle);
                     return detail;
+                case 1:
+                    return discussion;
                 default:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return null;
             }
         }
 

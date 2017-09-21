@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -23,7 +23,7 @@ import com.tsm.way.model.Plan;
 public class PendingPlansFragment extends Fragment {
 
     RecyclerView pendingRecyclerview;
-
+    FirebaseIndexRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference pendingRef = database.getReference("pending");
 
@@ -42,13 +42,16 @@ public class PendingPlansFragment extends Fragment {
         pendingRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference planRef = database.getReference("plans");
         DatabaseReference userPendingPlansRef = pendingRef.child(user.getUid());
 
-        FirebaseRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter = new FirebaseRecyclerAdapter<Plan, PendingPlansViewholder>(
+        mAdapter = new FirebaseIndexRecyclerAdapter<Plan, PendingPlansViewholder>(
                 Plan.class,
                 R.layout.pending_plan_card,
                 PendingPlansViewholder.class,
-                userPendingPlansRef) {
+                userPendingPlansRef,
+                planRef
+        ) {
             @Override
             protected void populateViewHolder(PendingPlansViewholder viewHolder, Plan model, int position) {
                 viewHolder.bindDataToViewHolder(model, getContext());
@@ -57,6 +60,12 @@ public class PendingPlansFragment extends Fragment {
 
         pendingRecyclerview.setAdapter(mAdapter);
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.cleanup();
     }
 
 }

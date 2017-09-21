@@ -87,8 +87,8 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
-        planRef = database.getReference("userPlans");
-        userPlanRef = planRef.child(user.getUid());
+        planRef = database.getReference("plans");
+        userPlanRef = database.getReference("userPlans").child(user.getUid());
 
         mPlan = new Plan();
         mDisplayDate = (TextView) findViewById(R.id.datepick);
@@ -246,7 +246,13 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         }
 
         String pushKey = userPlanRef.push().getKey();
-        userPlanRef.child(pushKey).setValue(mPlan);
+
+        Map userPlanMap = new HashMap<String, Boolean>();
+        userPlanMap.put(pushKey, true);
+        userPlanRef.child(pushKey).updateChildren(userPlanMap);
+
+        planRef.child(pushKey).setValue(mPlan);
+
         Map tempMap = new HashMap<String, Boolean>();
         tempMap.put(user.getUid(), true);
         planAttendeeRef.child(pushKey).updateChildren(tempMap);
