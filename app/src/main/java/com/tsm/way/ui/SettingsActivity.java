@@ -1,11 +1,5 @@
 package com.tsm.way.ui;
 
-import android.app.Activity;
-
-/**
- * Created by Sakib on 9/22/2017.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +17,13 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-public class SettingsPrefActivity extends AppCompatPreferenceActivity {
+import com.tsm.way.R;
+
+/**
+ * Created by Sakib on 9/22/2017.
+ */
+
+class SettingsPrefActivity extends AppCompatPreferenceActivity {
     private static final String TAG = SettingsPrefActivity.class.getSimpleName();
 
     @Override

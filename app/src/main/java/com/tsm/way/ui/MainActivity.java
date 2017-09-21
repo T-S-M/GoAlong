@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        getMenuInflater().inflate(R.menu.menu_sign_out, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -193,11 +193,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             case R.id.action_search:
                 launchAutocompleteSearch();
                 return true;
-            case R.id.action_signout:
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
                 return true;
         }
-        return false;
-
+        //return false;
+        return super.onOptionsItemSelected(item);
     }
 
     private void launchAutocompleteSearch() {
