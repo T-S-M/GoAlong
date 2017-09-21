@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,12 +39,13 @@ import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 public class DiscoverFragment extends Fragment {
 
     public static final String TAG = "DiscoverFragment";
-    FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
+    //FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
     RecyclerView events_recyclerview,resturants_recyclerview;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
     private GridView categoriesGridView;
+    TextView more1,more2;
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -67,6 +69,31 @@ public class DiscoverFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        more1 = (TextView)rootView.findViewById(R.id.more1);
+        more2 = (TextView)rootView.findViewById(R.id.more2);
+        more1.setOnClickListener(new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v){
+                                          Intent intent = new Intent(getContext(), PlaceListActivity.class);
+                                          intent.putExtra("Events", "Events");
+                                          startActivity(intent);
+                                      }
+                                  }
+        );
+        more1.setOnClickListener(new View.OnClickListener() {
+                                     @Override
+                                     public void onClick(View v){
+                                         Intent intent = new Intent(getContext(), PlaceListActivity.class);
+                                         intent.putExtra("Resturants", "Resturants");
+                                         startActivity(intent);
+                                     }
+                                 }
+        );
+
+        //Intent intent = new Intent(getContext(), PlaceListActivity.class);
+               // intent.putExtra("type", (String) view.getTag());
+               // startActivity(intent);
 
         mRequestQueue = Volley.newRequestQueue(getContext());
 
