@@ -91,10 +91,6 @@ public class DiscoverFragment extends Fragment {
                                  }
         );
 
-        //Intent intent = new Intent(getContext(), PlaceListActivity.class);
-               // intent.putExtra("type", (String) view.getTag());
-               // startActivity(intent);
-
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         events_recyclerview = (RecyclerView) rootView.findViewById(R.id.events_recyclerview);
