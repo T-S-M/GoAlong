@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.profile;
 
 
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tsm.way.R;
+import com.tsm.way.ui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.

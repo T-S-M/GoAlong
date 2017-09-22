@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.plan;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

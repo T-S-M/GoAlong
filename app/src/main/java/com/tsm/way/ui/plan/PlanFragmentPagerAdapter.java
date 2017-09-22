@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.plan;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.common;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.tsm.way.ui.MainActivity;
 
 import java.util.Arrays;
 

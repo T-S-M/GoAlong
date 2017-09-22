@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.discover;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
+import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
 import com.tsm.way.utils.UrlsUtil;

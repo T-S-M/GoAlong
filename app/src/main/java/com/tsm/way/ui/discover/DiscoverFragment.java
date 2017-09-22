@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.discover;
 
 
 import android.content.Intent;
@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
+import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.CategoriesUtil;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
@@ -44,8 +45,8 @@ public class DiscoverFragment extends Fragment {
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
-    private GridView categoriesGridView;
     TextView more1,more2;
+    private GridView categoriesGridView;
 
     public DiscoverFragment() {
         // Required empty public constructor

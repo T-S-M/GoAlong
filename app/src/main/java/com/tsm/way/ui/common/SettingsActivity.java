@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,62 +19,8 @@ import android.view.MenuItem;
 
 import com.tsm.way.R;
 
-/**
- * Created by Sakib on 9/22/2017.
- */
-
-class SettingsPrefActivity extends AppCompatPreferenceActivity {
-    private static final String TAG = SettingsPrefActivity.class.getSimpleName();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        // load settings fragment
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
-    }
-
-    public static class MainPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_main);
-
-            // gallery EditText change listener
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
-
-            // notification preference change listener
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
-
-            // feedback preference click listener
-            Preference myPref = findPreference(getString(R.string.key_send_feedback));
-            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    sendFeedback(getActivity());
-                    return true;
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private static void bindPreferenceSummaryToValue(Preference preference) {
-        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                PreferenceManager
-                        .getDefaultSharedPreferences(preference.getContext())
-                        .getString(preference.getKey(), ""));
-    }
-
+public class SettingsActivity extends AppCompatPreferenceActivity {
+    private static final String TAG = SettingsActivity.class.getSimpleName();
     /**
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
@@ -130,6 +76,15 @@ class SettingsPrefActivity extends AppCompatPreferenceActivity {
         }
     };
 
+    private static void bindPreferenceSummaryToValue(Preference preference) {
+        preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+
+        sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
+                PreferenceManager
+                        .getDefaultSharedPreferences(preference.getContext())
+                        .getString(preference.getKey(), ""));
+    }
+
     /**
      * Email client intent to send support mail
      * Appends the necessary device information to email body
@@ -150,5 +105,45 @@ class SettingsPrefActivity extends AppCompatPreferenceActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
         intent.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // load settings fragment
+        getFragmentManager().beginTransaction().replace(android.R.id.content, new MainPreferenceFragment()).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static class MainPreferenceFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(final Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.pref_main);
+
+            // gallery EditText change listener
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
+
+            // notification preference change listener
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));
+
+            // feedback preference click listener
+            Preference myPref = findPreference(getString(R.string.key_send_feedback));
+            myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    sendFeedback(getActivity());
+                    return true;
+                }
+            });
+        }
     }
 }

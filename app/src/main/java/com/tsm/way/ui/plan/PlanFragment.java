@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.tsm.way.R;
+import com.tsm.way.ui.MainActivity;
+import com.tsm.way.ui.common.CreatePlanActivity;
 
 
 /**

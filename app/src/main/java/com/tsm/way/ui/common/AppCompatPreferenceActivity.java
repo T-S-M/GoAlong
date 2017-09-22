@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.common;
 
 /**
  * Created by Sakib on 9/21/2017.

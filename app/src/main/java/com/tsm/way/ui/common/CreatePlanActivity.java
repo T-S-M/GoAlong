@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.common;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;

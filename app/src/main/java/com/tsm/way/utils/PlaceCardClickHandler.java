@@ -3,9 +3,9 @@ package com.tsm.way.utils;
 import android.content.Context;
 import android.content.Intent;
 
-import com.tsm.way.ui.FixedPlaceListAdapter;
-import com.tsm.way.ui.PlaceDetailActivity;
-import com.tsm.way.ui.PlaceListAdapter;
+import com.tsm.way.ui.common.PlaceDetailActivity;
+import com.tsm.way.ui.discover.FixedPlaceListAdapter;
+import com.tsm.way.ui.discover.PlaceListAdapter;
 
 public class PlaceCardClickHandler implements FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler,
         PlaceListAdapter.PlaceListAdapterOnclickHandler {

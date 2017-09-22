@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.common;
 
 import android.content.Context;
 import android.graphics.Color;

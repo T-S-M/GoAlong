@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;

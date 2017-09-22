@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.discover;
 
 import android.content.Context;
 import android.view.LayoutInflater;

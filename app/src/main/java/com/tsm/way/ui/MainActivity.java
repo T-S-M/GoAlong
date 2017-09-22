@@ -47,6 +47,12 @@ import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.ui.common.PlaceDetailActivity;
+import com.tsm.way.ui.common.SettingsActivity;
+import com.tsm.way.ui.discover.DiscoverFragment;
+import com.tsm.way.ui.plan.PlanFragment;
+import com.tsm.way.ui.profile.ProfileFragment;
+import com.tsm.way.ui.saved.SavedPlacesFragment;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -194,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 launchAutocompleteSearch();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SettingsPrefActivity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
         }
         //return false;
