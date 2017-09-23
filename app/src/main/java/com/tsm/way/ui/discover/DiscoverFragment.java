@@ -26,7 +26,6 @@ import com.facebook.AccessToken;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.Plan;
-import com.tsm.way.ui.EventViewerAdapter;
 import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.CategoriesUtil;
 import com.tsm.way.utils.FacebookEventParser;
@@ -126,11 +125,7 @@ public class DiscoverFragment extends Fragment {
         if (type == null) {
             type = "restaurant";
         }
-        if (AccessToken.getCurrentAccessToken() == null) {
-            Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
-        }
 
-        String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
         String urlString1 = UrlsUtil.getCategoryPlaceUrlString(getContext(), latitude, longitude, type);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString1,
@@ -156,33 +151,38 @@ public class DiscoverFragment extends Fragment {
                 //jsonTView.setText("That didn't work!");
             }
         });
-        // Add the request to the RequestQueue.
 
-        String fbRequestUrl = UrlsUtil.getFbBaseUrl(YOUR_TOKEN, "dhaka");
-        StringRequest fbStringRequest = new StringRequest(Request.Method.GET, fbRequestUrl,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        FacebookEventParser parser = new FacebookEventParser(response.substring(0));
-                        try {
-                            ArrayList<Plan> eventList;
-                            eventList = parser.getfbEventListData();
-                            events_recyclerview.setAdapter(new EventViewerAdapter(getContext(), eventList, null));
-                            events_recyclerview.setVisibility(View.VISIBLE);
+        if (AccessToken.getCurrentAccessToken() == null) {
+            Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
+        } else {
+            String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
+            String fbRequestUrl = UrlsUtil.getFbBaseUrl(YOUR_TOKEN, "dhaka");
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
+            StringRequest fbStringRequest = new StringRequest(Request.Method.GET, fbRequestUrl,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            FacebookEventParser parser = new FacebookEventParser(response.substring(0));
+                            try {
+                                ArrayList<Plan> eventList;
+                                eventList = parser.getfbEventListData();
+                                events_recyclerview.setAdapter(new EventViewerAdapter(getContext(), eventList, null));
+                                events_recyclerview.setVisibility(View.VISIBLE);
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //jsonTView.setText("That didn't work!");
-            }
-        });
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    //jsonTView.setText("That didn't work!");
+                }
+            });
+            mRequestQueue.add(fbStringRequest);
+        }
         // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
-        mRequestQueue.add(fbStringRequest);
     }
 
 }

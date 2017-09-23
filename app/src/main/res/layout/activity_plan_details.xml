@@ -64,15 +64,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <com.getbase.floatingactionbutton.FloatingActionButton xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_plan_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end"
-        fab:fab_colorNormal="@color/colorAccent"
-        fab:fab_colorPressed="@color/md_pink_200"
-        fab:fab_icon="@drawable/ic_edit_black_24dp"
-        fab:layout_behavior="" />
+        app:srcCompat="@drawable/ic_edit_black_24dp" />
 
 </android.support.design.widget.CoordinatorLayout>

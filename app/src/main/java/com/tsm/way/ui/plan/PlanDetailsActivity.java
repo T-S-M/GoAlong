@@ -2,6 +2,7 @@ package com.tsm.way.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
@@ -113,6 +113,11 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     return detail;
                 case 1:
                     return discussion;
+                case 2:
+                    new PlaceholderFragment();
+                case 3:
+                    new PlaceholderFragment();
+
                 default:
                     return null;
             }
@@ -121,16 +126,20 @@ public class PlanDetailsActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 2 total pages.
-            return 2;
+            return 4;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Information";
+                    return "About";
                 case 1:
                     return "Discussion";
+                case 2:
+                    return "Tasks";
+                case 3:
+                    return "place";
             }
             return null;
         }

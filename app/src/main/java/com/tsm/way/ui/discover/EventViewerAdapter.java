@@ -1,4 +1,4 @@
-package com.tsm.way.ui;
+package com.tsm.way.ui.discover;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -67,8 +67,8 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
     }
 
 
-    public interface EventViewrAdapterOnclickHandler {
-        void onClick(String id);
+    public interface EventViewerAdapterOnclickHandler {
+
     }
 
     public class EventViewerAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
