@@ -14,6 +14,7 @@ public class PlaceDetailParser {
     private PlaceDetailBean detailBean;
 
     public PlaceDetailParser(String data){
+
         jsonData = data;
     }
 
