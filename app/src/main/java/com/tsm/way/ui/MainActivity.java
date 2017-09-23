@@ -2,9 +2,7 @@ package com.tsm.way.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -16,8 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -33,22 +29,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
-import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
-import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
-import com.mikepenz.materialdrawer.util.DrawerImageLoader;
-import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.ui.common.PlaceDetailActivity;
-import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
@@ -61,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
     public static boolean mLocationPermissionGranted;
     public static Location mLastKnownLocation;
-    public static Drawer mNavigationDrawer;
+   // public static Drawer mNavigationDrawer;
     static GoogleApiClient mGoogleApiClient;
     Toolbar toolbar;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -121,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         navigation.setSelectedItemId(R.id.navigation_discover);
 
         //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
+/*
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -135,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     }
                 })
                 .build();
+
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("Settings");
@@ -179,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         return true;
                     }
                 })
-                .build();
+                .build(); */
     }
 
     @Override
@@ -201,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 launchAutocompleteSearch();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                startActivity(new Intent(MainActivity.this, Main2Activity.class));
                 return true;
         }
         //return false;

@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tsm.way.R;
-import com.tsm.way.ui.MainActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +29,7 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
+       // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
         return view;
     }

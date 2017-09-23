@@ -27,7 +27,6 @@ import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.Plan;
 import com.tsm.way.ui.EventViewerAdapter;
-import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.CategoriesUtil;
 import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
@@ -64,7 +63,7 @@ public class DiscoverFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
+       // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         categoriesGridView = (GridView) rootView.findViewById(R.id.main_categories);
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getContext(), CategoriesUtil.getCategories());
         categoriesGridView.setAdapter(categoriesAdapter);
@@ -129,8 +128,8 @@ public class DiscoverFragment extends Fragment {
         if (AccessToken.getCurrentAccessToken() == null) {
             Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
         }
-
         String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
+
         String urlString1 = UrlsUtil.getCategoryPlaceUrlString(getContext(), latitude, longitude, type);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString1,

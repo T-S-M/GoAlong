@@ -24,7 +24,7 @@
                 android:id="@+id/photo_up"
                 android:layout_width="match_parent"
                 android:layout_height="280dp"
-                android:background="@color/colorPrimaryLight"
+                android:background="@color/colorPrimary"
                 android:padding="64dp"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_photo_camera_black_24dp" />

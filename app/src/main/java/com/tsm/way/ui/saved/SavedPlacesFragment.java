@@ -21,7 +21,6 @@ import com.facebook.AccessToken;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
-import com.tsm.way.ui.MainActivity;
 
 
 /**
@@ -42,7 +41,7 @@ public class SavedPlacesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_saved_places, container, false);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
+       // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.fb_test);
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
