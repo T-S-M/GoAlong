@@ -12,16 +12,12 @@ import java.util.ArrayList;
 
 public class FacebookEventParser {
 
-    private String jsonData;
-    private ArrayList<Plan> fbEventList;
+    private ArrayList<Plan> fbEventList = new ArrayList<Plan>();
 
     private String eventsData;
-    private String type;
 
-    public FacebookEventParser(String jsonData, String eventsData, String type) {
-        this.jsonData = jsonData;
+    public FacebookEventParser(String eventsData) {
         this.eventsData = eventsData;
-        this.type = type;
     }
 
     public JSONArray getJSONArray(String data) {
@@ -31,7 +27,7 @@ public class FacebookEventParser {
         if (data != null) {
             try {
                 JSONObject jsonObject = new JSONObject(data);
-                jsonArray = jsonObject.getJSONArray("results");
+                jsonArray = jsonObject.getJSONArray("data");
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error in parsing", e);
             }
@@ -41,11 +37,7 @@ public class FacebookEventParser {
 
 
     public ArrayList<Plan> getfbEventListData() throws Exception {
-        // Facebook Graph API parameters
-        final String access_token = "128623690525794|LbfgDAXN_KioIspqkMegG1-ysHA";
-        final String fields = "id,name,description,place,timezone,start_time";
-        final String fb_page_id = "82945776796";
-        int year_range = 2; // get events for the next x years
+
 
         // events JSONArray
         JSONArray events = null;
@@ -73,16 +65,16 @@ public class FacebookEventParser {
             return null;
 
         try {
+
             JSONArray jsonArray = getJSONArray(eventsData);
 
             for (int i = 0; i < jsonArray.length(); i++) {
 
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                JSONObject data = jsonArray.getJSONObject(i);
                 Plan plan = new Plan();
 
-                if (jsonObject.has("data")) {
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    if (data.has("id")) {
+
+                if (data.has("id")) {
                         event_id = data.getString("id");
                     } else {
                         event_id = "Not Available";
@@ -115,25 +107,26 @@ public class FacebookEventParser {
                         //???;
                     }
 
-                    if (jsonObject.has("start_time")) {
-                        start_time = jsonObject.getLong("start_time");
+                if (data.has("start_time")) {
+                    //todo use getString, then convert string to long
+                    //start_time = data.getLong("start_time");
                     } else {
                         start_time = 0;
                     }
 
-                    if (jsonObject.has("end_time")) {
-                        end_time = jsonObject.getLong("end_time");
+                if (data.has("end_time")) {
+                    //end_time = data.getLong("end_time");
                     } else {
                         end_time = 0;
                     }
 
-                    if (jsonObject.has("description")) {
-                        description = jsonObject.getString("description");
+                if (data.has("description")) {
+                    description = data.getString("description");
                     } else {
                         description = "Not available";
                     }
 
-                    if (jsonObject.has("place")) {
+                if (data.has("place")) {
                         JSONObject place = data.getJSONObject("place");
                         {
                             if (place.has("name")) {
@@ -199,16 +192,14 @@ public class FacebookEventParser {
                         maybe_count = 0;
                     }
 
-                } else {
-                    //????
-                }
 
                 plan.setEventType(0);
                 plan.setFbEventId(event_id);
                 plan.setTitle(event_name);
                 plan.setCoverUrl(source);
-                plan.setStartTime(start_time);
-                plan.setEndTime(end_time);
+                //todo remove comment then set after long -> string
+                //plan.setStartTime(start_time);
+                //plan.setEndTime(end_time);
                 plan.setDescription(description);
                 plan.setGooglePlaceID(place_id);
                 plan.setPlaceName(place_name);

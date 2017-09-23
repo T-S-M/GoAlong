@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,14 +22,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
+import com.tsm.way.model.Plan;
+import com.tsm.way.ui.EventViewerAdapter;
 import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.CategoriesUtil;
+import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
 import com.tsm.way.utils.UrlsUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
@@ -120,7 +126,11 @@ public class DiscoverFragment extends Fragment {
         if (type == null) {
             type = "restaurant";
         }
+        if (AccessToken.getCurrentAccessToken() == null) {
+            Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
+        }
 
+        String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
         String urlString1 = UrlsUtil.getCategoryPlaceUrlString(getContext(), latitude, longitude, type);
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString1,
@@ -132,8 +142,6 @@ public class DiscoverFragment extends Fragment {
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-                            events_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext())));
-                            events_recyclerview.setVisibility(View.VISIBLE);
 
                             resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext())));
                             resturants_recyclerview.setVisibility(View.VISIBLE);
@@ -149,7 +157,32 @@ public class DiscoverFragment extends Fragment {
             }
         });
         // Add the request to the RequestQueue.
+
+        String fbRequestUrl = UrlsUtil.getFbBaseUrl(YOUR_TOKEN, "dhaka");
+        StringRequest fbStringRequest = new StringRequest(Request.Method.GET, fbRequestUrl,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        FacebookEventParser parser = new FacebookEventParser(response.substring(0));
+                        try {
+                            ArrayList<Plan> eventList;
+                            eventList = parser.getfbEventListData();
+                            events_recyclerview.setAdapter(new EventViewerAdapter(getContext(), eventList, null));
+                            events_recyclerview.setVisibility(View.VISIBLE);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //jsonTView.setText("That didn't work!");
+            }
+        });
+        // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
+        mRequestQueue.add(fbStringRequest);
     }
 
 }
