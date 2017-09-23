@@ -47,16 +47,16 @@
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
 
-    <string name="default_gallery_storage">My Videos</string>
+    <string name="default_gallery_storage">Go The Distance</string>
     <string name="title_auto_upload">Auto upload</string>
-    <string name="summary_upload_over_wifi">Upload the videos when wifi is available</string>
+    <string name="summary_upload_over_wifi">Upload the images/videos when wifi is available</string>
     <string name="title_upload_quality">Upload Quality</string>
     <string name="summary_upload_video_quality">Specify video quality for uploads</string>
     <string name="pref_title_notifications">Notifications</string>
     <string name="summary_choose_ringtone">Choose notification sound</string>
     <string name="pref_header_about">About</string>
     <string name="summary_about">We are a team of like-minded people, specialized in development of Android App Development creating new trends across the app space. Glad to Help in anyway!</string>
-    <string name="app_version">3.5</string>
+    <string name="app_version">1.0.0</string>
     <string name="summary_support">Got any queries? We are happy to help!</string>
     <string name="title_send_feedback">Send Feedback</string>
     <string name="title_faq">FAQ</string>

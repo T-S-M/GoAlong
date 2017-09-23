@@ -5,7 +5,9 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_appbar" />
+    <include layout="@layout/layout_appbar"
+        android:id="@+id/appbar"/>
+
 
     <TextView
         android:id="@+id/events_text"

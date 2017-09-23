@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         item1,
                         new DividerDrawerItem(),
                         item2,
-                        new SecondaryDrawerItem().withName("About"),
-                        new SecondaryDrawerItem().withName("Help & Feedback"),
+                        //new SecondaryDrawerItem().withName("About"),
+                        //new SecondaryDrawerItem().withName("Help & Feedback"),
                         new SecondaryDrawerItem().withName("Link with Facebook")
 
                 )
@@ -169,11 +169,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
-                        switch (position) {
-                            case 1:
-                                break;
-                            case 2:
-                                break;
+                        if (drawerItem != null) {
+                            if (drawerItem.getIdentifier() == 1)
+                                Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                            else if (drawerItem.getIdentifier() == 2)
+                                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+                                return true;
                         }
                         return true;
                     }
