@@ -108,24 +108,23 @@ public class PlanDetailsActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    Fragment detail = new PlanInfoDetailFragment();
+                    Fragment detail = new AboutPlanFragment();
                     detail.setArguments(planBundle);
                     return detail;
                 case 1:
                     return discussion;
                 case 2:
-                    new PlaceholderFragment();
-                case 3:
-                    new PlaceholderFragment();
-
+                    Fragment guest = new InviteFragment();
+                    guest.setArguments(planBundle);
+                    return guest;
                 default:
-                    return null;
+                    return new PlaceholderFragment();
             }
         }
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
+            // Show 4 total pages.
             return 4;
         }
 
@@ -137,9 +136,9 @@ public class PlanDetailsActivity extends AppCompatActivity {
                 case 1:
                     return "Discussion";
                 case 2:
-                    return "Tasks";
+                    return "Guests";
                 case 3:
-                    return "place";
+                    return "Tasks";
             }
             return null;
         }

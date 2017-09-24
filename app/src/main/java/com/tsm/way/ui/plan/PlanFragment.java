@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.tsm.way.R;
 import com.tsm.way.ui.common.CreatePlanActivity;
+
+import static com.tsm.way.ui.MainActivity.drawer;
 
 
 /**
@@ -35,7 +38,10 @@ public class PlanFragment extends Fragment {
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("My Plans");
-       // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager_plan);
         PlanFragmentPagerAdapter adapter = new PlanFragmentPagerAdapter(getChildFragmentManager());
@@ -56,4 +62,9 @@ public class PlanFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    }
 }

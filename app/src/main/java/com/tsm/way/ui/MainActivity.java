@@ -7,13 +7,18 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,21 +36,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.tsm.way.R;
 import com.tsm.way.ui.common.PlaceDetailActivity;
+import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
 import com.tsm.way.ui.saved.SavedPlacesFragment;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
 
     static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
     static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
     public static boolean mLocationPermissionGranted;
     public static Location mLastKnownLocation;
+    public static DrawerLayout drawer;
    // public static Drawer mNavigationDrawer;
     static GoogleApiClient mGoogleApiClient;
-    Toolbar toolbar;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FusedLocationProviderClient mFusedLocationClient;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -88,6 +94,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setContentView(R.layout.activity_main);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
@@ -101,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();
         navigation.setSelectedItemId(R.id.navigation_discover);
+
+        View header = navigationView.getHeaderView(0);
+        TextView userNameTextViewNav = (TextView) header.findViewById(R.id.current_user_name);
+        TextView userEmailTextViewNav = (TextView) header.findViewById(R.id.user_email);
+        userNameTextViewNav.setText(user.getDisplayName());
+        userEmailTextViewNav.setText(user.getEmail());
 
         //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
 /*
@@ -185,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 launchAutocompleteSearch();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(MainActivity.this, Main2Activity.class));
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
         }
         //return false;
@@ -292,4 +311,38 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
