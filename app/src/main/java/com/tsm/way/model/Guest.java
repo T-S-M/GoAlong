@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Guest {
     private String displayName;
-    private String email;
+    private String email, uid;
 
     public Guest() {
     }
@@ -24,5 +24,13 @@ public class Guest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

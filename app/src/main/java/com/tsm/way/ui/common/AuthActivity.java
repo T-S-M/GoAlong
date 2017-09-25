@@ -24,8 +24,8 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFirebaseAuth = FirebaseAuth.getInstance();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        mFirebaseAuth = FirebaseAuth.getInstance();
 
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override

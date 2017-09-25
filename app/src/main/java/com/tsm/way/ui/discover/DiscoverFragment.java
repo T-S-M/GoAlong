@@ -52,7 +52,9 @@ public class DiscoverFragment extends Fragment {
     List<PlaceBean> placelist;
     String type;
     TextView more1,more2;
+    RecyclerView.Adapter restaurantsAdapter, fbEventsAdater;
     private GridView categoriesGridView;
+
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -120,6 +122,13 @@ public class DiscoverFragment extends Fragment {
     }
     private void populateRecyclerview() {
 
+        if (restaurantsAdapter != null) {
+            return;
+        }
+        if (fbEventsAdater != null) {
+            return;
+        }
+
         String latitude = "23.8103";
         String longitude = "90.4125";
         if (mLastKnownLocation != null) {
@@ -141,8 +150,8 @@ public class DiscoverFragment extends Fragment {
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
                             placelist = parser.getPlaceBeanList();
-
-                            resturants_recyclerview.setAdapter(new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext())));
+                            restaurantsAdapter = new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext()));
+                            resturants_recyclerview.setAdapter(restaurantsAdapter);
                             resturants_recyclerview.setVisibility(View.VISIBLE);
 
                         } catch (Exception e) {
@@ -170,7 +179,8 @@ public class DiscoverFragment extends Fragment {
                             try {
                                 ArrayList<Plan> eventList;
                                 eventList = parser.getfbEventListData();
-                                events_recyclerview.setAdapter(new EventViewerAdapter(getContext(), eventList, null));
+                                fbEventsAdater = new EventViewerAdapter(getContext(), eventList, null);
+                                events_recyclerview.setAdapter(fbEventsAdater);
                                 events_recyclerview.setVisibility(View.VISIBLE);
 
                             } catch (Exception e) {

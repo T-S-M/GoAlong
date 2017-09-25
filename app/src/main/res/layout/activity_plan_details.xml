@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
             app:titleEnabled="false">
 
             <ImageView
@@ -51,6 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                app:tabContentStart="72dp"
                 app:tabGravity="center"
                 app:tabMode="scrollable" />
 
@@ -64,12 +65,12 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_plan_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_anchor="@id/appbar"
-        app:layout_anchorGravity="bottom|right|end"
-        app:srcCompat="@drawable/ic_edit_black_24dp" />
+    <!--    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_plan_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|right|end"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />-->
 
 </android.support.design.widget.CoordinatorLayout>

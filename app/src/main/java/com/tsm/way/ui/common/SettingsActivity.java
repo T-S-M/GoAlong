@@ -14,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -101,7 +102,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"contact@androidhive.info"});
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
         intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
         intent.putExtra(Intent.EXTRA_TEXT, body);
         context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
@@ -119,7 +120,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -129,9 +130,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_main);
-
-            // gallery EditText change listener
-            bindPreferenceSummaryToValue(findPreference(getString(R.string.key_gallery_name)));
 
             // notification preference change listener
             bindPreferenceSummaryToValue(findPreference(getString(R.string.key_notifications_new_message_ringtone)));

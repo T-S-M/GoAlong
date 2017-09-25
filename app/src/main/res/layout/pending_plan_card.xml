@@ -67,7 +67,7 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/expand_button"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="24dp"

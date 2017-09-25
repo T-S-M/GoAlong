@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pref_upload_quality_entries">
-        <item>360p</item>
-        <item>480p</item>
-        <item>720p</item>
-        <item>1080p</item>
-        <item>Original</item>
+    <string-array name="pref_default_fragment_entries">
+        <item>@string/title_discover</item>
+        <item>@string/title_plan</item>
+        <item>@string/title_saved</item>
+        <item>@string/title_profile</item>
     </string-array>
-    <string-array name="pref_upload_quality_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+    <string-array name="pref_default_fragment_values">
+        <item>@string/value_pref_discover</item>
+        <item>@string/value_pref_plan</item>
+        <item>@string/value_pref_saved</item>
+        <item>@string/value_pref_profile</item>
     </string-array>
 </resources>

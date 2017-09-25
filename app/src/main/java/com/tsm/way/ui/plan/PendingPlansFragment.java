@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,7 +21,7 @@ import com.tsm.way.model.Plan;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PendingPlansFragment extends Fragment {
+public class PendingPlansFragment extends Fragment implements PendingPlansViewholder.PendingClickHandler {
 
     RecyclerView pendingRecyclerview;
     FirebaseIndexRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
@@ -54,7 +55,7 @@ public class PendingPlansFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(PendingPlansViewholder viewHolder, Plan model, int position) {
-                viewHolder.bindDataToViewHolder(model, getContext());
+                viewHolder.bindDataToViewHolder(model, getContext(), PendingPlansFragment.this);
             }
         };
 
@@ -68,4 +69,16 @@ public class PendingPlansFragment extends Fragment {
         mAdapter.cleanup();
     }
 
+    @Override
+    public void onClick(int viewId, String planID) {
+        switch (viewId) {
+            case R.id.accept_button:
+                Toast.makeText(getContext(), "Accepted " + planID, Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.ignore_button:
+                break;
+            case R.id.expand_button:
+                break;
+        }
+    }
 }

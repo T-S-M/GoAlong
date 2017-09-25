@@ -1,10 +1,12 @@
 package com.tsm.way.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -50,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public static boolean mLocationPermissionGranted;
     public static Location mLastKnownLocation;
     public static DrawerLayout drawer;
-   // public static Drawer mNavigationDrawer;
     static GoogleApiClient mGoogleApiClient;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private FusedLocationProviderClient mFusedLocationClient;
+    private SharedPreferences preferences;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -113,7 +116,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();
-        navigation.setSelectedItemId(R.id.navigation_discover);
+        Integer value = Integer.parseInt(preferences.getString(getString(R.string.key_default_fragment),
+                getString(R.string.default_fragment_value)));
+        switch (value) {
+            case 0:
+                navigation.setSelectedItemId(R.id.navigation_discover);
+                break;
+            case 1:
+                navigation.setSelectedItemId(R.id.navigation_plan);
+                break;
+            case 2:
+                navigation.setSelectedItemId(R.id.navigation_saved);
+                break;
+            case 3:
+                navigation.setSelectedItemId(R.id.navigation_profile);
+                break;
+        }
 
         View header = navigationView.getHeaderView(0);
         TextView userNameTextViewNav = (TextView) header.findViewById(R.id.current_user_name);

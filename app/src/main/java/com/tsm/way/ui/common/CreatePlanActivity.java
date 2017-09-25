@@ -247,9 +247,9 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
 
         String pushKey = userPlanRef.push().getKey();
 
-        Map userPlanMap = new HashMap<String, Boolean>();
-        userPlanMap.put(pushKey, true);
-        userPlanRef.child(pushKey).updateChildren(userPlanMap);
+        mPlan.setDiscussionID(pushKey);
+
+        userPlanRef.child(pushKey).setValue(true);
 
         planRef.child(pushKey).setValue(mPlan);
 
