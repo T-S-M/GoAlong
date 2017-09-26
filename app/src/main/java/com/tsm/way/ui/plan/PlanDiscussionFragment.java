@@ -14,8 +14,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Comment;
 
 /**
@@ -37,7 +37,7 @@ public class PlanDiscussionFragment extends Fragment {
         RecyclerView messages = (RecyclerView) view.findViewById(R.id.messages);
         messages.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("discussion");
+        final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion");
 
         mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(
                 Comment.class,

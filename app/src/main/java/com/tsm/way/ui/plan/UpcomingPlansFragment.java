@@ -16,11 +16,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
 
 public class UpcomingPlansFragment extends Fragment {
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
     DatabaseReference planRef;
     DatabaseReference userPlanRef;
     FirebaseUser user;

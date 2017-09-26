@@ -36,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
 import com.tsm.way.utils.ConstantsUtil;
 
@@ -56,7 +57,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
     HashMap<String, Integer> dateStore;
     Plan mPlan;
     Uri selectedImage;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
     DatabaseReference planAttendeeRef;
     DatabaseReference planRef;
     DatabaseReference userPlanRef;

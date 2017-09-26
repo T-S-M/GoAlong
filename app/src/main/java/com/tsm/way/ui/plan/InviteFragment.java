@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Guest;
 import com.tsm.way.model.Plan;
 
@@ -46,7 +46,7 @@ public class InviteFragment extends Fragment {
         mPlan = args.getParcelable("plan");
         String id = mPlan.getDiscussionID();
 
-        final DatabaseReference userPendingRef = FirebaseDatabase.getInstance().getReference().child("pending");
+        final DatabaseReference userPendingRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("pending");
         final Map guestlist = new HashMap<String, Boolean>();
         guestlist.put(id, true);
         final Map pushtouserMap = new HashMap<String, Map>();
@@ -62,7 +62,7 @@ public class InviteFragment extends Fragment {
         });
         ListView personListView = (ListView) view.findViewById(R.id.guest_list);
         personListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users");
+        DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users");
         mAdapter = new FirebaseListAdapter<Guest>(getContext(), Guest.class, R.layout.list_item_guest, ref) {
             @Override
             protected void populateView(View view, Guest person, int position) {
