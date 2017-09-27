@@ -37,12 +37,12 @@ public class AboutPlanFragment extends Fragment {
 
         long unixTime = p.getStartTime();
         Date date = new java.util.Date(unixTime);
-        String formattedTime = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(date);
+        String formattedTime = new SimpleDateFormat(" EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(date);
 
-        date_time.setText("Start : "+formattedTime);
-        host_info.setText("Someone");
+        date_time.setText(" Start : "+formattedTime);
+        host_info.setText(" Someone");
         description.setText(p.getDescription());
-        place_info.setText("Name : " + p.getPlaceName() + "\n" +"Adress : "+ p.getPlaceAddress() +"\n" +" Latitude- " + p.getPlaceLat()+ "    Longitude- " + p.getPlaceLong());
+        place_info.setText(" Name : " + p.getPlaceName() + "\n" +" Adress : "+ p.getPlaceAddress() +"\n" +" Latitude- " + p.getPlaceLat()+ "    Longitude- " + p.getPlaceLong());
         return view;
     }
     /*
