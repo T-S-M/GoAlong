@@ -8,56 +8,93 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:padding="10dp"
         android:text="@string/date_and_time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        tools:textSize="24sp"/>
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/date_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="TextView" />
+        android:padding="10dp"
+        tools:text="TextView"
+        tools:textSize="18sp"/>
 
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:padding="10dp"
         android:text="@string/host_guest_info"
+        android:gravity="center"
+        tools:textSize="24sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/host_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="TextView" />
+        android:padding="10dp"
+        tools:text="TextView"
+        tools:textSize="18sp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:padding="10dp"
         android:text="@string/description"
+        android:gravity="center"
+        tools:textSize="24sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
-        android:padding="4dp"
-        tools:textSize="16sp" />
+        android:padding="10dp"
+        tools:textSize="18sp" />
 
     <TextView
-        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="3dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="3dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:padding="10dp"
         android:text="@string/place_info_title"
+        android:gravity="center"
+        tools:textSize="24sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/place_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="TextView" />
+        android:padding="10dp"
+        tools:text="TextView"
+        tools:textSize="18sp"/>
 </LinearLayout>
