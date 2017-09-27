@@ -1,13 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/selected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="@string/confiremed_guests" />
 
     <View
         android:layout_width="match_parent"
@@ -15,21 +15,20 @@
         android:background="@color/md_grey_500" />
 
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/guest_list"
-    android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:id="@+id/guest_list"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
 
-    <!--<android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center|end"
-        android:isScrollContainer="true"
-        app:useCompatPadding="true"/>-->
+        android:layout_gravity="top|end"
+        app:fabSize="mini" />
 
     <Button
         android:id="@+id/invite_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/invite" />
+        android:text="@string/invite_more" />
 
 </LinearLayout>

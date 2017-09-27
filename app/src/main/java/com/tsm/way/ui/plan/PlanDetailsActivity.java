@@ -111,11 +111,11 @@ public class PlanDetailsActivity extends AppCompatActivity {
                 case 1:
                     return discussion;
                 case 2:
-                    Fragment guest = new InviteFragment();
+                    Fragment guest = new ConfirmedGuestListFragment();
                     guest.setArguments(planBundle);
                     return guest;
                 default:
-                    return new PlaceholderFragment();
+                    return new TaskFragment();
             }
         }
 

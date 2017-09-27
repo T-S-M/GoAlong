@@ -21,10 +21,15 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.tsm.way.ui.MainActivity.drawer;
 
@@ -33,6 +38,7 @@ import static com.tsm.way.ui.MainActivity.drawer;
  */
 public class ProfileFragment extends Fragment {
 
+    FirebaseUser user;
     private Description desc;
 
     public ProfileFragment() {
@@ -46,6 +52,17 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.profile, container, false);
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        CircleImageView profilePhoto = (CircleImageView) view.findViewById(R.id.user_profile_photo);
+        if (user.getPhotoUrl() != null) {
+            profilePhoto.setBackground(null);
+            Picasso.with(getContext())
+                    .load(user.getPhotoUrl())
+                    .into(profilePhoto);
+        }
+
 
         BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
         barChart.setDrawBarShadow(false);

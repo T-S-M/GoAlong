@@ -31,7 +31,7 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/header" />
 
-                <ImageButton
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_profile_photo"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
@@ -40,7 +40,6 @@
                     android:layout_marginTop="-60dp"
                     android:background="@drawable/profile_circular_border_imageview"
                     android:elevation="5dp"
-                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_person_white_24dp" />
 
                 <RelativeLayout
@@ -76,11 +75,11 @@
                         android:id="@+id/fbButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@mipmap/social_facebook_button_blue"
-                        android:background="@drawable/roundcorner"
+                        android:layout_alignEnd="@+id/favourite"
                         android:layout_alignParentBottom="true"
                         android:layout_alignRight="@+id/favourite"
-                        android:layout_alignEnd="@+id/favourite" />
+                        android:background="@drawable/roundcorner"
+                        app:srcCompat="@mipmap/social_facebook_button_blue" />
 
                     <TextView
                         android:id="@+id/user_profile_name"
@@ -184,7 +183,7 @@
                     android:clickable="true"
                     android:elevation="4dp"
                     android:padding="20dp"
-                    android:text="Give some more Ideas, MoyMoy!" />
+                    android:text="Do a google Search" />
 
                 <TextView
                     android:layout_width="match_parent"

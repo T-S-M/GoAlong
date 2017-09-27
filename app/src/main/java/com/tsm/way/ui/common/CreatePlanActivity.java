@@ -245,6 +245,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
             Calendar timeCal = new GregorianCalendar(dateStore.get("year"), dateStore.get("month"), dateStore.get("day"), dateStore.get("hour"), dateStore.get("minute"), 0);
             mPlan.setStartTime(timeCal.getTimeInMillis());
         }
+        mPlan.setHostName(user.getDisplayName());
 
         String pushKey = userPlanRef.push().getKey();
 

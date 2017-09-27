@@ -88,4 +88,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="edit_plan">Edit This Plan</string>
     <string name="invite">Invite</string>
+    <string name="invite_more">Invite More</string>
+    <string name="view_guest_list">View Guest List</string>
+    <string name="confiremed_guests">Confirmed Guests</string>
 </resources>

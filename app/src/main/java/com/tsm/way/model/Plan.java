@@ -7,6 +7,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class Plan implements Parcelable {
+
     public static final Creator<Plan> CREATOR = new Creator<Plan>() {
         @Override
         public Plan createFromParcel(Parcel in) {
@@ -19,7 +20,7 @@ public class Plan implements Parcelable {
         }
     };
     private int eventType;
-    private String placeName, placeAddress;
+    private String placeName, placeAddress, hostName;
     private double placeLat, placeLong;
     private long startTime, endTime;
     private String coverUrl;
@@ -28,6 +29,7 @@ public class Plan implements Parcelable {
     private boolean status;
     private String fbEventId, googlePlaceID, discussionID;
 
+
     public Plan() {
     }
 
@@ -35,6 +37,7 @@ public class Plan implements Parcelable {
         eventType = in.readInt();
         placeName = in.readString();
         placeAddress = in.readString();
+        hostName = in.readString();
         placeLat = in.readDouble();
         placeLong = in.readDouble();
         startTime = in.readLong();
@@ -48,6 +51,32 @@ public class Plan implements Parcelable {
         fbEventId = in.readString();
         googlePlaceID = in.readString();
         discussionID = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(eventType);
+        dest.writeString(placeName);
+        dest.writeString(placeAddress);
+        dest.writeString(hostName);
+        dest.writeDouble(placeLat);
+        dest.writeDouble(placeLong);
+        dest.writeLong(startTime);
+        dest.writeLong(endTime);
+        dest.writeString(coverUrl);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeInt(confirmedCount);
+        dest.writeInt(pendingCount);
+        dest.writeByte((byte) (status ? 1 : 0));
+        dest.writeString(fbEventId);
+        dest.writeString(googlePlaceID);
+        dest.writeString(discussionID);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public String getFbEventId() {
@@ -178,28 +207,11 @@ public class Plan implements Parcelable {
         this.placeName = placeName;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getHostName() {
+        return hostName;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(eventType);
-        dest.writeString(placeName);
-        dest.writeString(placeAddress);
-        dest.writeDouble(placeLat);
-        dest.writeDouble(placeLong);
-        dest.writeLong(startTime);
-        dest.writeLong(endTime);
-        dest.writeString(coverUrl);
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeInt(confirmedCount);
-        dest.writeInt(pendingCount);
-        dest.writeByte((byte) (status ? 1 : 0));
-        dest.writeString(fbEventId);
-        dest.writeString(googlePlaceID);
-        dest.writeString(discussionID);
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

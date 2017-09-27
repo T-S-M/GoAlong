@@ -54,6 +54,11 @@ public class LinkFacebookActivity extends AppCompatActivity {
                 finish();
             }
         });
+        if (getIntent().hasExtra("click")) {
+            if (getIntent().getBooleanExtra("click", false)) {
+                loginButton.performClick();
+            }
+        }
 
     }
 

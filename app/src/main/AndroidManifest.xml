@@ -49,6 +49,10 @@
             android:name=".ui.common.SettingsActivity"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/prefTheme" />
+        <activity
+            android:name=".ui.plan.InviteGuestsActivity"
+            android:parentActivityName=".ui.common.PlaceDetailActivity"
+            android:theme="@style/AppThemeWithActionBar" />
         .
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -56,7 +60,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
     </application>
 
 </manifest>
