@@ -57,4 +57,6 @@ public class CategoriesAdapter extends BaseAdapter {
 
         return convertView;
     }
+
+
 }

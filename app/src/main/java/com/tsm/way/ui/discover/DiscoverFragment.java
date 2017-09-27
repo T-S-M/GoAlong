@@ -1,7 +1,6 @@
 package com.tsm.way.ui.discover;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,9 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -27,7 +23,6 @@ import com.facebook.AccessToken;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.Plan;
-import com.tsm.way.utils.CategoriesUtil;
 import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
@@ -47,13 +42,13 @@ public class DiscoverFragment extends Fragment {
 
     public static final String TAG = "DiscoverFragment";
     //FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
-    RecyclerView events_recyclerview,resturants_recyclerview;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
-    TextView more1,more2;
-    RecyclerView.Adapter restaurantsAdapter, fbEventsAdater;
-    private GridView categoriesGridView;
+    FixedPlaceListAdapter restaurantsAdapter;
+    EventViewerAdapter fbEventsAdater;
+    RecyclerView parent;
+    DiscoverViewsAdapter parentAdapter;
 
 
     public DiscoverFragment() {
@@ -70,53 +65,15 @@ public class DiscoverFragment extends Fragment {
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        categoriesGridView = (GridView) rootView.findViewById(R.id.main_categories);
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter(getContext(), CategoriesUtil.getCategories());
-        categoriesGridView.setAdapter(categoriesAdapter);
-        categoriesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), PlaceListActivity.class);
-                intent.putExtra("type", (String) view.getTag());
-                startActivity(intent);
-            }
-        });
 
-        more1 = (TextView)rootView.findViewById(R.id.more1);
-        more2 = (TextView)rootView.findViewById(R.id.more2);
-        more1.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v) {
-                                         Intent intent = new Intent(getContext(), PlaceListActivity.class);
-                                         intent.putExtra("Events", "Events");
-                                         startActivity(intent);
-                                     }
-                                 }
-        );
-        more1.setOnClickListener(new View.OnClickListener() {
-                                     @Override
-                                     public void onClick(View v){
-                                         Intent intent = new Intent(getContext(), PlaceListActivity.class);
-                                         intent.putExtra("Resturants", "Resturants");
-                                         startActivity(intent);
-                                     }
-                                 }
-        );
-
+        parent = (RecyclerView) rootView.findViewById(R.id.parent_recycler_view);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
-        events_recyclerview = (RecyclerView) rootView.findViewById(R.id.events_recyclerview);
-        events_recyclerview.setHasFixedSize(true);
-
-        resturants_recyclerview = (RecyclerView) rootView.findViewById(R.id.resturants_recyclerview);
-        resturants_recyclerview.setHasFixedSize(true);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        events_recyclerview.setLayoutManager(layoutManager);
-        resturants_recyclerview.setLayoutManager(layoutManager1);
-
         populateRecyclerview();
+
+        parent.setLayoutManager(new LinearLayoutManager(getContext()));
+        parentAdapter = new DiscoverViewsAdapter(getContext(), restaurantsAdapter, fbEventsAdater);
+        parent.setAdapter(parentAdapter);
 
         return rootView;
     }
@@ -151,8 +108,7 @@ public class DiscoverFragment extends Fragment {
                         try {
                             placelist = parser.getPlaceBeanList();
                             restaurantsAdapter = new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext()));
-                            resturants_recyclerview.setAdapter(restaurantsAdapter);
-                            resturants_recyclerview.setVisibility(View.VISIBLE);
+                            parentAdapter.setPlaceAdapter(restaurantsAdapter);
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -180,8 +136,7 @@ public class DiscoverFragment extends Fragment {
                                 ArrayList<Plan> eventList;
                                 eventList = parser.getfbEventListData();
                                 fbEventsAdater = new EventViewerAdapter(getContext(), eventList, null);
-                                events_recyclerview.setAdapter(fbEventsAdater);
-                                events_recyclerview.setVisibility(View.VISIBLE);
+                                parentAdapter.setEventAdapter(fbEventsAdater);
 
                             } catch (Exception e) {
                                 e.printStackTrace();

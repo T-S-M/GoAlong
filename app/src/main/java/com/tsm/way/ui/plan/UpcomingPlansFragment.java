@@ -62,6 +62,7 @@ public class UpcomingPlansFragment extends Fragment {
 
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
