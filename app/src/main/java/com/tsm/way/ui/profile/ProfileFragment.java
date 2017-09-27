@@ -1,6 +1,7 @@
 package com.tsm.way.ui.profile;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -20,6 +22,7 @@ import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tsm.way.R;
+import com.tsm.way.firebase.LinkFacebookActivity;
 
 import java.util.ArrayList;
 
@@ -35,7 +38,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,6 +91,16 @@ public class ProfileFragment extends Fragment {
         xAxis.setAxisMinimum(1);
 
 
+        ImageButton fbButton = (ImageButton) view.findViewById(R.id.fbButton);
+        fbButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), LinkFacebookActivity.class);
+                //intent.putExtra("click", true);
+                startActivity(intent);
+            }
+        });
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -103,7 +115,6 @@ public class ProfileFragment extends Fragment {
     }
 
     public class MyAxisValueFormatter implements IAxisValueFormatter{
-
         private String[] mValues;
         public  MyAxisValueFormatter(String[] values){
             this.mValues = values;

@@ -1,9 +1,7 @@
 package com.tsm.way.ui.saved;
 
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tsm.way.R;
-import com.tsm.way.firebase.LinkFacebookActivity;
 
 import static com.tsm.way.ui.MainActivity.drawer;
 
@@ -40,14 +37,14 @@ public class SavedPlacesFragment extends Fragment {
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.fb_test);
-        fb.setOnClickListener(new View.OnClickListener() {
+        /*FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.fb_test);
+        //fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), LinkFacebookActivity.class));
             }
-        });
+        });*/
         return rootView;
     }
-
+    
 }

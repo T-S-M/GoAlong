@@ -40,7 +40,6 @@
                     android:layout_marginTop="-60dp"
                     android:background="@drawable/profile_circular_border_imageview"
                     android:elevation="5dp"
-                    android:padding="20dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_person_white_24dp" />
 
@@ -55,8 +54,8 @@
 
                     <ImageView
                         android:id="@+id/add_friend"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="16dp"
                         android:layout_toLeftOf="@+id/drop_down_option_menu"
@@ -64,8 +63,8 @@
 
                     <ImageView
                         android:id="@+id/favourite"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@+id/add_friend"
@@ -73,13 +72,23 @@
                         android:layout_marginRight="13dp"
                         app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
+                    <ImageButton
+                        android:id="@+id/fbButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@mipmap/social_facebook_button_blue"
+                        android:background="@drawable/roundcorner"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignRight="@+id/favourite"
+                        android:layout_alignEnd="@+id/favourite" />
+
                     <TextView
                         android:id="@+id/user_profile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="76dp"
-                        android:text="Sakib Hasan"
+                        android:text="My Name"
                         android:textColor="#fff"
                         android:textSize="24sp"
                         android:textStyle="bold" />

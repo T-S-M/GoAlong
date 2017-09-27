@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.ui.common.PlaceDetailActivity;
 import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
@@ -136,8 +139,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         View header = navigationView.getHeaderView(0);
         TextView userNameTextViewNav = (TextView) header.findViewById(R.id.current_user_name);
         TextView userEmailTextViewNav = (TextView) header.findViewById(R.id.user_email);
+        ImageView profile_imageView = (ImageView) header.findViewById(R.id.profile_imageView);
         userNameTextViewNav.setText(user.getDisplayName());
         userEmailTextViewNav.setText(user.getEmail());
+        //profile_imageView.setImageURI(Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView););
+        Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
 
         //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
 /*
@@ -345,22 +351,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.settings) {
+            // Handle the settings action
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.feedback) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.about) {
+
+        } else if (id == R.id.privacy) {
 
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.facebook) {
+            startActivity(new Intent(MainActivity.this, LinkFacebookActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
