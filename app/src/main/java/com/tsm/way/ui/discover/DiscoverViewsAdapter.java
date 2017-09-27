@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,15 +43,12 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
         switch (viewType) {
             case RESTAURANT:
                 View v0 = inflater.inflate(R.layout.layout_discover_restaurants, parent, false);
-                Log.v("FUCK ", "NO");
                 return new ViewHolderRV(v0);
             case CATEGORY:
                 View v1 = inflater.inflate(R.layout.layout_discover_category, parent, false);
-                Log.v("FUCK ", "YOU CUNT");
                 return new CategoryViewHolder(v1);
             case FB_EVENTS:
                 View v2 = inflater.inflate(R.layout.layout_discover_fb_events, parent, false);
-                Log.v("FUCK ", "YOU");
                 return new ViewHolderfbEvents(v2);
             default:
                 View vy = inflater.inflate(R.layout.layout_discover_category, parent, false);
