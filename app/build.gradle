@@ -54,6 +54,7 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-auth:2.2.0'
     compile 'com.facebook.android:facebook-android-sdk:4.22.1'
     compile 'com.getbase:floatingactionbutton:1.10.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
     testCompile 'junit:junit:4.12'
 }
 
