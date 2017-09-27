@@ -42,7 +42,7 @@ public class AboutPlanFragment extends Fragment {
         date_time.setText("Start : "+formattedTime);
         host_info.setText("Someone");
         description.setText(p.getDescription());
-        place_info.setText(p.getPlaceName()+"\n"+p.getPlaceAddress());
+        place_info.setText("Name : " + p.getPlaceName() + "\n" +"Adress : "+ p.getPlaceAddress() +"\n" +" Latitude- " + p.getPlaceLat()+ "    Longitude- " + p.getPlaceLong());
         return view;
     }
     /*
