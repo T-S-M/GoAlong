@@ -13,8 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
 
 public class PlanDetailsActivity extends AppCompatActivity {
@@ -84,7 +86,11 @@ public class PlanDetailsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_delete_plan) {
+            FirebaseDBHelper.getFirebaseDatabaseInstance().
+                    getReference().child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child(plan.getDiscussionID()).removeValue();
+            finish();
             return true;
         }
 

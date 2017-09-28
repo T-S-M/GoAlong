@@ -92,4 +92,8 @@
     <string name="view_guest_list">View Guest List</string>
     <string name="confiremed_guests">Confirmed Guests</string>
     <string name="copy_right">Copyrights © %1$d</string>
+    <string name="create_task">Create New Task</string>
+    <string name="promt_task_name">Enter Task</string>
+    <string name="promt_task_assignee">Enter Person to Assign the Task</string>
+    <string name="action_delete_plan">Delete Plan</string>
 </resources>

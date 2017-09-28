@@ -56,6 +56,7 @@ public class ProfileFragment extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
         CircleImageView profilePhoto = (CircleImageView) view.findViewById(R.id.user_profile_photo);
         if (user.getPhotoUrl() != null) {
             profilePhoto.setBackground(null);
