@@ -80,10 +80,11 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
         ImageView galleryItem;
         TextView no_Image;
 
-        public GalleryImageAdapterViewHolder(View view) {
-            super(view);
+        public GalleryImageAdapterViewHolder(View itemView) {
+            super(itemView);
 
-            TextView no_Image = (TextView) view.findViewById(R.id.no_images);
+            TextView no_Image = (TextView) itemView.findViewById(R.id.no_images);
+            no_Image.setText("Sorry, no images available for this place");
 
             galleryItem = (ImageView) itemView.findViewById(R.id.galleryItem);
             String imageURL = baseurl + getItem(getPosition()) + "&key=" + key;

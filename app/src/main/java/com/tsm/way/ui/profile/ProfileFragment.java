@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -63,7 +64,7 @@ public class ProfileFragment extends Fragment {
                     .into(profilePhoto);
         }
 
-
+        //Designing the bar
         BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
         barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
@@ -76,14 +77,7 @@ public class ProfileFragment extends Fragment {
         barChart.setDragDecelerationEnabled(true);
         barChart.getDescription().setText("Achievements");
 
-        /*ArrayList<String> labels = new ArrayList<>();
-        labels.add("2016");
-        labels.add("2015");
-        labels.add("2014");
-        labels.add("2013");
-        labels.add("2012");
-        */
-
+        //Initializing
         ArrayList<BarEntry> barEntries= new ArrayList<>();
         barEntries.add(new BarEntry(1, 40f));
         barEntries.add(new BarEntry(2, 45f));
@@ -94,6 +88,7 @@ public class ProfileFragment extends Fragment {
         BarDataSet bardataset = new BarDataSet(barEntries, "Cells");
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
 
+        //animation & edit
         BarData data = new BarData(bardataset);
         data.setBarWidth(0.5f);
         barChart.setData(data);
@@ -124,6 +119,14 @@ public class ProfileFragment extends Fragment {
         toggle.syncState();
        // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
+
+        TextView friends_num = (TextView) view.findViewById(R.id.friends_num);
+        int friends_total = 0;
+        if(friends_total==0) {
+            friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
+            friends_num.setTextSize(16f);
+        }
+        else friends_num.setText("Total Friends: "+ friends_total);
         return view;
     }
 
