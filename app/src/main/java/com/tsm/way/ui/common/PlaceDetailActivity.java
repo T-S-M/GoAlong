@@ -103,6 +103,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                 reviewRecyclerView.setVisibility(View.VISIBLE);
 
                                 gallery_recyclerview.setAdapter(new GalleryImageAdapter(detailbean.getPhotos(), PlaceDetailActivity.this));
+                                gallery_recyclerview.setVisibility(View.VISIBLE);
 
                             } catch (Exception e) {
                                 e.printStackTrace();
