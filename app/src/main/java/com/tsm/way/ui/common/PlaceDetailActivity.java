@@ -2,6 +2,8 @@ package com.tsm.way.ui.common;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,16 +22,21 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.ui.plan.PlanDetailsActivity;
 import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.UrlsUtil;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    String placeID;
+    String placeID,url;
     PlaceDetailBean detailbean;
     RecyclerView reviewRecyclerView;
     FloatingActionsMenu fabMenu;
     FloatingActionButton addPlan;
+    Fragment fragGallery;
+    PlanDetailsActivity.SectionsPagerAdapter mSectionsPagerAdapter;
+    ViewPager mViewPager;
+    //SlidingTabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         reviewRecyclerView.setHasFixedSize(true);
         reviewRecyclerView.setLayoutManager(layoutManager);
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
+
 
         if (getIntent().hasExtra("id")) {
             placeID = getIntent().getStringExtra("id");
@@ -104,5 +112,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
             // Add the request to the RequestQueue.
             queue.add(stringRequest);
         }
+
+        Intent intent = getIntent();
+        String placeId = intent.getStringExtra("placeId");
+
     }
+
+
+
 }
