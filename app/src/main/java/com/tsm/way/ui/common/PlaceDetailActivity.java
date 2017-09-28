@@ -2,12 +2,11 @@ package com.tsm.way.ui.common;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -22,7 +21,6 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceDetailBean;
-import com.tsm.way.ui.plan.PlanDetailsActivity;
 import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -30,13 +28,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     String placeID,url;
     PlaceDetailBean detailbean;
-    RecyclerView reviewRecyclerView;
+    RecyclerView reviewRecyclerView, gallery_recyclerview;
     FloatingActionsMenu fabMenu;
     FloatingActionButton addPlan;
-    Fragment fragGallery;
-    PlanDetailsActivity.SectionsPagerAdapter mSectionsPagerAdapter;
-    ViewPager mViewPager;
-    //SlidingTabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +59,14 @@ public class PlaceDetailActivity extends AppCompatActivity {
         reviewRecyclerView.setHasFixedSize(true);
         reviewRecyclerView.setLayoutManager(layoutManager);
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
+
+        final ImageView galleryItem = (ImageView) findViewById(R.id.galleryItem);
+        gallery_recyclerview =(RecyclerView) findViewById(R.id.gallery_recyclerview);
+        gallery_recyclerview.setVisibility(View.INVISIBLE);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        gallery_recyclerview.setHasFixedSize(true);
+        gallery_recyclerview.setLayoutManager(layoutManager2);
+
 
 
         if (getIntent().hasExtra("id")) {
@@ -99,6 +101,9 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                 rating.setRating(detailbean.getRating());
                                 reviewRecyclerView.setAdapter(new ReviewAdapter(detailbean.getReviews(), PlaceDetailActivity.this));
                                 reviewRecyclerView.setVisibility(View.VISIBLE);
+
+                                gallery_recyclerview.setAdapter(new GalleryImageAdapter(detailbean.getPhotos(), PlaceDetailActivity.this));
+
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
