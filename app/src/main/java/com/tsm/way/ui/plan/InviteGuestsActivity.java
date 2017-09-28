@@ -48,6 +48,7 @@ public class InviteGuestsActivity extends AppCompatActivity {
                 userPendingRef.updateChildren(pushtouserMap);
                 Snackbar.make(v, "Invited!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
+                finish();
             }
         });
         ListView personListView = (ListView) findViewById(R.id.guest_list);

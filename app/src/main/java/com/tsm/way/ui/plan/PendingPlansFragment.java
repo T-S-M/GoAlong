@@ -79,7 +79,7 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
                 userPendingPlansRef.child(planID).removeValue();
                 database.getReference("userPlans").child(user.getUid())
                         .child(planID).setValue(true);
-                database.getReference("planAttendee").child(planID).setValue(true);
+                database.getReference("planAttendee").child(planID).child(user.getUid()).setValue(true);
                 Snackbar.make(view, "Invitation Accepted!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 break;
