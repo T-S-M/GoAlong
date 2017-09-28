@@ -50,6 +50,9 @@
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/prefTheme" />
         <activity
+            android:name=".ui.common.About"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity
             android:name=".ui.plan.InviteGuestsActivity"
             android:parentActivityName=".ui.common.PlaceDetailActivity"
             android:theme="@style/AppThemeWithActionBar" />

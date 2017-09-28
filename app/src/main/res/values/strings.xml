@@ -91,4 +91,5 @@
     <string name="invite_more">Invite More</string>
     <string name="view_guest_list">View Guest List</string>
     <string name="confiremed_guests">Confirmed Guests</string>
+    <string name="copy_right">Copyrights © %1$d</string>
 </resources>

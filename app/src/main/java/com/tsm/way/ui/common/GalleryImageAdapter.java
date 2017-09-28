@@ -40,9 +40,9 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
                     .load(imageUrl)
                     .into(holder.galleryItem);
         }
-        else {
-            holder.no_Image.setText("Sorry, no images available for this place");
-            holder.no_Image.setVisibility(View.VISIBLE);
+        else{
+            holder.no_images.setText("Sorry, no images available for this place");
+            holder.no_images.setVisibility(View.VISIBLE);
         }
     }
 
@@ -68,13 +68,14 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
     public class GalleryImageAdapterViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView galleryItem;
-        TextView no_Image;
+        public TextView no_images;
 
         public GalleryImageAdapterViewHolder(View itemView) {
             super(itemView);
 
-            TextView no_Image = (TextView) itemView.findViewById(R.id.no_images);
-            no_Image.setVisibility(View.GONE);
+            TextView no_images = (TextView) itemView.findViewById(R.id.no_images);
+            no_images.setText("Sorry, no images available for this place");
+            no_images.setVisibility(View.GONE);
 
             galleryItem = (ImageView) itemView.findViewById(R.id.galleryItem);
         }

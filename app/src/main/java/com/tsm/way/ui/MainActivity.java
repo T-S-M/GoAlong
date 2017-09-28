@@ -1,9 +1,11 @@
 package com.tsm.way.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
@@ -40,6 +42,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
+import com.tsm.way.ui.common.About;
 import com.tsm.way.ui.common.PlaceDetailActivity;
 import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
@@ -146,67 +149,22 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
 
         //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
-/*
-        // Create the AccountHeader
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.drawable.header)
-                .addProfiles(
-                        new ProfileDrawerItem().withName(user.getDisplayName()).withEmail(user.getEmail()).withIcon(user.getPhotoUrl())
-                )
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
-                .build();
-
-        //if you want to update the items at a later time it is recommended to keep it in a variable
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("Home");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("Settings");
-
-        DrawerImageLoader.init(new AbstractDrawerImageLoader() {
-            @Override
-            public void set(ImageView imageView, Uri uri, Drawable placeholder) {
-                Picasso.with(imageView.getContext()).load(uri).placeholder(placeholder).into(imageView);
-            }
-
-            @Override
-            public void cancel(ImageView imageView) {
-                Picasso.with(imageView.getContext()).cancelRequest(imageView);
-            }
-        });
-
-        //create the drawer and remember the `Drawer` result object
-        mNavigationDrawer = new DrawerBuilder()
-                .withActivity(this)
-                .withAccountHeader(headerResult)
-                .withActionBarDrawerToggle(true)
-                .addDrawerItems(
-                        item1,
-                        new DividerDrawerItem(),
-                        item2,
-                        //new SecondaryDrawerItem().withName("About"),
-                        //new SecondaryDrawerItem().withName("Help & Feedback"),
-                        new SecondaryDrawerItem().withName("Link with Facebook")
-
-                )
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
-                        if (drawerItem != null) {
-                            if (drawerItem.getIdentifier() == 1)
-                                Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
-                            else if (drawerItem.getIdentifier() == 2)
-                                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                                return true;
-                        }
-                        return true;
-                    }
-                })
-                .build(); */
+    }
+    public static void sendFeedback(Context context) {
+        String body = null;
+        try {
+            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
+                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
+                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
 
     @Override
@@ -356,8 +314,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
         } else if (id == R.id.feedback) {
-
+            sendFeedback(MainActivity.this);
         } else if (id == R.id.about) {
+            Intent intentAbout = new Intent(MainActivity.this, About.class);
+            startActivity(intentAbout);
 
         } else if (id == R.id.privacy) {
 
