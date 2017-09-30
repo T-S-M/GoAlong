@@ -13,13 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +28,7 @@ import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,6 +41,9 @@ public class ProfileFragment extends Fragment {
 
     FirebaseUser user;
     private Description desc;
+
+    float plans_count[] = { 4f, 3f ,6f , 2f};
+    String plans_type[] ={"Interested", "Joined","Created","Pending"};
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -66,7 +69,7 @@ public class ProfileFragment extends Fragment {
         }
 
         //Designing the bar
-        BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
+       /* BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
         barChart.setDrawBarShadow(false);
         barChart.setDrawValueAboveBar(true);
         barChart.setMaxVisibleValueCount(50);
@@ -102,7 +105,10 @@ public class ProfileFragment extends Fragment {
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(false);
         xAxis.setAxisMinimum(1);
-
+        ///barchart done
+*/
+        //starting pie chart
+        setupPieChart(view);
 
         ImageButton fbButton = (ImageButton) view.findViewById(R.id.fbButton);
         fbButton.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +135,26 @@ public class ProfileFragment extends Fragment {
         }
         else friends_num.setText("Total Friends: "+ friends_total);
         return view;
+    }
+
+    private void setupPieChart(View view) {
+        //populating pie entries
+
+        List<PieEntry> pieEntries = new ArrayList<>();
+        for (int i = 0; i< plans_count.length ; i++){
+            pieEntries.add(new PieEntry(plans_count[i], plans_type[i]));
+        }
+        PieDataSet dataset = new PieDataSet(pieEntries, " Statistics of Plans");
+        dataset.setColors(ColorTemplate.VORDIPLOM_COLORS); // JOYFUL_COLORS / VORDIPLOM_COLORS/ COLORFUL_COLORS/ LIBERTY_COLORS/ PASTEL_COLORS
+        PieData pdata = new PieData(dataset);
+
+        //get the chart
+        PieChart chart = (PieChart) view.findViewById(R.id.chart);
+        chart.setData(pdata);
+        chart.animateXY(2000, 2000);
+        chart.getDescription().setText("Plan Statistics");
+        chart.invalidate();
+
     }
 
     public void Description(String desc) {
