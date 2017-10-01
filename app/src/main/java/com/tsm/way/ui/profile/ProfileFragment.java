@@ -23,12 +23,16 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -40,10 +44,9 @@ import static com.tsm.way.ui.MainActivity.drawer;
 public class ProfileFragment extends Fragment {
 
     FirebaseUser user;
-    private Description desc;
-
     float plans_count[] = { 4f, 3f ,6f , 2f};
     String plans_type[] ={"Interested", "Joined","Created","Pending"};
+    private Description desc;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -58,6 +61,12 @@ public class ProfileFragment extends Fragment {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
+
+        DatabaseReference dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
+        Map temp = new HashMap<String, String>();
+        temp.put("photoUrl", user.getPhotoUrl());
+        temp.put("displayName", user.getDisplayName());
+        dbref.updateChildren(temp);
 
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
         CircleImageView profilePhoto = (CircleImageView) view.findViewById(R.id.user_profile_photo);

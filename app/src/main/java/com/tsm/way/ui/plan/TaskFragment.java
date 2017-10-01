@@ -10,14 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
+import com.tsm.way.model.Plan;
+import com.tsm.way.model.Task;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaskFragment extends Fragment {
 
+    DatabaseReference taskref;
     private Button mButton;
 
 
@@ -32,6 +40,8 @@ public class TaskFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tasks, container, false);
         mButton = (Button) view.findViewById(R.id.openUserInputDialog);
+        final Plan mPlan = getArguments().getParcelable("plan");
+        taskref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("tasks").child(mPlan.getDiscussionID());
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +56,9 @@ public class TaskFragment extends Fragment {
                         .setCancelable(false)
                         .setPositiveButton("Send", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
-                                // ToDo get user input here
+                                String task_name = nameDialogEditText.getText().toString();
+                                String assignee = personDialogEditText.getText().toString();
+                                taskref.push().setValue(new Task(assignee, task_name));
                             }
                         })
 
@@ -61,6 +73,18 @@ public class TaskFragment extends Fragment {
                 alertDialogAndroid.show();
             }
         });
+
+        ListView taskview = (ListView) view.findViewById(R.id.tasks_list_view);
+
+        FirebaseListAdapter mAdapter = new FirebaseListAdapter<Task>(getContext(), Task.class, R.layout.list_item_task, taskref) {
+            @Override
+            protected void populateView(View v, Task model, int position) {
+                ((TextView) v.findViewById(R.id.assignee_name_tv)).setText(model.getAssignee());
+                ((TextView) v.findViewById(R.id.task_name_tv)).setText(model.getTaskName());
+            }
+        };
+        taskview.setAdapter(mAdapter);
+
 
         return view;
     }

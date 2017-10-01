@@ -1,7 +1,8 @@
 package com.tsm.way.ui.plan;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,7 +32,7 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         coverPhoto = (ImageView) itemView.findViewById(R.id.plan_cover_image);
     }
 
-    public void bindDataToViewHolder(final Plan model, final Context context) {
+    public void bindDataToViewHolder(final Plan model, final Activity context) {
         planNameTextView.setText(model.getTitle());
         planPlaceTextView.setText(model.getPlaceName());
         long unixTime = model.getStartTime();
@@ -50,7 +51,10 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
                 Intent intentDetail = new Intent(context, PlanDetailsActivity.class);
                 intentDetail.putExtra("plan", model);
 
-                context.startActivity(intentDetail);
+                ActivityOptionsCompat options = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(context, coverPhoto, model.getDiscussionID());
+
+                context.startActivity(intentDetail, options.toBundle());
             }
         });
     }

@@ -52,7 +52,7 @@ public class UpcomingPlansFragment extends Fragment {
                 planRef) {
             @Override
             protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
-                viewHolder.bindDataToViewHolder(model, getContext());
+                viewHolder.bindDataToViewHolder(model, getActivity());
             }
         };
 

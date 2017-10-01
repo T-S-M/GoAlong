@@ -2,7 +2,7 @@ package com.tsm.way.firebase;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-public class FirebaseDBHelper {
+public final class FirebaseDBHelper {
 
     public static FirebaseDatabase mDatabase;
 

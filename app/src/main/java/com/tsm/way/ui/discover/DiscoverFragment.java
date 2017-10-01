@@ -122,6 +122,7 @@ public class DiscoverFragment extends Fragment {
         });
 
         if (AccessToken.getCurrentAccessToken() == null) {
+            //Todo replace toast with snackbar or something more appropiate
             Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
         } else {
             String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();

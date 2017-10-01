@@ -96,4 +96,5 @@
     <string name="promt_task_name">Enter Task</string>
     <string name="promt_task_assignee">Enter Person to Assign the Task</string>
     <string name="action_delete_plan">Delete Plan</string>
+    <string name="fb_sign_in_req">To see Events from Facebook, Please Sign in with Facebook</string>
 </resources>

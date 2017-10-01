@@ -1,6 +1,7 @@
 package com.tsm.way.ui.plan;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
@@ -32,6 +34,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_details);
+        supportPostponeEnterTransition();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -47,15 +50,6 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
         cover = (ImageView) findViewById(R.id.plan_cover_image);
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_plan_detail);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
@@ -65,14 +59,36 @@ public class PlanDetailsActivity extends AppCompatActivity {
             discussionbundle.putString("id", plan.getDiscussionID());
             discussion.setArguments(discussionbundle);
         }
+
+        //Bundle extras = getIntent().getExtras();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cover.setTransitionName(plan.getDiscussionID());
+        }
         showImageWithTransition(plan.getCoverUrl());
 
     }
 
     private void showImageWithTransition(String coverUrl) {
+
+        if (coverUrl == null || coverUrl.equals("")) {
+            supportStartPostponedEnterTransition();
+            return;
+        }
+
         Picasso.with(this)
                 .load(coverUrl)
-                .into(cover);
+                .noFade()
+                .into(cover, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        supportStartPostponedEnterTransition();
+                    }
+
+                    @Override
+                    public void onError() {
+                        supportStartPostponedEnterTransition();
+                    }
+                });
     }
 
 
@@ -120,9 +136,12 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     Fragment guest = new ConfirmedGuestListFragment();
                     guest.setArguments(planBundle);
                     return guest;
-                default:
-                    return new TaskFragment();
+                case 3:
+                    Fragment task = new TaskFragment();
+                    task.setArguments(planBundle);
+                    return task;
             }
+            return null;
         }
 
         @Override

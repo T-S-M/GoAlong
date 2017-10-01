@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,15 +61,13 @@ public class ConfirmedGuestListFragment extends Fragment {
         FirebaseDatabase db = FirebaseDBHelper.getFirebaseDatabaseInstance();
         DatabaseReference dataref = db.getReference().child("users");
         DatabaseReference keyref = db.getReference("planAttendee").child(id);
-        Log.v("Attempt", keyref.toString());
-        Log.v("Attempt", dataref.toString());
         mAdapter = new FirebaseIndexRecyclerAdapter<Guest, GuestViewHolder>
                 (Guest.class, R.layout.layout_confirmed_guest, GuestViewHolder.class, keyref, dataref) {
 
             @Override
             protected void populateViewHolder(GuestViewHolder viewHolder, Guest model, int position) {
                 viewHolder.setGuestName(model.getEmail());
-                Log.v("Attempt", "00000");
+                //Log.v("Attempt", "00000");
             }
         };
         personListView.setAdapter(mAdapter);
@@ -94,7 +91,6 @@ public class ConfirmedGuestListFragment extends Fragment {
 
         public void setGuestName(String name) {
             guestName.setText(name);
-            Log.v("Attempt", "called");
         }
     }
 
