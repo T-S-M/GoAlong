@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
+import com.tsm.way.utils.UrlsUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,25 +58,26 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.profile, container, false);
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
 
+        ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
+        CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
+        String photoUrl;
+        if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
+        else
+            photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
+        Picasso.with(getContext())
+                .load(photoUrl)
+                .into(profilePhoto);
+
         DatabaseReference dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
         Map temp = new HashMap<String, String>();
-        temp.put("photoUrl", user.getPhotoUrl());
+        temp.put("photoUrl", photoUrl);
         temp.put("displayName", user.getDisplayName());
         dbref.updateChildren(temp);
-
-        ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
-        CircleImageView profilePhoto = (CircleImageView) view.findViewById(R.id.user_profile_photo);
-        if (user.getPhotoUrl() != null) {
-            profilePhoto.setBackground(null);
-            Picasso.with(getContext())
-                    .load(user.getPhotoUrl())
-                    .into(profilePhoto);
-        }
 
         //Designing the bar
        /* BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
@@ -119,7 +121,7 @@ public class ProfileFragment extends Fragment {
         //starting pie chart
         setupPieChart(view);
 
-        ImageButton fbButton = (ImageButton) view.findViewById(R.id.fbButton);
+        ImageButton fbButton = view.findViewById(R.id.fbButton);
         fbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,7 +138,7 @@ public class ProfileFragment extends Fragment {
        // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
-        TextView friends_num = (TextView) view.findViewById(R.id.friends_num);
+        TextView friends_num = view.findViewById(R.id.friends_num);
         int friends_total = 0;
         if(friends_total==0) {
             friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
@@ -158,7 +160,7 @@ public class ProfileFragment extends Fragment {
         PieData pdata = new PieData(dataset);
 
         //get the chart
-        PieChart chart = (PieChart) view.findViewById(R.id.chart);
+        PieChart chart = view.findViewById(R.id.chart);
         chart.setData(pdata);
         chart.animateXY(2000, 2000);
         chart.getDescription().setText("Plan Statistics");

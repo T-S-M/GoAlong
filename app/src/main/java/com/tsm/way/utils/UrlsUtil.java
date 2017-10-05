@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.tsm.way.R;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public final class UrlsUtil {
 
     static String detailBaseUrl = "https://maps.googleapis.com/maps/api/place/details/json?placeid=";
@@ -38,5 +41,28 @@ public final class UrlsUtil {
     public static String getFbBaseUrl(String accessToken, String city) {
 
         return fbBaseUrl + city + "&type=event&fields=id,name,cover,start_time,end_time,descriptionplace,attending_count,maybe_count&access_token=" + accessToken;
+    }
+
+    public static String getGravatarUrl(String email, String type) {
+
+        return "https://www.gravatar.com/avatar/" + md5(email) + "?d=" + type;
+    }
+
+    private static String md5(String s) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(s.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            StringBuffer hexString = new StringBuffer();
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

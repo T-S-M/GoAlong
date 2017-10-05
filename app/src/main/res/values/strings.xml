@@ -75,10 +75,10 @@
     <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
     <string name="key_vibrate">key_vibrate</string>
     <string name="key_send_feedback">key_send_feedback</string>
-    <string name="value_pref_discover">0</string>
-    <string name="value_pref_plan">1</string>
-    <string name="value_pref_saved">2</string>
-    <string name="value_pref_profile">3</string>
+    <string name="value_pref_discover" translatable="false">0</string>
+    <string name="value_pref_plan" translatable="false">1</string>
+    <string name="value_pref_saved" translatable="false">2</string>
+    <string name="value_pref_profile" translatable="false">3</string>
     <string name="title_default_fragment">Default Fragment</string>
     <string name="summary_default_fragment">Choose which screen is showed when app is started</string>
     <string name="key_default_fragment">key_default_fragment</string>
@@ -93,8 +93,9 @@
     <string name="confiremed_guests">Confirmed Guests</string>
     <string name="copy_right">Copyrights © %1$d</string>
     <string name="create_task">Create New Task</string>
-    <string name="promt_task_name">Enter Task</string>
-    <string name="promt_task_assignee">Enter Person to Assign the Task</string>
+    <string name="promt_task_name">Task</string>
+    <string name="promt_task_assignee">Person to Assign</string>
     <string name="action_delete_plan">Delete Plan</string>
     <string name="fb_sign_in_req">To see Events from Facebook, Please Sign in with Facebook</string>
+    <string name="add_new_task">Add new Task</string>
 </resources>
