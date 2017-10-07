@@ -1,16 +1,20 @@
 package com.tsm.way.ui.profile;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -46,8 +50,10 @@ public class ProfileFragment extends Fragment {
 
     FirebaseUser user;
     float plans_count[] = { 4f, 3f ,6f , 2f};
-    String plans_type[] ={"Interested", "Joined","Created","Pending"};
+    String plans_type[] = {"Interested", "Joined","Created","Pending"};
     private Description desc;
+    private ImageView editBio;
+    public  String profileBio;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,9 +67,12 @@ public class ProfileFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
+        editBio =  view.findViewById(R.id.editBio);
+
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
+        ((TextView) view.findViewById(R.id.user_profile_short_bio)).setText(getProfileBio());
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
         String photoUrl;
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
@@ -73,11 +82,43 @@ public class ProfileFragment extends Fragment {
                 .load(photoUrl)
                 .into(profilePhoto);
 
-        DatabaseReference dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
+        final DatabaseReference dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
         Map temp = new HashMap<String, String>();
         temp.put("photoUrl", photoUrl);
         temp.put("displayName", user.getDisplayName());
+        temp.put("profileBio", getProfileBio());
         dbref.updateChildren(temp);
+
+
+        editBio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+                View mView = layoutInflaterAndroid.inflate(R.layout.profilebioedit, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText EditBio =  mView.findViewById(R.id.editBio);
+
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                String profileBio = EditBio.getText().toString();
+                                setProfileBio(profileBio);
+                            }
+                        })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();
+            }
+        });
 
         //Designing the bar
        /* BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
@@ -146,6 +187,13 @@ public class ProfileFragment extends Fragment {
         }
         else friends_num.setText("Total Friends: "+ friends_total);
         return view;
+    }
+
+    public String getProfileBio() {
+        return profileBio;
+    }
+    public void setProfileBio(String profileBio) {
+        this.profileBio = profileBio;
     }
 
     private void setupPieChart(View view) {
