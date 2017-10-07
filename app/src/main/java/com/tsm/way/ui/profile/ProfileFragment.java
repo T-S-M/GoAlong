@@ -3,7 +3,9 @@ package com.tsm.way.ui.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -25,13 +27,20 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
+import com.tsm.way.model.Guest;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.util.ArrayList;
@@ -51,9 +60,12 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     float plans_count[] = { 4f, 3f ,6f , 2f};
     String plans_type[] = {"Interested", "Joined","Created","Pending"};
+    TextView bio;
+    Guest appUser;
+    String photoUrl;
+    DatabaseReference dbref;
     private Description desc;
     private ImageView editBio;
-    public  String profileBio;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -72,9 +84,8 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
-        ((TextView) view.findViewById(R.id.user_profile_short_bio)).setText(getProfileBio());
+        bio = view.findViewById(R.id.user_profile_short_bio);
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
-        String photoUrl;
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
         else
             photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
@@ -82,13 +93,8 @@ public class ProfileFragment extends Fragment {
                 .load(photoUrl)
                 .into(profilePhoto);
 
-        final DatabaseReference dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
-        Map temp = new HashMap<String, String>();
-        temp.put("photoUrl", photoUrl);
-        temp.put("displayName", user.getDisplayName());
-        temp.put("profileBio", getProfileBio());
-        dbref.updateChildren(temp);
-
+        dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
+        getUserData();
 
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,14 +104,17 @@ public class ProfileFragment extends Fragment {
                 AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
                 alertDialogBuilderUserInput.setView(mView);
 
-                final EditText EditBio =  mView.findViewById(R.id.editBio);
+                final EditText EditBioET = mView.findViewById(R.id.profile_bio_edit);
 
                 alertDialogBuilderUserInput
                         .setCancelable(false)
                         .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogBox, int id) {
-                                String profileBio = EditBio.getText().toString();
-                                setProfileBio(profileBio);
+                                String profileBio = EditBioET.getText().toString();
+                                bio.setText(profileBio);
+                                Map temp = new HashMap<String, String>();
+                                temp.put("profileBio", profileBio);
+                                dbref.updateChildren(temp);
                             }
                         })
                         .setNegativeButton("Cancel",
@@ -120,45 +129,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        //Designing the bar
-       /* BarChart barChart = (BarChart) view.findViewById(R.id.chart1);
-        barChart.setDrawBarShadow(false);
-        barChart.setDrawValueAboveBar(true);
-        barChart.setMaxVisibleValueCount(50);
-        barChart.setVisibleXRangeMaximum(50);
-        barChart.setScrollContainer(true);
-        barChart.setFitBars(true);
-        barChart.setPinchZoom(false);
-        barChart.setDrawGridBackground(true);
-        barChart.setDragDecelerationEnabled(true);
-        barChart.getDescription().setText("Achievements");
-
-        //Initializing
-        ArrayList<BarEntry> barEntries= new ArrayList<>();
-        barEntries.add(new BarEntry(1, 40f));
-        barEntries.add(new BarEntry(2, 45f));
-        barEntries.add(new BarEntry(3, 30f));
-        barEntries.add(new BarEntry(4, 35f));
-        barEntries.add(new BarEntry(5, 0f));
-
-        BarDataSet bardataset = new BarDataSet(barEntries, "Cells");
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-
-        //animation & edit
-        BarData data = new BarData(bardataset);
-        data.setBarWidth(0.5f);
-        barChart.setData(data);
-        barChart.animateXY(3000, 3000);
-
-        String[] months = new String[] {"Just Started","Jan","Feb","Mar","April","May","June"};
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setValueFormatter(new MyAxisValueFormatter(months));
-        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
-        xAxis.setGranularity(1);
-        xAxis.setCenterAxisLabels(false);
-        xAxis.setAxisMinimum(1);
-        ///barchart done
-*/
         //starting pie chart
         setupPieChart(view);
 
@@ -176,7 +146,6 @@ public class ProfileFragment extends Fragment {
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-       // MainActivity.mNavigationDrawer.setToolbar(getActivity(), toolbar, true);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
         TextView friends_num = view.findViewById(R.id.friends_num);
@@ -186,14 +155,50 @@ public class ProfileFragment extends Fragment {
             friends_num.setTextSize(16f);
         }
         else friends_num.setText("Total Friends: "+ friends_total);
+
         return view;
     }
 
-    public String getProfileBio() {
-        return profileBio;
+
+    private void getUserData() {
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                appUser = dataSnapshot.getValue(Guest.class);
+                if (appUser == null) {
+                    updateUserData(appUser);
+                } else {
+                    if (appUser.getProfileBio() != null) bio.setText(appUser.getProfileBio());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
-    public void setProfileBio(String profileBio) {
-        this.profileBio = profileBio;
+
+    private void updateUserData(Guest appUser) {
+        Guest guest = new Guest();
+        guest.setDisplayName(user.getDisplayName());
+        guest.setEmail(user.getEmail());
+        guest.setPhotoUrl(photoUrl);
+        dbref.setValue(guest);
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(user.getDisplayName())
+                .setPhotoUri(Uri.parse(photoUrl))
+                .build();
+
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            //Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
     }
 
     private void setupPieChart(View view) {

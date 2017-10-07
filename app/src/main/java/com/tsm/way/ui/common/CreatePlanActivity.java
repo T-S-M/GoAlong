@@ -78,13 +78,13 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_plan);
-        createPlanProgressBar = (ProgressBar) findViewById(R.id.create_plan_progress);
-        toolbar = (Toolbar) findViewById(R.id.toolbar_create_plan);
+        createPlanProgressBar = findViewById(R.id.create_plan_progress);
+        toolbar = findViewById(R.id.toolbar_create_plan);
         toolbar.setTitle(R.string.new_plan);
         toolbar.setSubtitle(R.string.add_new_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        plantypeTextview = (TextView) findViewById(R.id.plan_type_textview);
+        plantypeTextview = findViewById(R.id.plan_type_textview);
         handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
@@ -92,12 +92,12 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         userPlanRef = database.getReference("userPlans").child(user.getUid());
 
         mPlan = new Plan();
-        mDisplayDate = (TextView) findViewById(R.id.datepick);
-        mDisplayTime = (TextView) findViewById(R.id.timepick);
-        planName = (EditText) findViewById(R.id.name_editText);
-        planDescriptionEditText = (EditText) findViewById(R.id.desc_edittext);
+        mDisplayDate = findViewById(R.id.datepick);
+        mDisplayTime = findViewById(R.id.timepick);
+        planName = findViewById(R.id.name_editText);
+        planDescriptionEditText = findViewById(R.id.desc_edittext);
         dateStore = new HashMap<>();
-        whereTextView = (TextView) findViewById(R.id.where_textview);
+        whereTextView = findViewById(R.id.where_textview);
         whereTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,8 +179,8 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
             }
         };
 
-        photo_up = (ImageView) findViewById(R.id.photo_up);
-        createEventButton = (Button) findViewById(R.id.button2);
+        photo_up = findViewById(R.id.photo_up);
+        createEventButton = findViewById(R.id.button2);
         photo_up.setOnClickListener(this);
         createEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +251,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
 
         mPlan.setDiscussionID(pushKey);
 
-        userPlanRef.child(pushKey).setValue(true);
+        userPlanRef.child(pushKey).setValue(mPlan.getStartTime());
 
         planRef.child(pushKey).setValue(mPlan);
 

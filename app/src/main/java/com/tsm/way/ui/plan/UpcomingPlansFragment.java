@@ -36,7 +36,7 @@ public class UpcomingPlansFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_upcoming_plans, container, false);
-        RecyclerView upcomingPlansRecycler = (RecyclerView) view.findViewById(R.id.upcoming_plan_recyclerview);
+        RecyclerView upcomingPlansRecycler = view.findViewById(R.id.upcoming_plan_recyclerview);
         upcomingPlansRecycler.setHasFixedSize(true);
         upcomingPlansRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -48,7 +48,7 @@ public class UpcomingPlansFragment extends Fragment {
                 Plan.class,
                 R.layout.plan_card,
                 PlanCardViewHolder.class,
-                userPlanRef,
+                userPlanRef.orderByValue(),
                 planRef) {
             @Override
             protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
@@ -61,7 +61,6 @@ public class UpcomingPlansFragment extends Fragment {
         return view;
 
     }
-
 
     @Override
     public void onDestroy() {

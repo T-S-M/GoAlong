@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
@@ -36,19 +37,19 @@ public class PlanDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan_details);
         supportPostponeEnterTransition();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_plan_detail);
+        mViewPager = findViewById(R.id.viewpager_plan_detail);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        cover = (ImageView) findViewById(R.id.plan_cover_image);
+        cover = findViewById(R.id.plan_cover_image);
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("plan")) {
@@ -103,9 +104,10 @@ public class PlanDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_delete_plan) {
-            FirebaseDBHelper.getFirebaseDatabaseInstance().
-                    getReference().child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+            DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+            rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(plan.getDiscussionID()).removeValue();
+            rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
             finish();
             return true;
         }

@@ -41,6 +41,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseJobScheduleHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.ui.common.About;
 import com.tsm.way.ui.common.PlaceDetailActivity;
@@ -101,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         mGoogleApiClient = new GoogleApiClient
@@ -140,16 +141,68 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         View header = navigationView.getHeaderView(0);
-        TextView userNameTextViewNav = (TextView) header.findViewById(R.id.current_user_name);
-        TextView userEmailTextViewNav = (TextView) header.findViewById(R.id.user_email);
-        ImageView profile_imageView = (ImageView) header.findViewById(R.id.profile_imageView);
+        TextView userNameTextViewNav = header.findViewById(R.id.current_user_name);
+        TextView userEmailTextViewNav = header.findViewById(R.id.user_email);
+        ImageView profile_imageView = header.findViewById(R.id.profile_imageView);
         userNameTextViewNav.setText(user.getDisplayName());
         userEmailTextViewNav.setText(user.getEmail());
-        //profile_imageView.setImageURI(Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView););
         Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
-
-        //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
+        FirebaseJobScheduleHelper.initialize(this);
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .addApi(LocationServices.API)
+                .enableAutoManage(this, this)
+                .build();
+
+        mGoogleApiClient.connect();
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getDeviceLocation();
+        Integer value = Integer.parseInt(preferences.getString(getString(R.string.key_default_fragment),
+                getString(R.string.default_fragment_value)));
+        switch (value) {
+            case 0:
+                navigation.setSelectedItemId(R.id.navigation_discover);
+                break;
+            case 1:
+                navigation.setSelectedItemId(R.id.navigation_plan);
+                break;
+            case 2:
+                navigation.setSelectedItemId(R.id.navigation_saved);
+                break;
+            case 3:
+                navigation.setSelectedItemId(R.id.navigation_profile);
+                break;
+        }
+
+        View header = navigationView.getHeaderView(0);
+        TextView userNameTextViewNav = header.findViewById(R.id.current_user_name);
+        TextView userEmailTextViewNav = header.findViewById(R.id.user_email);
+        ImageView profile_imageView = header.findViewById(R.id.profile_imageView);
+        userNameTextViewNav.setText(user.getDisplayName());
+        userEmailTextViewNav.setText(user.getEmail());
+        Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
+        FirebaseJobScheduleHelper.initialize(this);
+    }
+
     public static void sendFeedback(Context context) {
         String body = null;
         try {
@@ -295,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -327,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(new Intent(MainActivity.this, LinkFacebookActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
