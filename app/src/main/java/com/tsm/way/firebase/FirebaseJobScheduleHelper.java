@@ -18,9 +18,9 @@ import java.util.concurrent.TimeUnit;
 public class FirebaseJobScheduleHelper {
 
     private static final String APP_PENDING_JOB_TAG = "Sync_pending";
-    private static final int FLEXTIME_SECONDS = INTERVAL_SECONDS / 3;
     private static int INTERVAL_HOUR = 1;
     private static final int INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(INTERVAL_HOUR);
+    private static final int FLEXTIME_SECONDS = INTERVAL_SECONDS / 3;
     private static boolean sInitialized;
     private static int AppSyncConstraint = Constraint.ON_ANY_NETWORK;
 
