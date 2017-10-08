@@ -5,11 +5,15 @@ import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
 
 import java.text.SimpleDateFormat;
@@ -22,14 +26,18 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
     TextView planNameTextView;
     TextView planPlaceTextView, planDateTime;
     ImageView coverPhoto;
+    ImageButton delete_plan;
+    ImageButton inviteButton;
 
     public PlanCardViewHolder(View itemView) {
         super(itemView);
         viewItem = itemView;
-        planNameTextView = (TextView) itemView.findViewById(R.id.plan_name_card);
-        planPlaceTextView = (TextView) itemView.findViewById(R.id.plan_address_in_card);
-        planDateTime = (TextView) itemView.findViewById(R.id.plan_date_time_in_card);
-        coverPhoto = (ImageView) itemView.findViewById(R.id.plan_cover_image);
+        planNameTextView = itemView.findViewById(R.id.plan_name_card);
+        planPlaceTextView = itemView.findViewById(R.id.plan_address_in_card);
+        planDateTime = itemView.findViewById(R.id.plan_date_time_in_card);
+        coverPhoto = itemView.findViewById(R.id.plan_cover_image);
+        delete_plan = itemView.findViewById(R.id.tap_delete_plan);
+        inviteButton = itemView.findViewById(R.id.invite_button);
     }
 
     public void bindDataToViewHolder(final Plan model, final Activity context) {
@@ -55,6 +63,25 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
                         .makeSceneTransitionAnimation(context, coverPhoto, model.getDiscussionID());
 
                 context.startActivity(intentDetail, options.toBundle());
+            }
+        });
+
+        delete_plan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(model.getDiscussionID()).removeValue();
+                rootRef.child("plans").child(model.getDiscussionID()).removeValue();
+            }
+        });
+
+        inviteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, InviteGuestsActivity.class);
+                intent.putExtra("plan", model);
+                context.startActivity(intent);
             }
         });
     }

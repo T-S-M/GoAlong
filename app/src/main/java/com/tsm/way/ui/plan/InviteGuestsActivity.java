@@ -40,8 +40,8 @@ public class InviteGuestsActivity extends AppCompatActivity {
         final Map guestlist = new HashMap<String, Boolean>();
         guestlist.put(id, true);
         final Map pushtouserMap = new HashMap<String, Map>();
-        final TextView test = (TextView) findViewById(R.id.selected);
-        Button button = (Button) findViewById(R.id.invite_button);
+        final TextView test = findViewById(R.id.selected);
+        Button button = findViewById(R.id.invite_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,9 +51,9 @@ public class InviteGuestsActivity extends AppCompatActivity {
                 finish();
             }
         });
-        ListView personListView = (ListView) findViewById(R.id.guest_list);
+        ListView personListView = findViewById(R.id.guest_list);
         personListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
-        DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users");
+        DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference("users");
         mAdapter = new FirebaseListAdapter<Guest>(this, Guest.class, R.layout.list_item_guest, ref) {
             @Override
             protected void populateView(View view, Guest person, int position) {

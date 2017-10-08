@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -259,6 +260,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         tempMap.put(user.getUid(), true);
         planAttendeeRef.child(pushKey).updateChildren(tempMap);
         createPlanProgressBar.setVisibility(View.GONE);
+        FirebaseMessaging.getInstance().subscribeToTopic(pushKey);
         //userPlanRef.push().setValue(mPlan);
         Toast.makeText(this, "Plan added", Toast.LENGTH_SHORT).show();
         finish();

@@ -1,8 +1,6 @@
 package com.tsm.way.ui.common;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +16,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
 
     PlaceDetailBean.Review reviews[];
     Context context;
-    String colors = "#005968";
 
     public ReviewAdapter(PlaceDetailBean.Review reviews[], Context context) {
         this.reviews = reviews;
@@ -41,8 +38,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
         holder.author_text.setText(review.getAuthor_text());
         holder.author_rating.setRating(review.getRating());
         holder.icon.setScaleType(ImageView.ScaleType.CENTER);
-        GradientDrawable gd = (GradientDrawable) holder.icon.getBackground().getCurrent();
-        gd.setColor(Color.parseColor(colors));
+        // GradientDrawable gd = (GradientDrawable) holder.icon.getBackground().getCurrent();
+        //gd.setColor(Color.parseColor(colors));
     }
 
     @Override
@@ -63,10 +60,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdap
         public ReviewAdapterViewHolder(View itemView) {
             super(itemView);
 
-            icon = (ImageView) itemView.findViewById(R.id.author_icon);
-            author_name = (TextView) itemView.findViewById(R.id.author_name);
-            author_text = (TextView) itemView.findViewById(R.id.author_text);
-            author_rating = (RatingBar) itemView.findViewById(R.id.author_rating);
+            icon = itemView.findViewById(R.id.author_icon);
+            author_name = itemView.findViewById(R.id.author_name);
+            author_text = itemView.findViewById(R.id.author_text);
+            author_rating = itemView.findViewById(R.id.author_rating);
         }
 
         @Override

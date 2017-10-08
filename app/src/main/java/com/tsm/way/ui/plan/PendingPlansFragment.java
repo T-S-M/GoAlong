@@ -15,6 +15,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
@@ -42,7 +43,7 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_pending_plans, container, false);
-        pendingRecyclerview = (RecyclerView) view.findViewById(R.id.pending_plans_recyclerview);
+        pendingRecyclerview = view.findViewById(R.id.pending_plans_recyclerview);
         pendingRecyclerview.setHasFixedSize(true);
         pendingRecyclerview.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -80,6 +81,7 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
                 database.getReference("userPlans").child(user.getUid())
                         .child(planID).setValue(true);
                 database.getReference("planAttendee").child(planID).child(user.getUid()).setValue(true);
+                FirebaseMessaging.getInstance().subscribeToTopic(planID);
                 Snackbar.make(view, "Invitation Accepted!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 break;

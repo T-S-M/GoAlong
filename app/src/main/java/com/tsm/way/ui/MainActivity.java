@@ -97,18 +97,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     };
 
+    public static void sendFeedback(Context context) {
+        String body = null;
+        try {
+            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
+                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
+                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         mGoogleApiClient = new GoogleApiClient
@@ -141,31 +158,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
         View header = navigationView.getHeaderView(0);
-        TextView userNameTextViewNav = (TextView) header.findViewById(R.id.current_user_name);
-        TextView userEmailTextViewNav = (TextView) header.findViewById(R.id.user_email);
-        ImageView profile_imageView = (ImageView) header.findViewById(R.id.profile_imageView);
+        TextView userNameTextViewNav = header.findViewById(R.id.current_user_name);
+        TextView userEmailTextViewNav = header.findViewById(R.id.user_email);
+        ImageView profile_imageView = header.findViewById(R.id.profile_imageView);
         userNameTextViewNav.setText(user.getDisplayName());
         userEmailTextViewNav.setText(user.getEmail());
         //profile_imageView.setImageURI(Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView););
         Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
-
-        //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
-    }
-    public static void sendFeedback(Context context) {
-        String body = null;
-        try {
-            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
-                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
-                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
 
     @Override
@@ -296,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -330,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(new Intent(MainActivity.this, LinkFacebookActivity.class));
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
