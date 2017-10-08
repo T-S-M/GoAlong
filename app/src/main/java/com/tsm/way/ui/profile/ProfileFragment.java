@@ -203,6 +203,7 @@ public class ProfileFragment extends Fragment {
 
     private void updateUserData(Guest appUser) {
         Guest guest = new Guest();
+        guest.setUid(user.getUid());
         guest.setDisplayName(user.getDisplayName());
         guest.setEmail(user.getEmail());
         guest.setPhotoUrl(photoUrl);
