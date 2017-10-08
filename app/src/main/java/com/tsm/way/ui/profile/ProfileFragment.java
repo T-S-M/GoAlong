@@ -40,6 +40,7 @@ import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
+import com.tsm.way.model.Chart;
 import com.tsm.way.model.Guest;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -58,12 +59,13 @@ import static com.tsm.way.ui.MainActivity.drawer;
 public class ProfileFragment extends Fragment {
 
     FirebaseUser user;
-    float plans_count[] = { 4f, 3f ,6f , 2f};
-    String plans_type[] = {"Interested", "Joined","Created","Pending"};
+    float plans_count[] = {0f, 0f ,0f , 0f};
+    String plans_type[] = {"Interested", "Joined","Created","Invited people"};
     TextView bio;
     Guest appUser;
+    Chart stat;
     String photoUrl;
-    DatabaseReference dbref;
+    DatabaseReference dbref,stref;
     private Description desc;
     private ImageView editBio;
 
@@ -95,6 +97,9 @@ public class ProfileFragment extends Fragment {
 
         dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
         getUserData();
+
+        stref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
+        getStatData();
 
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,9 +133,6 @@ public class ProfileFragment extends Fragment {
                 alertDialogAndroid.show();
             }
         });
-
-        //starting pie chart
-        setupPieChart(view);
 
         ImageButton fbButton = view.findViewById(R.id.fbButton);
         fbButton.setOnClickListener(new View.OnClickListener() {
@@ -179,6 +181,26 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+
+    private void getStatData() {
+        stref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                stat = dataSnapshot.getValue(Chart.class);
+                if (stat == null) {
+                    ((TextView) getView().findViewById(R.id.no_data)).setText("No data Available!! Add Some Plans First.");
+                } else {
+                    setupPieChart(getView(),stat);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void updateUserData(Guest appUser) {
         Guest guest = new Guest();
         guest.setDisplayName(user.getDisplayName());
@@ -201,8 +223,13 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    private void setupPieChart(View view) {
+    private void setupPieChart(View view, Chart stat) {
         //populating pie entries
+
+        plans_count[0] = stat.getAcceptedCount();
+        plans_count[1] = stat.getAcceptedCount()+stat.getCreatedCount();
+        plans_count[2] = stat.getCreatedCount();
+        plans_count[3] = stat.getInvitedCount();
 
         List<PieEntry> pieEntries = new ArrayList<>();
         for (int i = 0; i< plans_count.length ; i++){

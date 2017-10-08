@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,6 +68,18 @@ public class PlanDetailsActivity extends AppCompatActivity {
         }
         showImageWithTransition(plan.getCoverUrl());
 
+        //Plan deletion
+        ImageView delete_plan = findViewById(R.id.tap_delete_plan);
+        delete_plan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .child(plan.getDiscussionID()).removeValue();
+                rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
+                finish();
+            }
+        });
     }
 
     private void showImageWithTransition(String coverUrl) {

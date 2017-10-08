@@ -79,7 +79,7 @@
     <string name="value_pref_plan" translatable="false">1</string>
     <string name="value_pref_saved" translatable="false">2</string>
     <string name="value_pref_profile" translatable="false">3</string>
-    <string name="title_default_fragment">Default Fragment</string>
+    <string name="title_default_fragment">Default/Startup Screen</string>
     <string name="summary_default_fragment">Choose which screen is showed when app is started</string>
     <string name="key_default_fragment">key_default_fragment</string>
     <string name="default_fragment_value">0</string>
