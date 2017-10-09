@@ -4,9 +4,17 @@
     <item android:title="Communicate">
         <menu>
             <item
+                android:id="@+id/new_plan"
+                android:icon="@drawable/ic_add_circle_black_24dp"
+                android:title="Add New Plan" />
+            <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
+            <item
+                android:id="@+id/google"
+                android:icon="@drawable/ic_exit"
+                android:title="Google Sign in/out" />
             <item
                 android:id="@+id/facebook"
                 android:icon="@drawable/ic_link_black_24dp"

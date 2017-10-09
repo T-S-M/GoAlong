@@ -17,7 +17,8 @@
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/guest_list"
     android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
     <!--<android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
@@ -28,14 +29,17 @@
 
     <Button
         android:id="@+id/invite_button"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
-        android:text="@string/invite" />
-
-    <Button
-        android:id="@+id/guest_list_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/view_guest_list" />
+        android:layout_gravity="end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/roundcorner"
+        android:drawableLeft="@drawable/ic_group_add_black_24dp"
+        android:drawableStart="@drawable/ic_group_add_black_24dp"
+        android:padding="8dp"
+        android:text="@string/invite"
+        android:textSize="20sp" />
 
 </LinearLayout>

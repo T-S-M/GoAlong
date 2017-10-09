@@ -34,10 +34,11 @@ public class PlanDiscussionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan_discussion, container, false);
-        RecyclerView messages = (RecyclerView) view.findViewById(R.id.messages);
+        RecyclerView messages = view.findViewById(R.id.messages);
         messages.setLayoutManager(new LinearLayoutManager(getContext()));
+        String id = getArguments().getString("id");
 
-        final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion");
+        final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion").child(id);
 
         mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(
                 Comment.class,
@@ -55,7 +56,7 @@ public class PlanDiscussionFragment extends Fragment {
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        final EditText message = (EditText) view.findViewById(R.id.edittext_chatbox);
+        final EditText message = view.findViewById(R.id.edittext_chatbox);
         view.findViewById(R.id.button_chatbox_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

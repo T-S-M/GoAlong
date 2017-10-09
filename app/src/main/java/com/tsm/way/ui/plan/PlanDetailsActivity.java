@@ -13,13 +13,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
+
+import static com.tsm.way.firebase.FirebaseDBHelper.getFirebaseDatabaseInstance;
 
 public class PlanDetailsActivity extends AppCompatActivity {
 
@@ -36,28 +43,39 @@ public class PlanDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plan_details);
         supportPostponeEnterTransition();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.viewpager_plan_detail);
+        mViewPager = findViewById(R.id.viewpager_plan_detail);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        cover = (ImageView) findViewById(R.id.plan_cover_image);
+        cover = findViewById(R.id.plan_cover_image);
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
-            planBundle = new Bundle();
-            planBundle.putParcelable("plan", plan);
-            Bundle discussionbundle = new Bundle();
-            discussionbundle.putString("id", plan.getDiscussionID());
-            discussion.setArguments(discussionbundle);
+            prepareBundles(plan);
+        } else if (intentThatStartedThisActivity.hasExtra("id_tag")) {
+            String id = intentThatStartedThisActivity.getStringExtra("id_tag");
+            DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference("plans").child(id);
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    plan = dataSnapshot.getValue(Plan.class);
+                    prepareBundles(plan);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(PlanDetailsActivity.this, "Error occured!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         //Bundle extras = getIntent().getExtras();
@@ -65,7 +83,14 @@ public class PlanDetailsActivity extends AppCompatActivity {
             cover.setTransitionName(plan.getDiscussionID());
         }
         showImageWithTransition(plan.getCoverUrl());
+    }
 
+    private void prepareBundles(Plan plan) {
+        planBundle = new Bundle();
+        planBundle.putParcelable("plan", plan);
+        Bundle discussionbundle = new Bundle();
+        discussionbundle.putString("id", plan.getDiscussionID());
+        discussion.setArguments(discussionbundle);
     }
 
     private void showImageWithTransition(String coverUrl) {
@@ -103,9 +128,10 @@ public class PlanDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_delete_plan) {
-            FirebaseDBHelper.getFirebaseDatabaseInstance().
-                    getReference().child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+            DatabaseReference rootRef = getFirebaseDatabaseInstance().getReference();
+            rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                     .child(plan.getDiscussionID()).removeValue();
+            rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
             finish();
             return true;
         }

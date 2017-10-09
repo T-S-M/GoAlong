@@ -81,7 +81,22 @@
 
         <service
             android:name=".services.GetUserLocation"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <service
+            android:name=".services.PendingPlansNotifierJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

@@ -3,13 +3,13 @@ package com.tsm.way.ui.plan;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
@@ -45,8 +45,8 @@ public class ConfirmedGuestListFragment extends Fragment {
         String id = mPlan.getDiscussionID();
 
 
-        final TextView test = (TextView) view.findViewById(R.id.selected);
-        Button button = (Button) view.findViewById(R.id.invite_button);
+        final TextView test = view.findViewById(R.id.selected);
+        FloatingActionButton button = view.findViewById(R.id.invite_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +55,7 @@ public class ConfirmedGuestListFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        RecyclerView personListView = (RecyclerView) view.findViewById(R.id.guest_list);
+        RecyclerView personListView = view.findViewById(R.id.guest_list);
         personListView.setHasFixedSize(true);
         personListView.setLayoutManager(new LinearLayoutManager(getContext()));
         FirebaseDatabase db = FirebaseDBHelper.getFirebaseDatabaseInstance();
@@ -66,7 +66,7 @@ public class ConfirmedGuestListFragment extends Fragment {
 
             @Override
             protected void populateViewHolder(GuestViewHolder viewHolder, Guest model, int position) {
-                viewHolder.setGuestName(model.getEmail());
+                viewHolder.setGuestName(model.getDisplayName());
                 //Log.v("Attempt", "00000");
             }
         };
@@ -86,7 +86,7 @@ public class ConfirmedGuestListFragment extends Fragment {
 
         public GuestViewHolder(View itemView) {
             super(itemView);
-            guestName = (TextView) itemView.findViewById(R.id.guest_name);
+            guestName = itemView.findViewById(R.id.guest_name);
         }
 
         public void setGuestName(String name) {
