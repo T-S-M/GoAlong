@@ -5,96 +5,156 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:background="#fff"
-        android:clickable="true"
-        android:elevation="2dp"
-        android:padding="10dp"
-        android:text="@string/date_and_time"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        tools:textSize="24sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:padding="4dp"
+        android:elevation="4dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/date_time"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="@string/date_and_time"
+            android:textAlignment="center"
+            android:textColor="#555"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textAlignment="center"
+            android:textColor="@color/md_deep_purple_900"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        tools:text="TextView"
-        tools:textSize="18sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:padding="4dp"
+        android:elevation="4dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="@string/host_guest_info"
+            android:textAlignment="center"
+            android:textColor="#555"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/host_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textAlignment="center"
+            android:textColor="@color/md_deep_purple_900"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 
-    <TextView
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:background="#fff"
-        android:clickable="true"
-        android:elevation="2dp"
-        android:padding="10dp"
-        android:text="@string/host_guest_info"
-        android:gravity="center"
-        tools:textSize="24sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:padding="4dp"
+        android:elevation="4dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/host_info"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="@string/description"
+            android:textAlignment="center"
+            android:textColor="#555"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textAlignment="center"
+            android:textColor="@color/md_deep_purple_900"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        tools:text="TextView"
-        tools:textSize="18sp"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:gravity="center_vertical"
+        android:minHeight="40dp"
+        android:padding="4dp"
+        android:elevation="4dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:background="#fff"
-        android:clickable="true"
-        android:elevation="2dp"
-        android:padding="10dp"
-        android:text="@string/description"
-        android:gravity="center"
-        tools:textSize="24sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center"
+            android:text="@string/place_info_title"
+            android:textAlignment="center"
+            android:textColor="#555"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:padding="10dp"
-        tools:textSize="18sp" />
+        <TextView
+            android:id="@+id/place_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textAlignment="center"
+            android:textColor="@color/md_deep_purple_900"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="3dp"
-        android:background="#fff"
-        android:clickable="true"
-        android:elevation="2dp"
-        android:padding="10dp"
-        android:text="@string/place_info_title"
-        android:gravity="center"
-        tools:textSize="24sp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
-    <TextView
-        android:id="@+id/place_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        tools:text="TextView"
-        tools:textSize="18sp"/>
 </LinearLayout>

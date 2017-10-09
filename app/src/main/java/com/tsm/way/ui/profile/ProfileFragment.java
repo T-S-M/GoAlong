@@ -15,17 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -42,6 +39,7 @@ import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.model.Chart;
 import com.tsm.way.model.Guest;
+import com.tsm.way.ui.common.AuthActivity;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.util.ArrayList;
@@ -134,13 +132,24 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        ImageButton fbButton = view.findViewById(R.id.fbButton);
+        ImageView fbButton = view.findViewById(R.id.fb_button);
         fbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), LinkFacebookActivity.class);
                 //intent.putExtra("click", true);
                 startActivity(intent);
+            }
+        });
+
+        ImageView GoogleButton = view.findViewById(R.id.google_button);
+        GoogleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), AuthActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -242,26 +251,14 @@ public class ProfileFragment extends Fragment {
 
         //get the chart
         PieChart chart = view.findViewById(R.id.chart);
+        dataset.setValueFormatter(new MyValueFormatter());
         chart.setData(pdata);
         chart.animateXY(2000, 2000);
         chart.getDescription().setText("Plan Statistics");
         chart.invalidate();
 
     }
-
     public void Description(String desc) {
         this.Description("Achievements");
     }
-
-    public class MyAxisValueFormatter implements IAxisValueFormatter{
-        private String[] mValues;
-        public  MyAxisValueFormatter(String[] values){
-            this.mValues = values;
-        }
-        @Override
-        public String getFormattedValue(float value, AxisBase axis){
-            return  mValues[(int)value];
-        }
-    }
-
 }

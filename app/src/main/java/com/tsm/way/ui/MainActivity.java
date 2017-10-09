@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.ui.common.About;
+import com.tsm.way.ui.common.AuthActivity;
 import com.tsm.way.ui.common.CreatePlanActivity;
 import com.tsm.way.ui.common.PlaceDetailActivity;
 import com.tsm.way.ui.common.SettingsActivity;
@@ -323,10 +324,21 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         } else if (id == R.id.nav_share) {
 
-        }else if (id == R.id.new_plan) {
+        } else if (id == R.id.new_plan) {
             startActivity(new Intent(MainActivity.this, CreatePlanActivity.class));
-        }  else if (id == R.id.facebook) {
+        } else if (id == R.id.facebook) {
             startActivity(new Intent(MainActivity.this, LinkFacebookActivity.class));
+        } else if (id == R.id.google) {
+            if(user.isAnonymous()) {
+                startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                finish();
+            }
+            else{
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

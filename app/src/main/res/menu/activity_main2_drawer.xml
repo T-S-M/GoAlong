@@ -12,6 +12,10 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
+                android:id="@+id/google"
+                android:icon="@drawable/ic_exit"
+                android:title="Google Sign in/out" />
+            <item
                 android:id="@+id/facebook"
                 android:icon="@drawable/ic_link_black_24dp"
                 android:title="Link with Facebook" />

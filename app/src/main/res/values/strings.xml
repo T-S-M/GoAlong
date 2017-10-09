@@ -37,7 +37,7 @@
     <string name="show_on_map">Show on Map</string>
     <string name="date_and_time">Time and Date</string>
     <string name="description">Description</string>
-    <string name="host_guest_info">Host and Guest Information</string>
+    <string name="host_guest_info">Host Information</string>
     <string name="place_name_title">Place Information</string>
     <string name="place_info_title">Place Information</string>
     <string name="title_profile">Profile</string>

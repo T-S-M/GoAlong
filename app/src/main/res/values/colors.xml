@@ -63,7 +63,7 @@ http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
     <color name="md_deep_purple_600">#ff5e35b1</color>
     <color name="md_deep_purple_700">#ff512da8</color>
     <color name="md_deep_purple_800">#ff4527a0</color>
-    <color name="md_deep_purple_900">#ff311b92</color>
+    <color name="md_deep_purple_900">#311b92</color>
     <color name="md_deep_purple_A100">#ffb388ff</color>
     <color name="md_deep_purple_A200">#ff7c4dff</color>
     <color name="md_deep_purple_A400">#ff651fff</color>
