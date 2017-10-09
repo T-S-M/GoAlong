@@ -108,14 +108,14 @@ public class FacebookEventParser {
                     }
 
                 if (data.has("start_time")) {
-                    //todo use getString, then convert string to long
-                    //start_time = data.getLong("start_time");
+                    //start_time = Long.parseLong(data.getString("start_time"));
+
                     } else {
                         start_time = 0;
                     }
 
                 if (data.has("end_time")) {
-                    //end_time = data.getLong("end_time");
+                    //end_time = Long.parseLong(data.getString("end_time"));
                     } else {
                         end_time = 0;
                     }
@@ -197,7 +197,6 @@ public class FacebookEventParser {
                 plan.setFbEventId(event_id);
                 plan.setTitle(event_name);
                 plan.setCoverUrl(source);
-                //todo remove comment then set after long -> string
                 //plan.setStartTime(start_time);
                 //plan.setEndTime(end_time);
                 plan.setDescription(description);

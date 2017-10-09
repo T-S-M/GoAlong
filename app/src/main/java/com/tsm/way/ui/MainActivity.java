@@ -48,7 +48,7 @@ import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
-import com.tsm.way.ui.saved.SavedPlacesFragment;
+import com.tsm.way.ui.saved.SavedFragment;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     return true;
                 case R.id.navigation_saved:
                     fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new SavedPlacesFragment())
+                            .replace(R.id.content_main, new SavedFragment())
                             .commit();
                     return true;
                 case R.id.navigation_profile:
@@ -95,6 +95,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
 
     };
+
+    public static void sendFeedback(Context context) {
+        String body = null;
+        try {
+            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
+                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
+                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,22 +166,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
 
         //toolbar =(Toolbar)findViewById(R.id.toolbarMain);
-    }
-    public static void sendFeedback(Context context) {
-        String body = null;
-        try {
-            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
-                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
-                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
 
     @Override

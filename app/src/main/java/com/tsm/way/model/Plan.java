@@ -4,9 +4,10 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
+import com.orm.SugarRecord;
 
 @IgnoreExtraProperties
-public class Plan implements Parcelable {
+public class Plan extends SugarRecord implements Parcelable {
 
     public static final Creator<Plan> CREATOR = new Creator<Plan>() {
         @Override
