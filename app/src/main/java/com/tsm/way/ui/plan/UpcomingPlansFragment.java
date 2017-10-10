@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -44,15 +44,19 @@ public class UpcomingPlansFragment extends Fragment {
         planRef = database.getReference("plans");
         userPlanRef = database.getReference("userPlans").child(user.getUid());
 
-        mAdapter = new FirebaseIndexRecyclerAdapter<Plan, PlanCardViewHolder>(
-                Plan.class,
-                R.layout.plan_card,
-                PlanCardViewHolder.class,
-                userPlanRef.orderByValue(),
-                planRef) {
+        FirebaseRecyclerOptions<Plan> options = new FirebaseRecyclerOptions.Builder<Plan>()
+                .setIndexedQuery(userPlanRef.orderByValue(), planRef, Plan.class)
+                .build();
+        mAdapter = new FirebaseRecyclerAdapter<Plan, PlanCardViewHolder>(options) {
             @Override
-            protected void populateViewHolder(PlanCardViewHolder viewHolder, Plan model, int position) {
-                viewHolder.bindDataToViewHolder(model, getActivity());
+            public PlanCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.plan_card, parent, false);
+                return new PlanCardViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(PlanCardViewHolder holder, int position, Plan model) {
+                holder.bindDataToViewHolder(model, getActivity());
             }
         };
 
@@ -63,8 +67,15 @@ public class UpcomingPlansFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
+    }
+
 }

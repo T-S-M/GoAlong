@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
@@ -26,6 +27,7 @@ import com.tsm.way.model.Task;
 public class TaskFragment extends Fragment {
 
     DatabaseReference taskref;
+    FirebaseListAdapter mAdapter;
     private Button mButton;
 
 
@@ -39,7 +41,7 @@ public class TaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tasks, container, false);
-        mButton = (Button) view.findViewById(R.id.openUserInputDialog);
+        mButton = view.findViewById(R.id.openUserInputDialog);
         final Plan mPlan = getArguments().getParcelable("plan");
         taskref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("tasks").child(mPlan.getDiscussionID());
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +52,8 @@ public class TaskFragment extends Fragment {
                 AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
                 alertDialogBuilderUserInput.setView(mView);
 
-                final EditText nameDialogEditText = (EditText) mView.findViewById(R.id.task_name);
-                final EditText personDialogEditText = (EditText) mView.findViewById(R.id.task_person);
+                final EditText nameDialogEditText = mView.findViewById(R.id.task_name);
+                final EditText personDialogEditText = mView.findViewById(R.id.task_person);
                 alertDialogBuilderUserInput
                         .setCancelable(false)
                         .setPositiveButton("Send", new DialogInterface.OnClickListener() {
@@ -74,9 +76,13 @@ public class TaskFragment extends Fragment {
             }
         });
 
-        ListView taskview = (ListView) view.findViewById(R.id.tasks_list_view);
+        ListView taskview = view.findViewById(R.id.tasks_list_view);
 
-        FirebaseListAdapter mAdapter = new FirebaseListAdapter<Task>(getContext(), Task.class, R.layout.list_item_task, taskref) {
+        FirebaseListOptions<Task> options = new FirebaseListOptions.Builder<Task>()
+                .setQuery(taskref, Task.class)
+                .setLayout(R.layout.list_item_task)
+                .build();
+        mAdapter = new FirebaseListAdapter<Task>(options) {
             @Override
             protected void populateView(View v, Task model, int position) {
                 ((TextView) v.findViewById(R.id.assignee_name_tv)).setText(model.getAssignee());
@@ -87,6 +93,18 @@ public class TaskFragment extends Fragment {
 
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
 }

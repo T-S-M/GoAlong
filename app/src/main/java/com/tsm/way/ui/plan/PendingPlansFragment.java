@@ -10,7 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,7 @@ import com.tsm.way.model.Plan;
 public class PendingPlansFragment extends Fragment implements PendingPlansViewholder.PendingClickHandler {
 
     RecyclerView pendingRecyclerview;
-    FirebaseIndexRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
+    FirebaseRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
     FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference pendingRef = database.getReference("pending");
@@ -50,16 +51,19 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
         DatabaseReference planRef = database.getReference("plans");
         userPendingPlansRef = pendingRef.child(user.getUid());
 
-        mAdapter = new FirebaseIndexRecyclerAdapter<Plan, PendingPlansViewholder>(
-                Plan.class,
-                R.layout.pending_plan_card,
-                PendingPlansViewholder.class,
-                userPendingPlansRef,
-                planRef
-        ) {
+        FirebaseRecyclerOptions<Plan> options = new FirebaseRecyclerOptions.Builder<Plan>()
+                .setIndexedQuery(userPendingPlansRef, planRef, Plan.class)
+                .build();
+        mAdapter = new FirebaseRecyclerAdapter<Plan, PendingPlansViewholder>(options) {
             @Override
-            protected void populateViewHolder(PendingPlansViewholder viewHolder, Plan model, int position) {
-                viewHolder.bindDataToViewHolder(model, getContext(), PendingPlansFragment.this);
+            public PendingPlansViewholder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.pending_plan_card, parent, false);
+                return new PendingPlansViewholder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(PendingPlansViewholder holder, int position, Plan model) {
+                holder.bindDataToViewHolder(model, getContext(), PendingPlansFragment.this);
             }
         };
 
@@ -68,9 +72,15 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     @Override
