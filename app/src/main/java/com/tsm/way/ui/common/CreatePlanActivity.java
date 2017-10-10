@@ -241,11 +241,12 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         if (!desc.equals("")) {
             mPlan.setDescription(desc);
         }
-        mPlan.setStatus(true);
+        //mPlan.setStatus(true);
         if (dateStore.get("minute") != null && dateStore.get("day") != null) {
             Calendar timeCal = new GregorianCalendar(dateStore.get("year"), dateStore.get("month"), dateStore.get("day"), dateStore.get("hour"), dateStore.get("minute"), 0);
             mPlan.setStartTime(timeCal.getTimeInMillis());
         }
+        mPlan.setHostUid(user.getUid());
         mPlan.setHostName(user.getDisplayName());
 
         String pushKey = userPlanRef.push().getKey();

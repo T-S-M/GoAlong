@@ -1,5 +1,6 @@
 package com.tsm.way.ui.plan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -128,11 +130,22 @@ public class PlanDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_delete_plan) {
-            DatabaseReference rootRef = getFirebaseDatabaseInstance().getReference();
-            rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .child(plan.getDiscussionID()).removeValue();
-            rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
-            finish();
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete Plan")
+                    .setMessage("Are you sure?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            DatabaseReference rootRef = getFirebaseDatabaseInstance().getReference();
+                            rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .child(plan.getDiscussionID()).removeValue();
+                            rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+
             return true;
         }
 

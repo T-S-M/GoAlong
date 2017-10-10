@@ -9,18 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.tsm.way.R;
-import com.tsm.way.model.Item;
 
-import java.util.List;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.tsm.way.ui.MainActivity.drawer;
 
 
@@ -31,8 +25,6 @@ public class SavedFragment extends Fragment {
     Button buttonSave;
     EditText edit;
     ListView listview;
-    ArrayAdapter<Item> adapter;
-    Item item = new Item("");
 
     public SavedFragment() {
         // Required empty public constructor
@@ -51,23 +43,10 @@ public class SavedFragment extends Fragment {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        edit = (EditText) rootView.findViewById(R.id.edit);
-        buttonSave = (Button) rootView.findViewById(R.id.butt);
-        listview = (ListView) rootView.findViewById(R.id.item_list);
+        edit = rootView.findViewById(R.id.edit);
+        buttonSave = rootView.findViewById(R.id.butt);
+        listview = rootView.findViewById(R.id.item_list);
 
-        List<Item> list = Item.listAll(Item.class);
-
-        adapter = new ArrayAdapter<Item>(getContext(), android.R.layout.simple_list_item_1, list);
-
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                item = new Item(edit.getText().toString());
-                item.save();
-
-                Toast.makeText(getApplicationContext(), "" + item, Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
 

@@ -53,7 +53,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_list);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -61,7 +61,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             type = getIntent().getStringExtra("type");
         }
 
-        placesRecyclerView = (RecyclerView) findViewById(R.id.places_list_recyclerview);
+        placesRecyclerView = findViewById(R.id.places_list_recyclerview);
         placesRecyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         placesRecyclerView.setLayoutManager(layoutManager);
@@ -81,8 +81,8 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void populateRecyclerview() {
 
-        String latitude = "23.8103";
-        String longitude = "90.4125";
+        String latitude = "23.734";
+        String longitude = "90.3928";
         if (mLastKnownLocation != null) {
             latitude = String.valueOf(mLastKnownLocation.getLatitude());
             longitude = String.valueOf(mLastKnownLocation.getLongitude());

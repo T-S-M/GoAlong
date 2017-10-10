@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -35,8 +36,10 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -50,7 +53,7 @@ import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
-import com.tsm.way.ui.saved.SavedPlacesFragment;
+import com.tsm.way.ui.saved.SavedFragment;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -84,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     return true;
                 case R.id.navigation_saved:
                     fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new SavedPlacesFragment())
+                            .replace(R.id.content_main, new SavedFragment())
                             .commit();
                     return true;
                 case R.id.navigation_profile:
@@ -328,17 +331,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             startActivity(new Intent(MainActivity.this, CreatePlanActivity.class));
         } else if (id == R.id.facebook) {
             startActivity(new Intent(MainActivity.this, LinkFacebookActivity.class));
-        } else if (id == R.id.google) {
-            if(user.isAnonymous()) {
-                startActivity(new Intent(MainActivity.this, AuthActivity.class));
-                finish();
-            }
-            else{
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(MainActivity.this, AuthActivity.class);
-                startActivity(intent);
-                finish();
-            }
+        } else if (id == R.id.sign_out) {
+
+            AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // user is now signed out
+                            startActivity(new Intent(MainActivity.this, AuthActivity.class));
+                            finish();
+                        }
+                    });
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

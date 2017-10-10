@@ -59,14 +59,14 @@ public class DiscoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        parent = (RecyclerView) rootView.findViewById(R.id.parent_recycler_view);
+        parent = rootView.findViewById(R.id.parent_recycler_view);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         populateRecyclerview();
@@ -86,8 +86,8 @@ public class DiscoverFragment extends Fragment {
             return;
         }
 
-        String latitude = "23.8103";
-        String longitude = "90.4125";
+        String latitude = "23.734";
+        String longitude = "90.3928";
         if (mLastKnownLocation != null) {
             latitude = String.valueOf(mLastKnownLocation.getLatitude());
             longitude = String.valueOf(mLastKnownLocation.getLongitude());
