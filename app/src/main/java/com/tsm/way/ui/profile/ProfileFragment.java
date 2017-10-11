@@ -85,7 +85,9 @@ public class ProfileFragment extends Fragment {
 
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
         bio = view.findViewById(R.id.user_profile_short_bio);
+
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
+
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
         else
             photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
