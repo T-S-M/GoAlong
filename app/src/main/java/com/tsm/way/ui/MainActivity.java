@@ -50,7 +50,7 @@ import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
-import com.tsm.way.ui.saved.SavedPlacesFragment;
+import com.tsm.way.ui.saved.SavedFragment;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     return true;
                 case R.id.navigation_saved:
                     fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new SavedPlacesFragment())
+                            .replace(R.id.content_main, new SavedFragment())
                             .commit();
                     return true;
                 case R.id.navigation_profile:

@@ -68,7 +68,7 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
 
 
     public interface EventViewerAdapterOnclickHandler {
-
+        void onClick(Plan plan);
     }
 
     public class EventViewerAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -81,10 +81,10 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
         public EventViewerAdapterViewHolder(View itemView) {
             super(itemView);
             viewItem = itemView;
-            planNameTextView = (TextView) itemView.findViewById(R.id.plan_name_card);
-            planPlaceTextView = (TextView) itemView.findViewById(R.id.plan_address_in_card);
-            planDateTime = (TextView) itemView.findViewById(R.id.plan_date_time_in_card);
-            coverPhoto = (ImageView) itemView.findViewById(R.id.plan_cover_image);
+            planNameTextView = itemView.findViewById(R.id.plan_name_card);
+            planPlaceTextView = itemView.findViewById(R.id.plan_address_in_card);
+            planDateTime = itemView.findViewById(R.id.plan_date_time_in_card);
+            coverPhoto = itemView.findViewById(R.id.plan_cover_image);
         }
 
         @Override

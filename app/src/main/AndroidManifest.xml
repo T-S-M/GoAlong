@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="DATABASE"
             android:value="saved_db.db" />
@@ -82,7 +81,6 @@
         <service
             android:name=".services.GetUserLocation"
             android:exported="false" />
-
         <service
             android:name=".services.PendingPlansNotifierJobService"
             android:exported="false">
@@ -90,13 +88,13 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
-
         <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
+        <activity android:name=".ui.discover.EventDetailActivity"></activity>
     </application>
 
 </manifest>

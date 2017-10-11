@@ -1,6 +1,7 @@
 package com.tsm.way.ui.discover;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,6 +24,7 @@ import com.facebook.AccessToken;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.Plan;
+import com.tsm.way.ui.common.EventDetailActivity;
 import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
@@ -38,7 +40,7 @@ import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment implements EventViewerAdapter.EventViewerAdapterOnclickHandler {
 
     public static final String TAG = "DiscoverFragment";
     //FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
@@ -59,14 +61,14 @@ public class DiscoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        parent = (RecyclerView) rootView.findViewById(R.id.parent_recycler_view);
+        parent = rootView.findViewById(R.id.parent_recycler_view);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
         populateRecyclerview();
@@ -136,7 +138,7 @@ public class DiscoverFragment extends Fragment {
                             try {
                                 ArrayList<Plan> eventList;
                                 eventList = parser.getfbEventListData();
-                                fbEventsAdater = new EventViewerAdapter(getContext(), eventList, null);
+                                fbEventsAdater = new EventViewerAdapter(getContext(), eventList, DiscoverFragment.this);
                                 parentAdapter.setEventAdapter(fbEventsAdater);
 
                             } catch (Exception e) {
@@ -155,5 +157,11 @@ public class DiscoverFragment extends Fragment {
         mRequestQueue.add(stringRequest);
     }
 
+    @Override
+    public void onClick(Plan plan) {
+        Intent intent = new Intent(getContext(), EventDetailActivity.class);
+        intent.putExtra("plan", plan);
+        getContext().startActivity(intent);
+    }
 }
 
