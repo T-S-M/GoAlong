@@ -88,8 +88,8 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
             return;
         }
 
-        String latitude = "23.8103";
-        String longitude = "90.4125";
+        String latitude = "23.734";
+        String longitude = "90.3928";
         if (mLastKnownLocation != null) {
             latitude = String.valueOf(mLastKnownLocation.getLatitude());
             longitude = String.valueOf(mLastKnownLocation.getLongitude());

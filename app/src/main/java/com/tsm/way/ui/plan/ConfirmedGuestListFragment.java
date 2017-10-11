@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseIndexRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
@@ -61,13 +61,20 @@ public class ConfirmedGuestListFragment extends Fragment {
         FirebaseDatabase db = FirebaseDBHelper.getFirebaseDatabaseInstance();
         DatabaseReference dataref = db.getReference().child("users");
         DatabaseReference keyref = db.getReference("planAttendee").child(id);
-        mAdapter = new FirebaseIndexRecyclerAdapter<Guest, GuestViewHolder>
-                (Guest.class, R.layout.layout_confirmed_guest, GuestViewHolder.class, keyref, dataref) {
+        FirebaseRecyclerOptions<Guest> options = new FirebaseRecyclerOptions.Builder<Guest>()
+                .setIndexedQuery(keyref, dataref, Guest.class)
+                .build();
+        mAdapter = new FirebaseRecyclerAdapter<Guest, GuestViewHolder>(options) {
 
             @Override
-            protected void populateViewHolder(GuestViewHolder viewHolder, Guest model, int position) {
-                viewHolder.setGuestName(model.getDisplayName());
-                //Log.v("Attempt", "00000");
+            public GuestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_confirmed_guest, parent, false);
+                return new GuestViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(GuestViewHolder holder, int position, Guest model) {
+                holder.setGuestName(model.getDisplayName());
             }
         };
         personListView.setAdapter(mAdapter);
@@ -75,9 +82,15 @@ public class ConfirmedGuestListFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
     public static class GuestViewHolder extends RecyclerView.ViewHolder {

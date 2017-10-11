@@ -1,8 +1,10 @@
 package com.tsm.way.ui.plan;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageButton;
@@ -69,10 +71,20 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         delete_plan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
-                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .child(model.getDiscussionID()).removeValue();
-                rootRef.child("plans").child(model.getDiscussionID()).removeValue();
+                new AlertDialog.Builder(context)
+                        .setTitle("Delete Plan")
+                        .setMessage("Are you sure?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+                                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                        .child(model.getDiscussionID()).removeValue();
+                                rootRef.child("plans").child(model.getDiscussionID()).removeValue();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
             }
         });
 

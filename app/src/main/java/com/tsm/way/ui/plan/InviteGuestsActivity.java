@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
@@ -54,7 +55,11 @@ public class InviteGuestsActivity extends AppCompatActivity {
         ListView personListView = findViewById(R.id.guest_list);
         personListView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
         DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference("users");
-        mAdapter = new FirebaseListAdapter<Guest>(this, Guest.class, R.layout.list_item_guest, ref) {
+        FirebaseListOptions<Guest> options = new FirebaseListOptions.Builder<Guest>()
+                .setQuery(ref, Guest.class)
+                .setLayout(R.layout.list_item_guest)
+                .build();
+        mAdapter = new FirebaseListAdapter<Guest>(options) {
             @Override
             protected void populateView(View view, Guest person, int position) {
                 String info = person.getDisplayName() + "\n" + person.getEmail();
@@ -79,8 +84,14 @@ public class InviteGuestsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 }

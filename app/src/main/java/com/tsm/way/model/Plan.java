@@ -4,10 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.orm.SugarRecord;
 
 @IgnoreExtraProperties
-public class Plan extends SugarRecord implements Parcelable {
+public class Plan implements Parcelable {
 
     public static final Creator<Plan> CREATOR = new Creator<Plan>() {
         @Override
@@ -21,7 +20,7 @@ public class Plan extends SugarRecord implements Parcelable {
         }
     };
     private int eventType;
-    private String placeName, placeAddress, hostName;
+    private String placeName, placeAddress, hostName, hostUid;
     private double placeLat, placeLong;
     private long startTime, endTime;
     private String coverUrl;
@@ -39,6 +38,7 @@ public class Plan extends SugarRecord implements Parcelable {
         placeName = in.readString();
         placeAddress = in.readString();
         hostName = in.readString();
+        hostUid = in.readString();
         placeLat = in.readDouble();
         placeLong = in.readDouble();
         startTime = in.readLong();
@@ -55,24 +55,25 @@ public class Plan extends SugarRecord implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(eventType);
-        dest.writeString(placeName);
-        dest.writeString(placeAddress);
-        dest.writeString(hostName);
-        dest.writeDouble(placeLat);
-        dest.writeDouble(placeLong);
-        dest.writeLong(startTime);
-        dest.writeLong(endTime);
-        dest.writeString(coverUrl);
-        dest.writeString(title);
-        dest.writeString(description);
-        dest.writeInt(confirmedCount);
-        dest.writeInt(pendingCount);
-        dest.writeByte((byte) (status ? 1 : 0));
-        dest.writeString(fbEventId);
-        dest.writeString(googlePlaceID);
-        dest.writeString(discussionID);
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(eventType);
+        parcel.writeString(placeName);
+        parcel.writeString(placeAddress);
+        parcel.writeString(hostName);
+        parcel.writeString(hostUid);
+        parcel.writeDouble(placeLat);
+        parcel.writeDouble(placeLong);
+        parcel.writeLong(startTime);
+        parcel.writeLong(endTime);
+        parcel.writeString(coverUrl);
+        parcel.writeString(title);
+        parcel.writeString(description);
+        parcel.writeInt(confirmedCount);
+        parcel.writeInt(pendingCount);
+        parcel.writeByte((byte) (status ? 1 : 0));
+        parcel.writeString(fbEventId);
+        parcel.writeString(googlePlaceID);
+        parcel.writeString(discussionID);
     }
 
     @Override
@@ -215,4 +216,13 @@ public class Plan extends SugarRecord implements Parcelable {
     public void setHostName(String hostName) {
         this.hostName = hostName;
     }
+
+    public String getHostUid() {
+        return hostUid;
+    }
+
+    public void setHostUid(String hostUid) {
+        this.hostUid = hostUid;
+    }
+
 }

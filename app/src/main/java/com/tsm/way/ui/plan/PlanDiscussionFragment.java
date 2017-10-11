@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -40,13 +41,19 @@ public class PlanDiscussionFragment extends Fragment {
 
         final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion").child(id);
 
-        mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(
-                Comment.class,
-                R.layout.layout_comment,
-                CommentViewHolder.class,
-                ref) {
+        FirebaseRecyclerOptions<Comment> options =
+                new FirebaseRecyclerOptions.Builder<Comment>()
+                        .setQuery(ref, Comment.class)
+                        .build();
+        mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(options) {
             @Override
-            protected void populateViewHolder(CommentViewHolder holder, Comment model, int position) {
+            public CommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_comment, parent, false);
+                return new CommentViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(CommentViewHolder holder, int position, Comment model) {
                 holder.setName(model.getName());
                 holder.setMessage(model.getMessage());
             }
@@ -68,9 +75,15 @@ public class PlanDiscussionFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mAdapter.cleanup();
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAdapter.stopListening();
     }
 
 }
