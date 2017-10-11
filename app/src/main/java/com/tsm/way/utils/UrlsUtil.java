@@ -40,7 +40,7 @@ public final class UrlsUtil {
 
     public static String getFbBaseUrl(String accessToken, String city) {
 
-        return fbBaseUrl + city + "&type=event&fields=id,name,cover,start_time,end_time,descriptionplace,attending_count,maybe_count&access_token=" + accessToken;
+        return fbBaseUrl + city + "&type=event&fields=id,name,cover,start_time,end_time,description,place,attending_count,maybe_count&access_token=" + accessToken;
     }
 
     public static String getGravatarUrl(String email, String type) {

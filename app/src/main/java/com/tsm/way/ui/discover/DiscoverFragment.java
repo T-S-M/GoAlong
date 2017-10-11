@@ -24,7 +24,6 @@ import com.facebook.AccessToken;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.model.Plan;
-import com.tsm.way.ui.common.EventDetailActivity;
 import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;

@@ -29,15 +29,16 @@
                     android:layout_height="180dp"
                     android:layout_alignParentTop="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/header" />
+                    android:src="@drawable/pro_header" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_profile_photo"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_below="@+id/header_cover_image"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="-60dp"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/circleborder"
+                    android:padding="3dp"
                     android:elevation="5dp"
                     app:srcCompat="@drawable/ic_account_circle_black_24dp" />
 
@@ -45,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/header_cover_image"
-                    android:background="#ebca0707"
+                    android:background="@drawable/profilegrad"
                     android:elevation="4dp"
                     android:paddingBottom="54dp">
 
@@ -64,37 +65,35 @@
                         android:id="@+id/google_button"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/fav_button"
                         android:layout_marginEnd="14dp"
                         android:layout_marginRight="14dp"
-                        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused"
-                        android:layout_alignTop="@+id/fav_button"
                         android:elevation="4dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused" />
 
                     <ImageView
                         android:id="@+id/editBio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_toEndOf="@+id/user_profile_name"
+                        app:srcCompat="@drawable/ic_edit_black_24dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_toRightOf="@+id/user_profile_name"
-                        app:srcCompat="@drawable/ic_edit_black_24dp" />
+                        android:layout_toEndOf="@+id/user_profile_name" />
 
                     <ImageView
                         android:id="@+id/fb_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/google_button"
+                        android:layout_alignLeft="@+id/google_button"
                         android:layout_alignParentBottom="true"
                         android:layout_alignRight="@+id/google_button"
-                        app:srcCompat="@mipmap/fb_logo"
+                        android:layout_alignStart="@+id/google_button"
                         android:layout_alignTop="@+id/editBio"
                         android:elevation="4dp"
-                        android:layout_alignLeft="@+id/google_button"
-                        android:layout_alignStart="@+id/google_button" />
+                        app:srcCompat="@mipmap/fb_logo" />
 
                     <TextView
                         android:id="@+id/user_profile_name"
@@ -206,19 +205,50 @@
                     android:padding="20dp"
                     android:text="Feeling good??" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_marginBottom="3dp"
-                    android:layout_marginTop="3dp"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:elevation="4dp"
-                    android:padding="20dp"
-                    android:text="Do a google Search" />
+            <LinearLayout
+                android:id="@+id/contactLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:gravity="center_vertical"
+                android:minHeight="40dp"
+                android:background="#fff"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:padding="20dp"
+                android:layout_margin="5dp"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="30dp"
+                    android:gravity="center"
+                    android:text="Contact No. : "
+                    android:textAlignment="center"
+                    android:textColor="#555"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/contact"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textAlignment="center"
+                    android:textColor="#7C4DFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:hint="Add Contact - +880......" />
+
+            </LinearLayout>
+
+                <TextView
+                    android:id="@+id/status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
@@ -226,7 +256,8 @@
                     android:clickable="true"
                     android:elevation="4dp"
                     android:padding="20dp"
-                    android:text="Mahsin code complete kor, Please!" />
+                    android:textSize="14sp"
+                    android:text="Add something about you /What's in your mind..." />
             </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
