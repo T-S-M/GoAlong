@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/header_cover_image"
-                    android:background="#ebca0707"
+                    android:background="@color/colorPrimaryDark"
                     android:elevation="4dp"
                     android:paddingBottom="54dp">
 
@@ -64,13 +64,13 @@
                         android:id="@+id/google_button"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/fav_button"
                         android:layout_marginEnd="14dp"
                         android:layout_marginRight="14dp"
-                        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused"
-                        android:layout_alignTop="@+id/fav_button"
                         android:elevation="4dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true" />
+                        app:srcCompat="@drawable/common_google_signin_btn_icon_dark_focused" />
 
                     <ImageView
                         android:id="@+id/editBio"
@@ -88,13 +88,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignEnd="@+id/google_button"
+                        android:layout_alignLeft="@+id/google_button"
                         android:layout_alignParentBottom="true"
                         android:layout_alignRight="@+id/google_button"
-                        app:srcCompat="@mipmap/fb_logo"
+                        android:layout_alignStart="@+id/google_button"
                         android:layout_alignTop="@+id/editBio"
                         android:elevation="4dp"
-                        android:layout_alignLeft="@+id/google_button"
-                        android:layout_alignStart="@+id/google_button" />
+                        app:srcCompat="@mipmap/fb_logo" />
 
                     <TextView
                         android:id="@+id/user_profile_name"

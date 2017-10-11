@@ -40,6 +40,6 @@ public class EventDetailActivity extends AppCompatActivity {
         Fragment detail = new AboutPlanFragment();
         detail.setArguments(planBundle);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_fb_event, detail);
+                .replace(R.id.container_fb_event, detail).commit();
     }
 }

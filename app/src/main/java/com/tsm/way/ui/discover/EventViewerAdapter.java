@@ -85,13 +85,13 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
             planPlaceTextView = itemView.findViewById(R.id.plan_address_in_card);
             planDateTime = itemView.findViewById(R.id.plan_date_time_in_card);
             coverPhoto = itemView.findViewById(R.id.plan_cover_image);
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            //String placeID = placeBeanList.get(getAdapterPosition()).getPlaceref();
-            //mClickHandler.onClick(placeID);
-            //todo EventActivity
+            Plan p = fbEventList.get(getAdapterPosition());
+            mClickHandler.onClick(p);
         }
     }
 }

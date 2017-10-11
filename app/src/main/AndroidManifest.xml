@@ -81,6 +81,11 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".ui.discover.EventDetailActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppThemeWithActionBar" />
+
     </application>
 
 </manifest>
