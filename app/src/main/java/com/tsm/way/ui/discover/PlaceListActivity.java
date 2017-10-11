@@ -88,7 +88,7 @@ public class PlaceListActivity extends AppCompatActivity implements OnMapReadyCa
             longitude = String.valueOf(mLastKnownLocation.getLongitude());
         }
         if (type == null) {
-            type = "hospital";
+            type = "restaurant";
         }
 
         String urlString = UrlsUtil.getCategoryPlaceUrlString(this, latitude, longitude, type);
