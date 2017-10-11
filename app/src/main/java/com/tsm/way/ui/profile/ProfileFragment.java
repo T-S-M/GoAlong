@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -59,13 +60,14 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     float plans_count[] = {0f, 0f ,0f , 0f};
     String plans_type[] = {"Interested", "Joined","Created","Invited people"};
-    TextView bio;
+    TextView bio,contact,status;
     Guest appUser;
     Chart stat;
     String photoUrl;
     DatabaseReference dbref,stref;
     private Description desc;
     private ImageView editBio;
+    LinearLayout contactLayout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -79,12 +81,16 @@ public class ProfileFragment extends Fragment {
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
-        editBio =  view.findViewById(R.id.editBio);
-
         user = FirebaseAuth.getInstance().getCurrentUser();
-
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
+
+        status = view.findViewById(R.id.status);
+
+        editBio =  view.findViewById(R.id.editBio);
         bio = view.findViewById(R.id.user_profile_short_bio);
+
+        contact = view.findViewById(R.id.contact);
+        contactLayout = view.findViewById(R.id.contactLayout);
 
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
 
@@ -120,6 +126,40 @@ public class ProfileFragment extends Fragment {
                                 Map temp = new HashMap<String, String>();
                                 temp.put("profileBio", profileBio);
                                 dbref.updateChildren(temp);
+                            }
+                        })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialogBox, int id) {
+                                        dialogBox.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                alertDialogAndroid.show();
+            }
+        });
+
+
+        contactLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+                View mView = layoutInflaterAndroid.inflate(R.layout.editcontact, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText Editcontact = mView.findViewById(R.id.editContact);
+
+                alertDialogBuilderUserInput
+                        .setCancelable(false)
+                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                String Contact = Editcontact.getText().toString();
+                                contact.setText(Contact);
+                                Map temp = new HashMap<String, String>();
+                                temp.put("profileBio",contact);
+                                //dbref.updateChildren(temp);
                             }
                         })
                         .setNegativeButton("Cancel",
