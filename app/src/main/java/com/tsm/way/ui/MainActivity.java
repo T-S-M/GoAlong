@@ -45,18 +45,20 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
+import com.tsm.way.model.Plan;
 import com.tsm.way.ui.common.About;
 import com.tsm.way.ui.common.AuthActivity;
 import com.tsm.way.ui.common.CreatePlanActivity;
 import com.tsm.way.ui.common.PlaceDetailActivity;
 import com.tsm.way.ui.common.SettingsActivity;
 import com.tsm.way.ui.discover.DiscoverFragment;
+import com.tsm.way.ui.discover.EventViewerAdapter;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
 import com.tsm.way.ui.saved.SavedFragment;
 
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener, EventViewerAdapter.EventViewerAdapterOnclickHandler {
 
     static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
     static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
@@ -349,4 +351,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         return true;
     }
 
+    @Override
+    public void onClick(Plan plan) {
+
+    }
 }

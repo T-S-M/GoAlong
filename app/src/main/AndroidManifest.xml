@@ -55,6 +55,10 @@
             android:name=".ui.plan.InviteGuestsActivity"
             android:parentActivityName=".ui.common.PlaceDetailActivity"
             android:theme="@style/AppThemeWithActionBar" />
+        <activity
+            android:name=".ui.discover.EventDetailActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppThemeWithActionBar" />
         .
         <meta-data
             android:name="com.google.android.geo.API_KEY"
