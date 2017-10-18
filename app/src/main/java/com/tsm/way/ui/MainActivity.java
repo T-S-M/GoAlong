@@ -46,6 +46,7 @@ import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.model.Plan;
+import com.tsm.way.ui.Feed.FeedFragment;
 import com.tsm.way.ui.common.About;
 import com.tsm.way.ui.common.AuthActivity;
 import com.tsm.way.ui.common.CreatePlanActivity;
@@ -55,7 +56,6 @@ import com.tsm.way.ui.discover.DiscoverFragment;
 import com.tsm.way.ui.discover.EventViewerAdapter;
 import com.tsm.way.ui.plan.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;
-import com.tsm.way.ui.saved.SavedFragment;
 
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener, EventViewerAdapter.EventViewerAdapterOnclickHandler {
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     return true;
                 case R.id.navigation_saved:
                     fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new SavedFragment())
+                            .replace(R.id.content_main, new FeedFragment())
                             .commit();
                     return true;
                 case R.id.navigation_profile:
