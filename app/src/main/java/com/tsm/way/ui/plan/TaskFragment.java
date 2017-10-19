@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.firebase.ui.database.FirebaseListOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
@@ -43,39 +45,46 @@ public class TaskFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tasks, container, false);
         mButton = view.findViewById(R.id.openUserInputDialog);
         final Plan mPlan = getArguments().getParcelable("plan");
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String uid = user.getUid();
         taskref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("tasks").child(mPlan.getDiscussionID());
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
-                View mView = layoutInflaterAndroid.inflate(R.layout.input_dialogue_add_task, null);
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
-                alertDialogBuilderUserInput.setView(mView);
 
-                final EditText nameDialogEditText = mView.findViewById(R.id.task_name);
-                final EditText personDialogEditText = mView.findViewById(R.id.task_person);
-                alertDialogBuilderUserInput
-                        .setCancelable(false)
-                        .setPositiveButton("Send", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogBox, int id) {
-                                String task_name = nameDialogEditText.getText().toString();
-                                String assignee = personDialogEditText.getText().toString();
-                                taskref.push().setValue(new Task(assignee, task_name));
-                            }
-                        })
+        if (uid.equals(mPlan.getHostUid())) {
+            mButton.setVisibility(View.VISIBLE);
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+                    View mView = layoutInflaterAndroid.inflate(R.layout.input_dialogue_add_task, null);
+                    AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+                    alertDialogBuilderUserInput.setView(mView);
 
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialogBox, int id) {
-                                        dialogBox.cancel();
-                                    }
-                                });
+                    final EditText nameDialogEditText = mView.findViewById(R.id.task_name);
+                    final EditText personDialogEditText = mView.findViewById(R.id.task_person);
+                    final EditText descriptionDialogEditText = mView.findViewById(R.id.task_desc);
+                    alertDialogBuilderUserInput
+                            .setCancelable(false)
+                            .setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialogBox, int id) {
+                                    String task_name = nameDialogEditText.getText().toString();
+                                    String assignee = personDialogEditText.getText().toString();
+                                    String description = descriptionDialogEditText.getText().toString();
+                                    taskref.push().setValue(new Task(assignee, task_name, user.getDisplayName(), uid, description));
+                                }
+                            })
 
-                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-                alertDialogAndroid.show();
-            }
-        });
+                            .setNegativeButton("Cancel",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialogBox, int id) {
+                                            dialogBox.cancel();
+                                        }
+                                    });
 
+                    AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+                    alertDialogAndroid.show();
+                }
+            });
+        }
         ListView taskview = view.findViewById(R.id.tasks_list_view);
 
         FirebaseListOptions<Task> options = new FirebaseListOptions.Builder<Task>()

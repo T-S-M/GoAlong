@@ -79,7 +79,7 @@ public class FeedFragment extends Fragment {
         //fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), LinkFacebookActivity.class));
+                startActivity(new Intent(getActivity(), FacebookAccountHelperActivity.class));
             }
         });*/
         return rootView;

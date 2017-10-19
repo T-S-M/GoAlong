@@ -1,5 +1,6 @@
 package com.tsm.way.firebase;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -53,6 +54,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(notificationTitle)
                 .setContentText(notificationBody)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setSound(defaultSoundUri);
 
 

@@ -36,8 +36,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.firebase.LinkFacebookActivity;
 import com.tsm.way.model.Chart;
 import com.tsm.way.model.Guest;
 import com.tsm.way.ui.common.AuthActivity;
@@ -65,9 +65,9 @@ public class ProfileFragment extends Fragment {
     Chart stat;
     String photoUrl;
     DatabaseReference dbref,stref;
+    LinearLayout contactLayout;
     private Description desc;
     private ImageView editBio;
-    LinearLayout contactLayout;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -178,7 +178,7 @@ public class ProfileFragment extends Fragment {
         fbButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), LinkFacebookActivity.class);
+                Intent intent = new Intent(getContext(), FacebookAccountHelperActivity.class);
                 //intent.putExtra("click", true);
                 startActivity(intent);
             }

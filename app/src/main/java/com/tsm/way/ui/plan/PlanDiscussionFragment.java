@@ -36,7 +36,7 @@ public class PlanDiscussionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan_discussion, container, false);
         RecyclerView messages = view.findViewById(R.id.messages);
-        messages.setLayoutManager(new LinearLayoutManager(getContext()));
+        messages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
         String id = getArguments().getString("id");
 
         final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion").child(id);

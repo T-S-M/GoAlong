@@ -10,7 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="@string/add_new_task" />
+        android:text="@string/add_new_task"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/tasks_list_view"

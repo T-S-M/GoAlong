@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -71,20 +72,25 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         delete_plan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(context)
-                        .setTitle("Delete Plan")
-                        .setMessage("Are you sure?")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if (uid.equals(model.getHostUid())) {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Delete Plan")
+                            .setMessage("Are you sure?")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
-                                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .child(model.getDiscussionID()).removeValue();
-                                rootRef.child("plans").child(model.getDiscussionID()).removeValue();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).show();
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+                                    rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                            .child(model.getDiscussionID()).removeValue();
+                                    rootRef.child("plans").child(model.getDiscussionID()).removeValue();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null).show();
+                } else {
+                    Toast.makeText(context, "You do not have permission to delete", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
