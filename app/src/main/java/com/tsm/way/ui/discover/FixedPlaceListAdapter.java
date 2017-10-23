@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tsm.way.R;
 import com.tsm.way.model.PlaceBean;
 import com.tsm.way.utils.UrlsUtil;
@@ -49,7 +49,7 @@ public class FixedPlaceListAdapter extends RecyclerView.Adapter<FixedPlaceListAd
 
         if (pb.getPhotoref() != null) {
             String imageUrl = UrlsUtil.getSinglePhotoUrlString(mContext, pb.getPhotoref(), "350", "300");
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(imageUrl)
                     .into(holder.thumbnailImage);
         }
@@ -73,10 +73,10 @@ public class FixedPlaceListAdapter extends RecyclerView.Adapter<FixedPlaceListAd
 
         public FixedPlaceListAdapterViewHolder(View itemView) {
             super(itemView);
-            nameTextView = (TextView) itemView.findViewById(R.id.place_name_now_in_list);
-            addressTextView = (TextView) itemView.findViewById(R.id.address_in_list);
-            rating = (RatingBar) itemView.findViewById(R.id.rating_single_place_in_list);
-            thumbnailImage = (ImageView) itemView.findViewById(R.id.place_image_thumb);
+            nameTextView = itemView.findViewById(R.id.place_name_now_in_list);
+            addressTextView = itemView.findViewById(R.id.address_in_list);
+            rating = itemView.findViewById(R.id.rating_single_place_in_list);
+            thumbnailImage = itemView.findViewById(R.id.place_image_thumb);
             itemView.setOnClickListener(this);
         }
 

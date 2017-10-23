@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tsm.way.R;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -36,7 +36,7 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
 
         if (photos[position] != null) {
             String imageUrl = UrlsUtil.getSinglePhotoUrlString(context, photos[position], "350", "300");
-            Picasso.with(context)
+            Glide.with(context)
                     .load(imageUrl)
                     .into(holder.galleryItem);
         }
@@ -73,11 +73,11 @@ public class GalleryImageAdapter extends RecyclerView.Adapter<GalleryImageAdapte
         public GalleryImageAdapterViewHolder(View itemView) {
             super(itemView);
 
-            TextView no_images = (TextView) itemView.findViewById(R.id.no_images);
+            TextView no_images = itemView.findViewById(R.id.no_images);
             no_images.setText("Sorry, no images available for this place");
             no_images.setVisibility(View.GONE);
 
-            galleryItem = (ImageView) itemView.findViewById(R.id.galleryItem);
+            galleryItem = itemView.findViewById(R.id.galleryItem);
         }
     }
 }

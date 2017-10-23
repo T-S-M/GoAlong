@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -34,7 +35,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
@@ -97,7 +97,7 @@ public class ProfileFragment extends Fragment {
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
         else
             photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
-        Picasso.with(getContext())
+        Glide.with(getContext())
                 .load(photoUrl)
                 .into(profilePhoto);
 

@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.tsm.way.R;
-import com.squareup.picasso.Picasso;
 
 public class PlaceImages extends BaseAdapter {
 
@@ -48,9 +48,9 @@ public class PlaceImages extends BaseAdapter {
         if(convertView == null){
             convertView = inflater.inflate(R.layout.gallery_image_item, parent, false);
         }
-        ImageView imageView = (ImageView)convertView.findViewById(R.id.galleryItem);
+        ImageView imageView = convertView.findViewById(R.id.galleryItem);
         String imageURL = baseurl + imageId[position] + "&key=" + key;
-        Picasso.with(context).load(imageURL).into(imageView);
+        Glide.with(context).load(imageURL).into(imageView);
         return convertView;
     }
 }

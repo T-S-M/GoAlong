@@ -12,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
-import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
@@ -52,7 +52,7 @@ public class PlanCardViewHolder extends RecyclerView.ViewHolder {
         planDateTime.setText(formattedTime);
         if (model.getCoverUrl() != null) {
             String url = model.getCoverUrl();
-            Picasso.with(context)
+            Glide.with(context)
                     .load(url)
                     .into(coverPhoto);
         }

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 import com.tsm.way.R;
 import com.tsm.way.model.Plan;
 
@@ -55,7 +55,7 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
         if (model.getCoverUrl() != null) {
             String url = model.getCoverUrl();
             Log.v("FB_IMAGE", url);
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(url)
                     .into(holder.coverPhoto);
         }

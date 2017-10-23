@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -42,7 +43,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.ui.Feed.FeedFragment;
@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         userNameTextViewNav.setText(user.getDisplayName());
         userEmailTextViewNav.setText(user.getEmail());
         //profile_imageView.setImageURI(Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView););
-        Picasso.with(this).load(user.getPhotoUrl()).into(profile_imageView);
+        Glide.with(this).load(user.getPhotoUrl()).into(profile_imageView);
     }
 
     @Override

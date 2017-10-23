@@ -29,13 +29,11 @@ public class PlanFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_plan, container, false);
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         toolbar.setTitle("My Plans");
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -43,14 +41,14 @@ public class PlanFragment extends Fragment {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.viewpager_plan);
+        ViewPager viewPager = rootView.findViewById(R.id.viewpager_plan);
         PlanFragmentPagerAdapter adapter = new PlanFragmentPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tablayout_plan);
+        TabLayout tabLayout = rootView.findViewById(R.id.tablayout_plan);
         tabLayout.setupWithViewPager(viewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab_plan);
+        FloatingActionButton fab = rootView.findViewById(R.id.fab_plan);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,11 +58,5 @@ public class PlanFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 }

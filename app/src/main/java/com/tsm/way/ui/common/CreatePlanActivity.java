@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -35,7 +36,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.model.Plan;
@@ -284,7 +284,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
                selectedImage = data.getData();
                photo_up.setPadding(0, 0, 0, 0);
                photo_up.setScaleType(ImageView.ScaleType.FIT_XY);
-               Picasso.with(this).load(selectedImage).into(photo_up);
+               Glide.with(this).load(selectedImage).into(photo_up);
            } else if (requestCode == PLACE_PICKER_REQUEST) {
                if (resultCode == RESULT_OK) {
                    Place place = PlacePicker.getPlace(this, data);

@@ -25,8 +25,8 @@ public class CategoriesUtil {
     public static String getApiplaceType(String name) {
         if (name.equals("Movie Theatre")) {
             return "movie_theater";
-        } else if (name.equals("Places")) {
-            return "POI";
+        } else if (name.equals("Popular")) {
+            return "points_of_interest";
         } else {
             return name.toLowerCase();
         }
