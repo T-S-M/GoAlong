@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.common.AuthActivity"
+            android:name=".ui.common.activities.AuthActivity"
             android:theme="@style/AppTheme.BrandedLaunch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,42 +24,42 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.common.activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.common.PlaceDetailActivity"
-            android:parentActivityName=".ui.MainActivity" />
+            android:name=".ui.common.activities.PlaceDetailActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity
-            android:name=".ui.discover.PlaceListActivity"
-            android:parentActivityName=".ui.MainActivity" />
+            android:name=".ui.discover.activities.PlaceListActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity
-            android:name=".ui.common.CreatePlanActivity"
-            android:parentActivityName=".ui.MainActivity" />
+            android:name=".ui.common.activities.CreatePlanActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity android:name=".firebase.FacebookAccountHelperActivity" />
         <activity
-            android:name=".ui.plan.PlanDetailsActivity"
+            android:name=".ui.plan.activities.PlanDetailsActivity"
             android:label="@string/title_activity_plan_details"
-            android:parentActivityName=".ui.MainActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tsm.way.ui.MainActivity" />
+                android:value="com.tsm.way.ui.common.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.common.SettingsActivity"
-            android:parentActivityName=".ui.MainActivity"
+            android:name=".ui.common.activities.SettingsActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity"
             android:theme="@style/prefTheme" />
         <activity
-            android:name=".ui.common.About"
-            android:parentActivityName=".ui.MainActivity" />
+            android:name=".ui.common.activities.About"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity
-            android:name=".ui.plan.InviteGuestsActivity"
-            android:parentActivityName=".ui.common.PlaceDetailActivity"
+            android:name=".ui.plan.activities.InviteGuestsActivity"
+            android:parentActivityName=".ui.common.activities.PlaceDetailActivity"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
-            android:name=".ui.discover.EventDetailActivity"
-            android:parentActivityName=".ui.MainActivity"
+            android:name=".ui.discover.activities.EventDetailActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity"
             android:theme="@style/AppThemeWithActionBar" />
         .
         <meta-data

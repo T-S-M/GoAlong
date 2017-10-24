@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tsm.way.ui.discover.EventDetailActivity">
+    tools:context="com.tsm.way.ui.discover.activities.EventDetailActivity">
 
     <ImageView
         android:id="@+id/plan_cover_image"

@@ -3,4 +3,4 @@
     android:id="@+id/upcoming_plan_recyclerview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tsm.way.ui.plan.UpcomingPlansFragment" />
+    tools:context="com.tsm.way.ui.plan.fragments.UpcomingPlansFragment" />

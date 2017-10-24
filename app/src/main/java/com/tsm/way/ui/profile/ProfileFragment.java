@@ -40,7 +40,7 @@ import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Chart;
 import com.tsm.way.models.Guest;
-import com.tsm.way.ui.common.AuthActivity;
+import com.tsm.way.ui.common.activities.AuthActivity;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.tsm.way.ui.MainActivity.drawer;
+import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,12 +60,12 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     float plans_count[] = {0f, 0f ,0f , 0f};
     String plans_type[] = {"Interested", "Joined","Created","Invited people"};
-    TextView bio,contact,status;
+    TextView bio,contact,note;
     Guest appUser;
     Chart stat;
     String photoUrl;
-    DatabaseReference dbref,stref;
-    LinearLayout contactLayout;
+    DatabaseReference dbref,statRef;
+    LinearLayout contactLayout,statusLayout;
     private Description desc;
     private ImageView editBio;
 
@@ -84,13 +84,17 @@ public class ProfileFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
 
-        status = view.findViewById(R.id.status);
+        note = view.findViewById(R.id.status);
 
         editBio =  view.findViewById(R.id.editBio);
         bio = view.findViewById(R.id.user_profile_short_bio);
 
         contact = view.findViewById(R.id.contact);
         contactLayout = view.findViewById(R.id.contactLayout);
+
+        note = view.findViewById(R.id.status);
+        statusLayout = view.findViewById(R.id.statusLayout);
+
 
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
 
@@ -104,73 +108,29 @@ public class ProfileFragment extends Fragment {
         dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
         getUserData();
 
-        stref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
+        statRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
         getStatData();
 
         editBio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
-                View mView = layoutInflaterAndroid.inflate(R.layout.profilebioedit, null);
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
-                alertDialogBuilderUserInput.setView(mView);
-
-                final EditText EditBioET = mView.findViewById(R.id.profile_bio_edit);
-
-                alertDialogBuilderUserInput
-                        .setCancelable(false)
-                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogBox, int id) {
-                                String profileBio = EditBioET.getText().toString();
-                                bio.setText(profileBio);
-                                Map temp = new HashMap<String, String>();
-                                temp.put("profileBio", profileBio);
-                                dbref.updateChildren(temp);
-                            }
-                        })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialogBox, int id) {
-                                        dialogBox.cancel();
-                                    }
-                                });
-
-                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-                alertDialogAndroid.show();
+                bioEdit();
             }
         });
 
-
+                // Adding / Edit the contact
         contactLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
-                View mView = layoutInflaterAndroid.inflate(R.layout.editcontact, null);
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
-                alertDialogBuilderUserInput.setView(mView);
+                addContact();
+            }
+        });
 
-                final EditText Editcontact = mView.findViewById(R.id.editContact);
-
-                alertDialogBuilderUserInput
-                        .setCancelable(false)
-                        .setPositiveButton("Done", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogBox, int id) {
-                                String Contact = Editcontact.getText().toString();
-                                contact.setText(Contact);
-                                Map temp = new HashMap<String, String>();
-                                temp.put("profileBio",contact);
-                                //dbref.updateChildren(temp);
-                            }
-                        })
-                        .setNegativeButton("Cancel",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialogBox, int id) {
-                                        dialogBox.cancel();
-                                    }
-                                });
-
-                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-                alertDialogAndroid.show();
+        // Adding / Edit the note
+        statusLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNote();
             }
         });
 
@@ -212,6 +172,95 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void bioEdit(){
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+        View mView = layoutInflaterAndroid.inflate(R.layout.profilebioedit, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+        alertDialogBuilderUserInput.setView(mView);
+
+        final EditText EditBioET = mView.findViewById(R.id.profile_bio_edit);
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        String profileBio = EditBioET.getText().toString();
+                        bio.setText(profileBio);
+                        Map temp = new HashMap<String, String>();
+                        temp.put("profileBio", profileBio);
+                        dbref.updateChildren(temp);
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+    public void  addContact(){
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+        View mView = layoutInflaterAndroid.inflate(R.layout.editcontact, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+        alertDialogBuilderUserInput.setView(mView);
+
+        final EditText Editcontact = mView.findViewById(R.id.editContact);
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        String Contact = Editcontact.getText().toString();
+                        contact.setText(Contact);
+                        Map temp = new HashMap<String, String>();
+                        temp.put("profileBio",contact);
+                        dbref.updateChildren(temp);
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+    public void addNote(){
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+        View mView = layoutInflaterAndroid.inflate(R.layout.addnote, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
+        alertDialogBuilderUserInput.setView(mView);
+
+        final EditText EditNote = mView.findViewById(R.id.editNote);
+
+        alertDialogBuilderUserInput
+                .setCancelable(false)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogBox, int id) {
+                        String Note = EditNote.getText().toString();
+                        note.setText(Note);
+                        Map temp = new HashMap<String, String>();
+                        temp.put("note",note);
+                        dbref.updateChildren(temp);
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogBox, int id) {
+                                dialogBox.cancel();
+                            }
+                        });
+
+        AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+    }
+
 
     private void getUserData() {
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -227,14 +276,13 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
 
     private void getStatData() {
-        stref.addListenerForSingleValueEvent(new ValueEventListener() {
+        statRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 stat = dataSnapshot.getValue(Chart.class);

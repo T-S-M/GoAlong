@@ -18,9 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
-import com.tsm.way.ui.plan.PlanCardViewHolder;
+import com.tsm.way.ui.plan.adapters.PlanCardViewHolder;
 
-import static com.tsm.way.ui.MainActivity.drawer;
+import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 
 
 /**

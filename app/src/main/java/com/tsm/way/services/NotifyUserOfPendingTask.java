@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.ui.MainActivity;
+import com.tsm.way.ui.common.activities.MainActivity;
 
 
 public class NotifyUserOfPendingTask {

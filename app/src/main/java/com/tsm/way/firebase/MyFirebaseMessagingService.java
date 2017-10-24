@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.tsm.way.R;
-import com.tsm.way.ui.plan.PlanDetailsActivity;
+import com.tsm.way.ui.plan.activities.PlanDetailsActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
