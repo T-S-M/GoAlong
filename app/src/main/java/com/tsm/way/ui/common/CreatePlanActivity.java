@@ -38,7 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 import com.tsm.way.utils.ConstantsUtil;
 
 import java.util.Calendar;

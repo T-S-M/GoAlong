@@ -19,20 +19,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PendingPlansFragment extends Fragment implements PendingPlansViewholder.PendingClickHandler {
 
-    RecyclerView pendingRecyclerview;
-    FirebaseRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
-    FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    DatabaseReference pendingRef = database.getReference("pending");
-    DatabaseReference userPendingPlansRef;
-    View view;
+    private RecyclerView pendingRecyclerview;
+    private FirebaseRecyclerAdapter<Plan, PendingPlansViewholder> mAdapter;
+    private FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private DatabaseReference pendingRef = database.getReference("pending");
+    private DatabaseReference userPendingPlansRef;
+    private View view;
 
     public PendingPlansFragment() {
         // Required empty public constructor

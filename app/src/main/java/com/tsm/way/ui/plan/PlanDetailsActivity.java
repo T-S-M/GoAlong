@@ -32,18 +32,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 import static com.tsm.way.firebase.FirebaseDBHelper.getFirebaseDatabaseInstance;
 
 public class PlanDetailsActivity extends AppCompatActivity {
 
-    ImageView cover;
-    Plan plan;
-    Bundle planBundle;
-    Fragment discussion = new PlanDiscussionFragment();
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+    private final Fragment discussion = new PlanDiscussionFragment();
+    private ImageView coverImageView;
+    private Plan plan;
+    private Bundle planBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +51,26 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
-        mViewPager = findViewById(R.id.viewpager_plan_detail);
+        ViewPager mViewPager = findViewById(R.id.viewpager_plan_detail);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        cover = findViewById(R.id.plan_cover_image);
-
+        coverImageView = findViewById(R.id.plan_cover_image);
         Intent intentThatStartedThisActivity = getIntent();
+        handleIntentExtras(intentThatStartedThisActivity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            coverImageView.setTransitionName(plan.getDiscussionID());
+        }
+        showImageWithTransition(plan.getCoverUrl());
+    }
+
+    private void handleIntentExtras(Intent intentThatStartedThisActivity) {
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
             prepareBundles(plan);
@@ -81,24 +86,18 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(PlanDetailsActivity.this, "Error occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PlanDetailsActivity.this, "There is an Error!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
-
-        //Bundle extras = getIntent().getExtras();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            cover.setTransitionName(plan.getDiscussionID());
-        }
-        showImageWithTransition(plan.getCoverUrl());
     }
 
     private void prepareBundles(Plan plan) {
         planBundle = new Bundle();
         planBundle.putParcelable("plan", plan);
-        Bundle discussionbundle = new Bundle();
-        discussionbundle.putString("id", plan.getDiscussionID());
-        discussion.setArguments(discussionbundle);
+        Bundle discussionBundle = new Bundle();
+        discussionBundle.putString("id", plan.getDiscussionID());
+        discussion.setArguments(discussionBundle);
     }
 
     private void showImageWithTransition(String coverUrl) {
@@ -124,7 +123,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
                         return false;
                     }
                 })
-                .into(cover);
+                .into(coverImageView);
     }
 
 
@@ -139,7 +138,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_delete_plan) {
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            @SuppressWarnings("ConstantConditions") String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
             if (uid.equals(plan.getHostUid())) {
                 new AlertDialog.Builder(this)
                         .setTitle("Delete Plan")
@@ -149,6 +148,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 DatabaseReference rootRef = getFirebaseDatabaseInstance().getReference();
+                                //noinspection ConstantConditions
                                 rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                         .child(plan.getDiscussionID()).removeValue();
                                 rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
@@ -170,9 +170,9 @@ public class PlanDetailsActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

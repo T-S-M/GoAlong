@@ -1,4 +1,4 @@
-package com.tsm.way.model;
+package com.tsm.way.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

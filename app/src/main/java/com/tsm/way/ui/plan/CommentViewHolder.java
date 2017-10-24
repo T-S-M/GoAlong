@@ -12,8 +12,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
 
     public CommentViewHolder(View itemView) {
         super(itemView);
-        mNameField = (TextView) itemView.findViewById(R.id.text_message_name);
-        mMessageField = (TextView) itemView.findViewById(R.id.text_message_body);
+        mNameField = itemView.findViewById(R.id.text_message_name);
+        mMessageField = itemView.findViewById(R.id.text_message_body);
     }
 
     public void setName(String name) {

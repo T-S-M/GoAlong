@@ -38,8 +38,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Chart;
-import com.tsm.way.model.Guest;
+import com.tsm.way.models.Chart;
+import com.tsm.way.models.Guest;
 import com.tsm.way.ui.common.AuthActivity;
 import com.tsm.way.utils.UrlsUtil;
 

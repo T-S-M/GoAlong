@@ -10,7 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.tsm.way.R;
-import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.models.PlaceDetailBean;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewAdapterViewHolder> {
 

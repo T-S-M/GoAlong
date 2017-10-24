@@ -5,7 +5,6 @@
     <string name="title_plan">Plan</string>
     <string name="title_saved">Feed</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_search_autocomplete">Search</string>
 
     <string name="option_create_plan_label">Make a Plan</string>
@@ -14,35 +13,22 @@
 
     <string name="place_status_open">Open Now</string>
     <string name="place_status_closed">Currently Closed</string>
-    <string name="type_restaurant" translatable="false">restaurant</string>
-    <string name="type_cafe" translatable="false">cafe</string>
-    <string name="address_title">Address: </string>
-    <string name="rating_title_text_view">Rating:</string>
     <string name="signout">Sign Out</string>
     <string name="facebook_application_id" translatable="false">172572739954464</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb172572739954464</string>
-    <string name="pick_time">Pick Time</string>
-    <string name="pick_date">Pick Date</string>
     <string name="write_plan_desc">Write Description</string>
     <string name="title_activity_plan_details">Plan Details</string>
     <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
     <string name="add_new_event">Add an Upcoming event</string>
     <string name="new_plan">New Plan</string>
     <string name="add_plan">Add Plan</string>
     <string name="plan_type_personal">Personal Plan</string>
-    <string name="button_text_accept">Accept</string>
-    <string name="button_text_ignore">Ignore</string>
-    <string name="button_text_details">Details</string>
     <string name="show_on_map">Show on Map</string>
     <string name="date_and_time">Time and Date</string>
     <string name="description">Description</string>
     <string name="host_guest_info">Host Information</string>
-    <string name="place_name_title">Place Information</string>
     <string name="place_info_title">Place Information</string>
     <string name="title_profile">Profile</string>
-
-    <string name="title_activity_settings">Settings</string>
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
@@ -65,12 +51,10 @@
     <string name="url_terms">https://www.androidhive.info/terms-of-service/</string>
     <string name="title_version">Version</string>
     <string name="choose_email_client">Choose email client</string>
-    <string name="title_gallery_storage">Default Storage</string>
     <string name="title_new_notification_sound">New message notification</string>
     <string name="title_vibrate">Vibrate</string>
     <string name="summary_vibrate">Vibrate on new notification</string>
     <string name="key_upload_over_wifi">key_upload_over_wifi</string>
-    <string name="key_gallery_name">key_gallery_name</string>
     <string name="notifications_new_message">notifications_new_message</string>
     <string name="key_notifications_new_message_ringtone">key_notifications_new_message_ringtone</string>
     <string name="key_vibrate">key_vibrate</string>
@@ -89,14 +73,12 @@
     <string name="edit_plan">Edit This Plan</string>
     <string name="invite">Invite</string>
     <string name="invite_more">Invite More</string>
-    <string name="view_guest_list">View Guest List</string>
     <string name="confiremed_guests">Confirmed Guests</string>
     <string name="copy_right">Copyrights © %1$d</string>
     <string name="create_task">Create New Task</string>
     <string name="promt_task_name">Task</string>
     <string name="promt_task_assignee">Person to Assign</string>
     <string name="action_delete_plan">Delete Plan</string>
-    <string name="fb_sign_in_req">To see Events from Facebook, Please Sign in with Facebook</string>
     <string name="add_new_task">Add new Task</string>
     <string name="account">Account</string>
     <string name="unlink_fb">unlink account</string>

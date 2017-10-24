@@ -1,6 +1,7 @@
 package com.tsm.way.ui.plan;
 
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,17 +21,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
-import com.tsm.way.model.Task;
+import com.tsm.way.models.Plan;
+import com.tsm.way.models.Task;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class TaskFragment extends Fragment {
 
-    DatabaseReference taskref;
-    FirebaseListAdapter mAdapter;
-    private Button mButton;
+    private DatabaseReference taskref;
+    private FirebaseListAdapter mAdapter;
 
 
     public TaskFragment() {
@@ -43,7 +43,7 @@ public class TaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tasks, container, false);
-        mButton = view.findViewById(R.id.openUserInputDialog);
+        Button mButton = view.findViewById(R.id.openUserInputDialog);
         final Plan mPlan = getArguments().getParcelable("plan");
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
@@ -55,7 +55,7 @@ public class TaskFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
-                    View mView = layoutInflaterAndroid.inflate(R.layout.input_dialogue_add_task, null);
+                    @SuppressLint("InflateParams") View mView = layoutInflaterAndroid.inflate(R.layout.input_dialogue_add_task, null);
                     AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
                     alertDialogBuilderUserInput.setView(mView);
 

@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,8 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.AccessToken;
 import com.tsm.way.R;
-import com.tsm.way.model.PlaceBean;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.PlaceBean;
+import com.tsm.way.models.Plan;
 import com.tsm.way.utils.FacebookEventParser;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;
@@ -42,7 +41,6 @@ import static com.tsm.way.ui.MainActivity.mLastKnownLocation;
 public class DiscoverFragment extends Fragment implements EventViewerAdapter.EventViewerAdapterOnclickHandler {
 
     public static final String TAG = "DiscoverFragment";
-    //FixedPlaceListAdapter.FixedPlaceListAdapterOnclickHandler mClickHandler;
     RequestQueue mRequestQueue;
     List<PlaceBean> placelist;
     String type;
@@ -50,7 +48,6 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
     EventViewerAdapter fbEventsAdater;
     RecyclerView parent;
     DiscoverViewsAdapter parentAdapter;
-
 
     public DiscoverFragment() {
         // Required empty public constructor
@@ -66,19 +63,17 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         parent = rootView.findViewById(R.id.parent_recycler_view);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
-        populateRecyclerview();
-
+        populateRecyclerviews();
         parent.setLayoutManager(new LinearLayoutManager(getContext()));
         parentAdapter = new DiscoverViewsAdapter(getContext(), restaurantsAdapter, fbEventsAdater);
         parent.setAdapter(parentAdapter);
-
         return rootView;
     }
-    private void populateRecyclerview() {
+
+    private void populateRecyclerviews() {
 
         if (restaurantsAdapter != null) {
             return;
@@ -124,7 +119,7 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
 
         if (AccessToken.getCurrentAccessToken() == null) {
             //Todo replace toast with snackbar or something more appropiate
-            Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
         } else {
             String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
             String fbRequestUrl = UrlsUtil.getFbBaseUrl(YOUR_TOKEN, "dhaka");
@@ -147,12 +142,10 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    //jsonTView.setText("That didn't work!");
                 }
             });
             mRequestQueue.add(fbStringRequest);
         }
-        // Add the request to the RequestQueue.
         mRequestQueue.add(stringRequest);
     }
 

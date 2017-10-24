@@ -17,14 +17,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Comment;
+import com.tsm.way.models.Comment;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class PlanDiscussionFragment extends Fragment {
 
-    FirebaseRecyclerAdapter mAdapter;
+    private FirebaseRecyclerAdapter mAdapter;
 
     public PlanDiscussionFragment() {
         // Required empty public constructor

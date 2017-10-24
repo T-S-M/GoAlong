@@ -17,7 +17,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 import com.tsm.way.ui.plan.PlanCardViewHolder;
 
 import static com.tsm.way.ui.MainActivity.drawer;

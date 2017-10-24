@@ -7,22 +7,22 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.tsm.way.R;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 public class PendingPlansViewholder extends RecyclerView.ViewHolder {
-    TextView titleTextview;
-    TextView infoTextView;
-    ImageButton ignoreButton;
-    ImageButton expandbutton;
-    ImageButton acceptButton;
+    private TextView titleTextview;
+    private TextView infoTextView;
+    private ImageButton ignoreButton;
+    private ImageButton expandbutton;
+    private ImageButton acceptButton;
 
     public PendingPlansViewholder(View itemView) {
         super(itemView);
-        titleTextview = (TextView) itemView.findViewById(R.id.pending_plan_title_tv);
-        infoTextView = (TextView) itemView.findViewById(R.id.textView);
-        ignoreButton = (ImageButton) itemView.findViewById(R.id.ignore_button);
-        acceptButton = (ImageButton) itemView.findViewById(R.id.accept_button);
-        expandbutton = (ImageButton) itemView.findViewById(R.id.expand_button);
+        titleTextview = itemView.findViewById(R.id.pending_plan_title_tv);
+        infoTextView = itemView.findViewById(R.id.textView);
+        ignoreButton = itemView.findViewById(R.id.ignore_button);
+        acceptButton = itemView.findViewById(R.id.accept_button);
+        expandbutton = itemView.findViewById(R.id.expand_button);
     }
 
     public void bindDataToViewHolder(final Plan model, Context context, final PendingClickHandler clickHandler) {

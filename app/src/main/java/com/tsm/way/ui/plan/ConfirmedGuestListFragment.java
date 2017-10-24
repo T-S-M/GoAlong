@@ -18,8 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Guest;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Guest;
+import com.tsm.way.models.Plan;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,8 +27,8 @@ import com.tsm.way.model.Plan;
 public class ConfirmedGuestListFragment extends Fragment {
 
 
-    FirebaseRecyclerAdapter mAdapter;
-    Plan mPlan;
+    private FirebaseRecyclerAdapter mAdapter;
+    private Plan mPlan;
 
     public ConfirmedGuestListFragment() {
         // Required empty public constructor
@@ -42,10 +42,7 @@ public class ConfirmedGuestListFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_confirmed_guest_list, container, false);
         Bundle args = getArguments();
         mPlan = args.getParcelable("plan");
-        String id = mPlan.getDiscussionID();
-
-
-        final TextView test = view.findViewById(R.id.selected);
+        String id = mPlan != null ? mPlan.getDiscussionID() : null;
         FloatingActionButton button = view.findViewById(R.id.invite_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

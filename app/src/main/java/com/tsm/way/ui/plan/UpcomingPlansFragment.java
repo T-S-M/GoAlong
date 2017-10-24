@@ -17,16 +17,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 public class UpcomingPlansFragment extends Fragment {
 
-    FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
-    DatabaseReference planRef;
-    DatabaseReference userPlanRef;
-    FirebaseUser user;
+    private FirebaseDatabase database = FirebaseDBHelper.getFirebaseDatabaseInstance();
+    private DatabaseReference planRef;
+    private DatabaseReference userPlanRef;
+    private FirebaseUser user;
 
-    FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
+    private FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
 
     public UpcomingPlansFragment() {
         // Required empty public constructor

@@ -19,6 +19,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,73 +59,23 @@ import com.tsm.way.ui.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
-    static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
+    private static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1234;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 111;
     public static boolean mLocationPermissionGranted;
     public static Location mLastKnownLocation;
     public static DrawerLayout drawer;
-    static GoogleApiClient mGoogleApiClient;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private static GoogleApiClient mGoogleApiClient;
+    private final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private BottomNavigationView bottomNavigation;
     private FusedLocationProviderClient mFusedLocationClient;
     private SharedPreferences preferences;
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-
-            switch (item.getItemId()) {
-                case R.id.navigation_discover:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new DiscoverFragment())
-                            .commit();
-                    return true;
-                case R.id.navigation_plan:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new PlanFragment())
-                            .commit();
-                    return true;
-                case R.id.navigation_saved:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new FeedFragment())
-                            .commit();
-                    return true;
-                case R.id.navigation_profile:
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.content_main, new ProfileFragment())
-                            .commit();
-                    return true;
-            }
-            return false;
-        }
-
-    };
-
-    public static void sendFeedback(Context context) {
-        String body = null;
-        try {
-            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
-            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
-                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
-                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
-        } catch (PackageManager.NameNotFoundException e) {
-        }
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
-        intent.putExtra(Intent.EXTRA_TEXT, body);
-        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        setupBottomNavigation();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawer = findViewById(R.id.drawer_layout);
@@ -139,11 +90,64 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(LocationServices.API)
                 .enableAutoManage(this, this)
                 .build();
-
         mGoogleApiClient.connect();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();
+        showUserPreferredScreen(bottomNavigation);
+        loadNavigationDrawerHeader(navigationView.getHeaderView(0));
+    }
+
+    private void setupBottomNavigation() {
+        BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+
+                switch (item.getItemId()) {
+                    case R.id.navigation_discover:
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_main, new DiscoverFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_plan:
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_main, new PlanFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_saved:
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_main, new FeedFragment())
+                                .commit();
+                        return true;
+                    case R.id.navigation_profile:
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.content_main, new ProfileFragment())
+                                .commit();
+                        return true;
+                }
+                return false;
+            }
+
+        };
+        bottomNavigation = findViewById(R.id.navigation);
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private void loadNavigationDrawerHeader(View header) {
+        TextView userNameTextViewNav = header.findViewById(R.id.current_user_name);
+        TextView userEmailTextViewNav = header.findViewById(R.id.user_email);
+        ImageView profile_imageView = header.findViewById(R.id.profile_imageView);
+        if (user != null) {
+            userNameTextViewNav.setText(user.getDisplayName());
+            userEmailTextViewNav.setText(user.getEmail());
+            Glide.with(this).load(user.getPhotoUrl()).into(profile_imageView);
+        }
+    }
+
+    private void showUserPreferredScreen(BottomNavigationView navigation) {
         Integer value = Integer.parseInt(preferences.getString(getString(R.string.key_default_fragment),
                 getString(R.string.default_fragment_value)));
         switch (value) {
@@ -160,15 +164,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 navigation.setSelectedItemId(R.id.navigation_profile);
                 break;
         }
-
-        View header = navigationView.getHeaderView(0);
-        TextView userNameTextViewNav = header.findViewById(R.id.current_user_name);
-        TextView userEmailTextViewNav = header.findViewById(R.id.user_email);
-        ImageView profile_imageView = header.findViewById(R.id.profile_imageView);
-        userNameTextViewNav.setText(user.getDisplayName());
-        userEmailTextViewNav.setText(user.getEmail());
-        //profile_imageView.setImageURI(Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView););
-        Glide.with(this).load(user.getPhotoUrl()).into(profile_imageView);
     }
 
     @Override
@@ -193,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 return true;
         }
-        //return false;
         return super.onOptionsItemSelected(item);
     }
 
@@ -216,14 +210,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(this, data);
                 Intent intent = new Intent(this, PlaceDetailActivity.class);
-                //intent.putExtra("name", place.getName());
                 intent.putExtra("place", (Parcelable) place);
                 startActivity(intent);
-                //Log.i("TAG", "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-
-            } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
+                Toast.makeText(this, "Error launching search :(", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -249,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "Can not get Location", Toast.LENGTH_SHORT).show();
                         }
                     });
-            //mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(MainActivity.mGoogleApiClient);
         }
 
     }
@@ -296,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -309,12 +297,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.settings) {
-            // Handle the settings action
             startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 
         } else if (id == R.id.feedback) {
@@ -347,5 +334,23 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void sendFeedback(Context context) {
+        String body = null;
+        try {
+            body = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+            body = "\n\n-----------------------------\nPlease don't remove this information\n Device OS: Android \n Device OS version: " +
+                    Build.VERSION.RELEASE + "\n App Version: " + body + "\n Device Brand: " + Build.BRAND +
+                    "\n Device Model: " + Build.MODEL + "\n Device Manufacturer: " + Build.MANUFACTURER;
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.v("Main Activity", "Error");
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"support@tsm.com"});
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Query from android app");
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.choose_email_client)));
     }
 }

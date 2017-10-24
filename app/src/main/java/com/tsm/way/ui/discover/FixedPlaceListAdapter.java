@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tsm.way.R;
-import com.tsm.way.model.PlaceBean;
+import com.tsm.way.models.PlaceBean;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.util.List;

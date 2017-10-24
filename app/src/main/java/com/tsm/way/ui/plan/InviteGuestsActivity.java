@@ -16,16 +16,16 @@ import com.firebase.ui.database.FirebaseListOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Guest;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Guest;
+import com.tsm.way.models.Plan;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class InviteGuestsActivity extends AppCompatActivity {
 
-    Plan mPlan;
-    FirebaseListAdapter mAdapter;
+    private Plan mPlan;
+    private FirebaseListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +38,9 @@ public class InviteGuestsActivity extends AppCompatActivity {
         String id = mPlan.getDiscussionID();
 
         final DatabaseReference userPendingRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("pending");
-        final Map guestlist = new HashMap<String, Boolean>();
+        final Map guestlist = new HashMap<>();
         guestlist.put(id, true);
-        final Map pushtouserMap = new HashMap<String, Map>();
+        final Map pushtouserMap = new HashMap<>();
         final TextView test = findViewById(R.id.selected);
         Button button = findViewById(R.id.invite_button);
         button.setOnClickListener(new View.OnClickListener() {

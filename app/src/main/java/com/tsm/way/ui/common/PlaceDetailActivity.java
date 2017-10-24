@@ -21,7 +21,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
-import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.models.PlaceDetailBean;
 import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -41,8 +41,8 @@ public class PlaceDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu_place_detail);
-        addPlan = (FloatingActionButton) findViewById(R.id.add_plan);
+        fabMenu = findViewById(R.id.fab_menu_place_detail);
+        addPlan = findViewById(R.id.add_plan);
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -52,19 +52,19 @@ public class PlaceDetailActivity extends AppCompatActivity {
             }
         );
 
-        final TextView name = (TextView) findViewById(R.id.name);
-        final TextView address = (TextView) findViewById(R.id.address);
-        final TextView contact = (TextView) findViewById(R.id.contact);
-        final RatingBar rating = (RatingBar) findViewById(R.id.rating);
-        reviewRecyclerView = (RecyclerView) findViewById(R.id.review_recyclerview);
+        final TextView name = findViewById(R.id.name);
+        final TextView address = findViewById(R.id.address);
+        final TextView contact = findViewById(R.id.contact);
+        final RatingBar rating = findViewById(R.id.rating);
+        reviewRecyclerView = findViewById(R.id.review_recyclerview);
         reviewRecyclerView.setVisibility(View.INVISIBLE);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         reviewRecyclerView.setHasFixedSize(true);
         reviewRecyclerView.setLayoutManager(layoutManager);
         //final TextView jsonTView = (TextView) findViewById(R.id.temp_detail2);
 
-        final ImageView galleryItem = (ImageView) findViewById(R.id.galleryItem);
-        gallery_recyclerview =(RecyclerView) findViewById(R.id.gallery_recyclerview);
+        final ImageView galleryItem = findViewById(R.id.galleryItem);
+        gallery_recyclerview = findViewById(R.id.gallery_recyclerview);
         gallery_recyclerview.setVisibility(View.INVISIBLE);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         gallery_recyclerview.setHasFixedSize(true);

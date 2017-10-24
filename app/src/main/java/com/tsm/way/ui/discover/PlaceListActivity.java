@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.tsm.way.R;
-import com.tsm.way.model.PlaceBean;
+import com.tsm.way.models.PlaceBean;
 import com.tsm.way.ui.MainActivity;
 import com.tsm.way.utils.PlaceCardClickHandler;
 import com.tsm.way.utils.PlaceListJSONParser;

@@ -2,7 +2,7 @@ package com.tsm.way.utils;
 
 import android.util.Log;
 
-import com.tsm.way.model.PlaceDetailBean;
+import com.tsm.way.models.PlaceDetailBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;

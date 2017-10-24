@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tsm.way.R;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

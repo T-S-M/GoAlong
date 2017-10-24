@@ -17,7 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
-import com.tsm.way.model.Plan;
+import com.tsm.way.models.Plan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,12 +25,13 @@ import java.util.Locale;
 
 public class PlanCardViewHolder extends RecyclerView.ViewHolder {
 
-    View viewItem;
-    TextView planNameTextView;
-    TextView planPlaceTextView, planDateTime;
-    ImageView coverPhoto;
-    ImageButton delete_plan;
-    ImageButton inviteButton;
+    private View viewItem;
+    private TextView planNameTextView;
+    private TextView planPlaceTextView;
+    private TextView planDateTime;
+    private ImageView coverPhoto;
+    private ImageButton delete_plan;
+    private ImageButton inviteButton;
 
     public PlanCardViewHolder(View itemView) {
         super(itemView);
