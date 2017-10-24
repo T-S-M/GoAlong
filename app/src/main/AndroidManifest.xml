@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.common.AuthActivity">
+        <activity
+            android:name=".ui.common.AuthActivity"
+            android:theme="@style/AppTheme.BrandedLaunch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
