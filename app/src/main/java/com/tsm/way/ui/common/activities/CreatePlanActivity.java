@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -68,7 +69,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
     private TextView whereTextView;
     private TextView mDisplayDate;
     private TextView mDisplayTime;
-    private TextView plantypeTextview;
+    private Spinner plantypeSpinner;
     private DatePickerDialog.OnDateSetListener mDateSetListener;
     private TimePickerDialog.OnTimeSetListener mTimeSetListener;
     private Toolbar toolbar;
@@ -85,7 +86,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         toolbar.setSubtitle(R.string.add_new_event);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        plantypeTextview = findViewById(R.id.plan_type_textview);
+        plantypeSpinner = findViewById(R.id.plan_type_spinner);
         handleIntentExtras(getIntent());
         user = FirebaseAuth.getInstance().getCurrentUser();
         planAttendeeRef = database.getReference("planAttendee");
@@ -212,7 +213,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         } else if (intent.hasExtra("place_info")) {
 
         } else {
-            plantypeTextview.setText(R.string.plan_type_personal);
+            //plantypeSpinner.(R.string.plan_type_personal);
         }
     }
 
@@ -258,6 +259,12 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         }
         mPlan.setHostUid(user.getUid());
         mPlan.setHostName(user.getDisplayName());
+        if (plantypeSpinner.getSelectedItem().equals(getString(R.string.plan_type_public))) {
+            mPlan.setEventType(ConstantsUtil.PLAN_TYPE_PUBLIC_EVENT);
+            pushPublicEvent(mPlan);
+            return;
+        } else
+            mPlan.setEventType((ConstantsUtil.PLAN_TYPE_PRIVATE_EVENT));
 
         String pushKey = userPlanRef.push().getKey();
 
@@ -273,6 +280,22 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         createPlanProgressBar.setVisibility(View.GONE);
         FirebaseMessaging.getInstance().subscribeToTopic(pushKey);
         //userPlanRef.push().setValue(mPlan);
+        Toast.makeText(this, "Plan added", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void pushPublicEvent(Plan mPlan) {
+        DatabaseReference publicPlanRef = database.getReference("public_plans");
+        String pushKey = publicPlanRef.push().getKey();
+
+        mPlan.setDiscussionID(pushKey);
+
+        publicPlanRef.child(pushKey).setValue(mPlan.getStartTime());
+
+        planRef.child(pushKey).setValue(mPlan);
+
+        createPlanProgressBar.setVisibility(View.GONE);
+        FirebaseMessaging.getInstance().subscribeToTopic(pushKey);
         Toast.makeText(this, "Plan added", Toast.LENGTH_SHORT).show();
         finish();
     }

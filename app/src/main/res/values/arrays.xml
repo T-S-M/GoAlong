@@ -12,4 +12,9 @@
         <item>@string/value_pref_saved</item>
         <item>@string/value_pref_profile</item>
     </string-array>
+    <string-array name="plan_type_spinner">
+        <item>@string/plan_type_personal</item>
+        <item>@string/plan_type_public</item>
+    </string-array>
+    <string name="plan_type_public">Public</string>
 </resources>

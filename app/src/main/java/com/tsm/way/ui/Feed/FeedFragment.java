@@ -1,7 +1,9 @@
 package com.tsm.way.ui.Feed;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
+import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
 import com.tsm.way.ui.plan.adapters.PlanCardViewHolder;
@@ -42,13 +45,14 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_feed, container, false);
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
+        feedView = rootView.findViewById(R.id.rv_feed);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        feedView = rootView.findViewById(R.id.rv_feed);
+        feedView.setLayoutManager(new LinearLayoutManager(getContext()));
         DatabaseReference dbRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
         DatabaseReference planRef = dbRef.child("plans");
         DatabaseReference publicPlanRef = dbRef.child("public_plans");
@@ -72,16 +76,16 @@ public class FeedFragment extends Fragment {
             }
         };
         feedView.setAdapter(mAdapter);
+        feedView.setVisibility(View.VISIBLE);
 
 
-
-        /*FloatingActionButton fb = (FloatingActionButton) rootView.findViewById(R.id.fab_feed);
-        //fb.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fb = rootView.findViewById(R.id.fab_feed);
+        fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), FacebookAccountHelperActivity.class));
             }
-        });*/
+        });
         return rootView;
     }
 
