@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.tsm.way.R;
 import com.tsm.way.ui.common.activities.CreatePlanActivity;
+import com.tsm.way.ui.plan.adapters.PlanFragmentPagerAdapter;
 
 import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 

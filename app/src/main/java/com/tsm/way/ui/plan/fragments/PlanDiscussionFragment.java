@@ -19,6 +19,7 @@ import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Comment;
 import com.tsm.way.ui.plan.adapters.CommentViewHolder;
+import com.tsm.way.utils.CommonUtils;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,6 +58,7 @@ public class PlanDiscussionFragment extends Fragment {
             protected void onBindViewHolder(CommentViewHolder holder, int position, Comment model) {
                 holder.setName(model.getName());
                 holder.setMessage(model.getMessage());
+                holder.setTimestamp(CommonUtils.getFormattedTimeFromTimestamp(model.getTimestamp()));
             }
         };
 
