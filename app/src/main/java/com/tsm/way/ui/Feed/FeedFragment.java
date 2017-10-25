@@ -18,10 +18,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.tsm.way.R;
-import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
-import com.tsm.way.ui.plan.adapters.PlanCardViewHolder;
+import com.tsm.way.ui.common.activities.CreatePlanActivity;
 
 import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 
@@ -32,7 +31,7 @@ import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 public class FeedFragment extends Fragment {
 
     RecyclerView feedView;
-    FirebaseRecyclerAdapter<Plan, PlanCardViewHolder> mAdapter;
+    FirebaseRecyclerAdapter<Plan, PublicEventCardViewHolder> mAdapter;
 
     public FeedFragment() {
         // Required empty public constructor
@@ -63,15 +62,15 @@ public class FeedFragment extends Fragment {
         FirebaseRecyclerOptions<Plan> options = new FirebaseRecyclerOptions.Builder<Plan>()
                 .setIndexedQuery(publicPlanRef.orderByValue(), planRef, Plan.class)
                 .build();
-        mAdapter = new FirebaseRecyclerAdapter<Plan, PlanCardViewHolder>(options) {
+        mAdapter = new FirebaseRecyclerAdapter<Plan, PublicEventCardViewHolder>(options) {
             @Override
-            public PlanCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.plan_card, parent, false);
-                return new PlanCardViewHolder(view);
+            public PublicEventCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.feed_event_card, parent, false);
+                return new PublicEventCardViewHolder(view);
             }
 
             @Override
-            protected void onBindViewHolder(PlanCardViewHolder holder, int position, Plan model) {
+            protected void onBindViewHolder(PublicEventCardViewHolder holder, int position, Plan model) {
                 holder.bindDataToViewHolder(model, getActivity());
             }
         };
@@ -83,7 +82,7 @@ public class FeedFragment extends Fragment {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), FacebookAccountHelperActivity.class));
+                startActivity(new Intent(getActivity(), CreatePlanActivity.class));
             }
         });
         return rootView;
