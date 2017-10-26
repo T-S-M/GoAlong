@@ -3,6 +3,7 @@ package com.tsm.way.ui.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
@@ -68,7 +70,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout contactLayout,statusLayout;
     private Description desc;
     private ImageView editBio;
-
+    PieChart chart;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -95,6 +97,7 @@ public class ProfileFragment extends Fragment {
         note = view.findViewById(R.id.status);
         statusLayout = view.findViewById(R.id.statusLayout);
 
+        chart = view.findViewById(R.id.PieChart);
 
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
 
@@ -169,6 +172,7 @@ public class ProfileFragment extends Fragment {
         }
         else friends_num.setText("Total Friends: "+ friends_total);
 
+        setRetainInstance(true);
         return view;
     }
 
@@ -201,23 +205,24 @@ public class ProfileFragment extends Fragment {
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
+
     public void  addContact(){
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
         View mView = layoutInflaterAndroid.inflate(R.layout.editcontact, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
         alertDialogBuilderUserInput.setView(mView);
 
-        final EditText Editcontact = mView.findViewById(R.id.editContact);
+        final EditText EditContact = mView.findViewById(R.id.editContact);
 
         alertDialogBuilderUserInput
                 .setCancelable(false)
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialogBox, int id) {
-                        String Contact = Editcontact.getText().toString();
+                        String Contact = EditContact.getText().toString();
                         contact.setText(Contact);
-                        Map temp = new HashMap<String, String>();
-                        temp.put("profileBio",contact);
-                        dbref.updateChildren(temp);
+                        Map temp1 = new HashMap<String, String>();
+                        temp1.put("contact",Contact);
+                        dbref.updateChildren(temp1);
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -245,9 +250,9 @@ public class ProfileFragment extends Fragment {
                     public void onClick(DialogInterface dialogBox, int id) {
                         String Note = EditNote.getText().toString();
                         note.setText(Note);
-                        Map temp = new HashMap<String, String>();
-                        temp.put("note",note);
-                        dbref.updateChildren(temp);
+                        Map temp2 = new HashMap<String, String>();
+                        temp2.put("note",Note);
+                        dbref.updateChildren(temp2);
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -271,6 +276,8 @@ public class ProfileFragment extends Fragment {
                     updateUserData(appUser);
                 } else {
                     if (appUser.getProfileBio() != null) bio.setText(appUser.getProfileBio());
+                    if(appUser.getContact()!=null) contact.setText(appUser.getContact());
+                    if(appUser.getNote() !=null) note.setText(appUser.getNote());
                 }
             }
 
@@ -279,7 +286,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
 
     private void getStatData() {
         statRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -289,7 +295,7 @@ public class ProfileFragment extends Fragment {
                 if (stat == null) {
                     ((TextView) getView().findViewById(R.id.no_data)).setText("No data Available!! Add Some Plans First.");
                 } else {
-                    setupPieChart(getView(),stat);
+                    setupPieChart(stat);
                 }
             }
             @Override
@@ -298,7 +304,6 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
-
 
     private void updateUserData(Guest appUser) {
         Guest guest = new Guest();
@@ -323,7 +328,7 @@ public class ProfileFragment extends Fragment {
                 });
     }
 
-    private void setupPieChart(View view, Chart stat) {
+    private void setupPieChart(Chart stat) {
         //populating pie entries
 
         plans_count[0] = stat.getAcceptedCount();
@@ -340,15 +345,21 @@ public class ProfileFragment extends Fragment {
         PieData pdata = new PieData(dataset);
 
         //get the chart
-        PieChart chart = view.findViewById(R.id.chart);
+
         dataset.setValueFormatter(new MyValueFormatter());
+        dataset.setValueTextSize(11f);
+        dataset.setValueTextColor(Color.BLACK);
+        dataset.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
+        chart.getLegend().setEnabled(true);
+        int colorBlack = Color.parseColor("#000000");
+        chart.setEntryLabelColor(colorBlack);
         chart.setData(pdata);
-        chart.animateXY(2000, 2000);
+        //chart.animateXY(2000, 2000);
+        chart.animateY(2500, Easing.EasingOption.EaseOutBounce);
         chart.getDescription().setText("Plan Statistics");
         chart.invalidate();
-
     }
-    public void Description(String desc) {
-        this.Description("Achievements");
+    public void setDescription(String desc) {
+        this.setDescription("Achievements");
     }
 }

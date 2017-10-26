@@ -5,7 +5,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Guest {
     private String displayName;
-    private String email, uid, photoUrl, profileBio;
+    private String email, uid, photoUrl, profileBio,contact,note;
 
     public Guest() {
     }
@@ -49,4 +49,12 @@ public class Guest {
     public void setProfileBio(String profileBio) {
         this.profileBio = profileBio;
     }
+
+    public String getContact() {return contact;}
+
+    public void setContact(String contact) {this.contact = contact;}
+
+    public String getNote() {return note;}
+
+    public void setNote(String note) {this.note = note;}
 }
