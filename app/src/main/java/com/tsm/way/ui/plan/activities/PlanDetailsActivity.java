@@ -52,6 +52,15 @@ public class PlanDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_details);
         supportPostponeEnterTransition();
+        coverImageView = findViewById(R.id.plan_cover_image);
+        Intent intentThatStartedThisActivity = getIntent();
+        handleIntentExtras(intentThatStartedThisActivity);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            coverImageView.setTransitionName(plan.getDiscussionID());
+        }
+        showImageWithTransition(plan.getCoverUrl());
+        prepareBundles(plan);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -64,20 +73,11 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        coverImageView = findViewById(R.id.plan_cover_image);
-        Intent intentThatStartedThisActivity = getIntent();
-        handleIntentExtras(intentThatStartedThisActivity);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            coverImageView.setTransitionName(plan.getDiscussionID());
-        }
-        showImageWithTransition(plan.getCoverUrl());
     }
 
     private void handleIntentExtras(Intent intentThatStartedThisActivity) {
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
-            prepareBundles(plan);
         } else if (intentThatStartedThisActivity.hasExtra("id_tag")) {
             String id = intentThatStartedThisActivity.getStringExtra("id_tag");
             DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference("plans").child(id);
@@ -85,7 +85,6 @@ public class PlanDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     plan = dataSnapshot.getValue(Plan.class);
-                    prepareBundles(plan);
                 }
 
                 @Override
@@ -189,11 +188,11 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     return detail;
                 case 1:
                     return discussion;
-                case 2:
+                case 3:
                     Fragment guest = new ConfirmedGuestListFragment();
                     guest.setArguments(planBundle);
                     return guest;
-                case 3:
+                case 2:
                     Fragment task = new TaskFragment();
                     task.setArguments(planBundle);
                     return task;
@@ -214,9 +213,9 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     return "About";
                 case 1:
                     return "Discussion";
-                case 2:
-                    return "Guests";
                 case 3:
+                    return "Guests";
+                case 2:
                     return "Tasks";
             }
             return null;

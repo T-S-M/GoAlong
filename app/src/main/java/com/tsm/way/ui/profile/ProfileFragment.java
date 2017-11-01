@@ -68,9 +68,12 @@ public class ProfileFragment extends Fragment {
     String photoUrl;
     DatabaseReference dbref,statRef;
     LinearLayout contactLayout,statusLayout;
+    PieChart chart;
+    boolean isVisitor;
+    ImageView fbButton;
+    ImageView GoogleButton;
     private Description desc;
     private ImageView editBio;
-    PieChart chart;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -79,10 +82,13 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-
+        Bundle info = getArguments();
+        if (info != null) {
+            isVisitor = true;
+        }
         user = FirebaseAuth.getInstance().getCurrentUser();
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
 
@@ -100,7 +106,8 @@ public class ProfileFragment extends Fragment {
         chart = view.findViewById(R.id.PieChart);
 
         CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
-
+        fbButton = view.findViewById(R.id.fb_button);
+        GoogleButton = view.findViewById(R.id.google_button);
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
         else
             photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
@@ -113,50 +120,7 @@ public class ProfileFragment extends Fragment {
 
         statRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
         getStatData();
-
-        editBio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bioEdit();
-            }
-        });
-
-                // Adding / Edit the contact
-        contactLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addContact();
-            }
-        });
-
-        // Adding / Edit the note
-        statusLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addNote();
-            }
-        });
-
-        ImageView fbButton = view.findViewById(R.id.fb_button);
-        fbButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), FacebookAccountHelperActivity.class);
-                //intent.putExtra("click", true);
-                startActivity(intent);
-            }
-        });
-
-        ImageView GoogleButton = view.findViewById(R.id.google_button);
-        GoogleButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), AuthActivity.class);
-                startActivity(intent);
-                getActivity().finish();
-            }
-        });
+        controlEditAccess();
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -166,14 +130,60 @@ public class ProfileFragment extends Fragment {
 
         TextView friends_num = view.findViewById(R.id.friends_num);
         int friends_total = 0;
-        if(friends_total==0) {
+        if (friends_total == 0) {
             friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
             friends_num.setTextSize(16f);
-        }
-        else friends_num.setText("Total Friends: "+ friends_total);
+        } else friends_num.setText("Total Friends: " + friends_total);
 
         setRetainInstance(true);
         return view;
+    }
+
+    private void controlEditAccess() {
+        if (!isVisitor) {
+            editBio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    bioEdit();
+                }
+            });
+
+            // Adding / Edit the contact
+            contactLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addContact();
+                }
+            });
+
+            // Adding / Edit the note
+            statusLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addNote();
+                }
+            });
+
+            fbButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), FacebookAccountHelperActivity.class);
+                    //intent.putExtra("click", true);
+                    startActivity(intent);
+                }
+            });
+
+            GoogleButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent intent = new Intent(getContext(), AuthActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+            });
+        }
+
     }
 
     public void bioEdit(){
@@ -322,7 +332,7 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            //Log.d(TAG, "User profile updated.");
+                            //Log.d(TAG, "User fragment_profile updated.");
                         }
                     }
                 });

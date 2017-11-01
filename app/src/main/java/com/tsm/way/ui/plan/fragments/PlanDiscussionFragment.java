@@ -26,6 +26,9 @@ import com.tsm.way.utils.CommonUtils;
  */
 public class PlanDiscussionFragment extends Fragment {
 
+    LinearLayoutManager mLayoutManager;
+    RecyclerView messagesRecyclerView;
+    RecyclerView.AdapterDataObserver observer;
     private FirebaseRecyclerAdapter mAdapter;
 
     public PlanDiscussionFragment() {
@@ -37,8 +40,9 @@ public class PlanDiscussionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_plan_discussion, container, false);
-        RecyclerView messages = view.findViewById(R.id.messages);
-        messages.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+        messagesRecyclerView = view.findViewById(R.id.messages);
+        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true);
+        messagesRecyclerView.setLayoutManager(mLayoutManager);
         String id = getArguments().getString("id");
 
         final DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("discussion").child(id);
@@ -61,8 +65,8 @@ public class PlanDiscussionFragment extends Fragment {
                 holder.setTimestamp(CommonUtils.getFormattedTimeFromTimestamp(model.getTimestamp()));
             }
         };
-
-        messages.setAdapter(mAdapter);
+        createDataObserver();
+        messagesRecyclerView.setAdapter(mAdapter);
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -77,15 +81,35 @@ public class PlanDiscussionFragment extends Fragment {
         return view;
     }
 
+    private void createDataObserver() {
+        observer = new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int commentCount = mAdapter.getItemCount();
+                int lastVisiblePosition = mLayoutManager.findLastCompletelyVisibleItemPosition();
+
+                // If the recycler view is initially being loaded or the user is at the bottom of the list, scroll
+                // to the bottom of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                        (positionStart >= (commentCount - 1) && lastVisiblePosition == (positionStart - 1))) {
+                    messagesRecyclerView.scrollToPosition(positionStart);
+                }
+            }
+        };
+    }
+
     @Override
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
+        mAdapter.registerAdapterDataObserver(observer);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        mAdapter.unregisterAdapterDataObserver(observer);
         mAdapter.stopListening();
     }
 
