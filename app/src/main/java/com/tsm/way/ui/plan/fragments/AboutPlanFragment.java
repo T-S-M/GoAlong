@@ -30,6 +30,7 @@ public class AboutPlanFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_plan_info_detail, container, false);
         Bundle args = getArguments();
         Plan p = args.getParcelable("plan");
+        TextView plan_title = view.findViewById(R.id.plan_title);
         TextView date_time = view.findViewById(R.id.date_time);
         TextView host_info = view.findViewById(R.id.host_info);
         TextView description = view.findViewById(R.id.description);
@@ -39,8 +40,9 @@ public class AboutPlanFragment extends Fragment {
         Date date = new java.util.Date(unixTime);
         String formattedTime = new SimpleDateFormat(" EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(date);
 
-        date_time.setText(" Start : "+formattedTime);
-        host_info.setText(" Someone");
+        plan_title.setText(p.getTitle());
+        date_time.setText(formattedTime);
+        host_info.setText(p.getHostName());
         description.setText(p.getDescription());
         place_info.setText(" Name : " + p.getPlaceName() + "\n" +" Adress : "+ p.getPlaceAddress() +"\n" +" Latitude- " + p.getPlaceLat()+ "    Longitude- " + p.getPlaceLong());
         return view;

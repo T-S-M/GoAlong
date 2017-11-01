@@ -10,7 +10,7 @@
     <!-- google's material design colours from
 http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
     <!-- deep purples -->
-    <color name="md_deep_purple_900">#311b92</color>
+    <color name="md_deep_purple_900">#4f3d9e</color>
     <!--blue-->
     <color name="md_blue_600">#ff4e6cef</color>
 

@@ -20,16 +20,16 @@
         android:textSize="15sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/more2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/resturants_text"
-        android:layout_alignParentRight="true"
-        android:text="+More..."
-        android:textColor="@color/md_blue_600"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/more2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/resturants_text"
+            android:layout_alignParentRight="true"
+            android:text="+More..."
+            android:textColor="@color/md_deep_purple_900"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/resturants_recyclerview_r"

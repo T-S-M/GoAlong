@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/plan_basic_info" />
+        <include layout="@layout/plan_details" />
 
         <Button
             android:id="@+id/button3"

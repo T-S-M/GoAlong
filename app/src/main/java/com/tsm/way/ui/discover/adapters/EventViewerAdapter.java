@@ -18,11 +18,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
-/**
- * Created by mahsin on 9/21/17.
- */
-
 public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.EventViewerAdapterViewHolder> {
 
     private final EventViewerAdapterOnclickHandler mClickHandler;
