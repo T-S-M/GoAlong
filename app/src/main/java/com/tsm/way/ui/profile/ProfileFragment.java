@@ -87,8 +87,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_profile, container, false);
-        toolbar = view.findViewById(R.id.toolbar);
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         Bundle info = getArguments();
         if (info != null) {
             isVisitor = true;
@@ -111,6 +109,7 @@ public class ProfileFragment extends Fragment {
         profilePhoto = view.findViewById(R.id.user_profile_photo);
         fbButton = view.findViewById(R.id.fb_button);
         GoogleButton = view.findViewById(R.id.google_button);
+        controlEditAccess();
 
         setRetainInstance(true);
         return view;
@@ -214,6 +213,8 @@ public class ProfileFragment extends Fragment {
     }
 
     private void loadDataForCurrentUser() {
+        toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         user = FirebaseAuth.getInstance().getCurrentUser();
         ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
         if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();

@@ -82,7 +82,10 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".ui.profile.ShowOtherUserProfileActivity"></activity>
+        <activity
+            android:name=".ui.profile.ShowOtherUserProfileActivity"
+            android:label="@string/title_profile"
+            android:theme="@style/AppThemeWithActionBar" />
     </application>
 
 </manifest>

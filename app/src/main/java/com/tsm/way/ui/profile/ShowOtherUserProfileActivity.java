@@ -13,6 +13,7 @@ public class ShowOtherUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_other_user_profile);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ProfileFragment profileFragment = new ProfileFragment();
         if (getIntent().hasExtra("id")) {
             id = getIntent().getStringExtra("id");
