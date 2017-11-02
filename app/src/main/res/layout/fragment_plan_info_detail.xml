@@ -14,10 +14,13 @@
         <include layout="@layout/plan_details" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/show_map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/show_on_map" />
+            android:background="@drawable/custombutton"
+            android:clickable="true"
+            android:text="@string/show_on_map"
+            android:textColor="@color/about_background_color" />
     </LinearLayout>
 
 

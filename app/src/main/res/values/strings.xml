@@ -83,4 +83,5 @@
     <string name="account">Account</string>
     <string name="unlink_fb">unlink account</string>
     <string name="promt_task_description">Details</string>
+    <string name="title_activity_plan_on_maps">Where\'s the plan?</string>
 </resources>
