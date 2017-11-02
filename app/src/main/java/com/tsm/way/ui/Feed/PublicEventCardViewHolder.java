@@ -95,9 +95,11 @@ public class PublicEventCardViewHolder extends RecyclerView.ViewHolder {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             voteRef.child(uid).removeValue();
+                            likeEvent.setImageResource(R.drawable.ic_thumbs_up_done);
                             voteCount.setText(String.valueOf(voteCountLong--));
                         } else {
                             voteRef.child(uid).setValue(true);
+                            likeEvent.setImageResource(R.drawable.ic_thumbs_up);
                             voteCount.setText(String.valueOf(voteCountLong++));
                         }
                     }
