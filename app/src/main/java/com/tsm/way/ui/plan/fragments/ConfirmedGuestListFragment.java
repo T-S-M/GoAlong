@@ -1,10 +1,12 @@
 package com.tsm.way.ui.plan.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Guest;
 import com.tsm.way.models.Plan;
 import com.tsm.way.ui.plan.activities.InviteGuestsActivity;
+import com.tsm.way.ui.profile.ShowOtherUserProfileActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,6 +76,7 @@ public class ConfirmedGuestListFragment extends Fragment {
             @Override
             protected void onBindViewHolder(GuestViewHolder holder, int position, Guest model) {
                 holder.setGuestName(model.getDisplayName());
+                holder.attachOnClickListener(getContext(), model.getUid());
             }
         };
         personListView.setAdapter(mAdapter);
@@ -92,12 +96,27 @@ public class ConfirmedGuestListFragment extends Fragment {
     }
 
     public static class GuestViewHolder extends RecyclerView.ViewHolder {
-
+        CardView guest_card;
         TextView guestName;
 
         public GuestViewHolder(View itemView) {
             super(itemView);
             guestName = itemView.findViewById(R.id.guest_name);
+            guest_card = itemView.findViewById(R.id.guest_card);
+
+
+        }
+
+        public void attachOnClickListener(final Context context, final String id) {
+            guest_card.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, ShowOtherUserProfileActivity.class);
+                    intent.putExtra("id", id);
+                    context.startActivity(intent);
+                }
+            });
+
         }
 
         public void setGuestName(String name) {

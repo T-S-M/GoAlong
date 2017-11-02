@@ -72,6 +72,10 @@ public class ProfileFragment extends Fragment {
     boolean isVisitor;
     ImageView fbButton;
     ImageView GoogleButton;
+    View view;
+    CircleImageView profilePhoto;
+    Toolbar toolbar;
+    String guestID;
     private Description desc;
     private ImageView editBio;
     public ProfileFragment() {
@@ -82,15 +86,14 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         Bundle info = getArguments();
         if (info != null) {
             isVisitor = true;
+            guestID = info.getString("id");
         }
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
 
         note = view.findViewById(R.id.status);
 
@@ -105,35 +108,9 @@ public class ProfileFragment extends Fragment {
 
         chart = view.findViewById(R.id.PieChart);
 
-        CircleImageView profilePhoto = view.findViewById(R.id.user_profile_photo);
+        profilePhoto = view.findViewById(R.id.user_profile_photo);
         fbButton = view.findViewById(R.id.fb_button);
         GoogleButton = view.findViewById(R.id.google_button);
-        if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
-        else
-            photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
-        Glide.with(getContext())
-                .load(photoUrl)
-                .into(profilePhoto);
-
-        dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
-        getUserData();
-
-        statRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
-        getStatData();
-        controlEditAccess();
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
-
-        TextView friends_num = view.findViewById(R.id.friends_num);
-        int friends_total = 0;
-        if (friends_total == 0) {
-            friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
-            friends_num.setTextSize(16f);
-        } else friends_num.setText("Total Friends: " + friends_total);
 
         setRetainInstance(true);
         return view;
@@ -182,7 +159,88 @@ public class ProfileFragment extends Fragment {
                     getActivity().finish();
                 }
             });
+            loadDataForCurrentUser();
+        } else {
+            fbButton.setVisibility(View.INVISIBLE);
+            GoogleButton.setVisibility(View.INVISIBLE);
+            editBio.setVisibility(View.INVISIBLE);
+            loadDataForGuestUser();
+
         }
+
+    }
+
+    private void loadDataForGuestUser() {
+        DatabaseReference guestRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(guestID);
+        guestRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Guest user = dataSnapshot.getValue(Guest.class);
+                ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
+                if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
+                else
+                    photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
+                Glide.with(getContext())
+                        .load(photoUrl)
+                        .into(profilePhoto);
+
+                dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
+                getUserData();
+
+                statRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
+                getStatData();
+
+                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                        getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                drawer.addDrawerListener(toggle);
+                toggle.syncState();
+                ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
+
+                TextView friends_num = view.findViewById(R.id.friends_num);
+                int friends_total = 0;
+                if (friends_total == 0) {
+                    friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
+                    friends_num.setTextSize(16f);
+                } else friends_num.setText("Total Friends: " + friends_total);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void loadDataForCurrentUser() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
+        if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
+        else
+            photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
+        Glide.with(getContext())
+                .load(photoUrl)
+                .into(profilePhoto);
+
+        dbref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("users").child(user.getUid());
+        getUserData();
+
+        statRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference().child("stats").child(user.getUid());
+        getStatData();
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
+
+        TextView friends_num = view.findViewById(R.id.friends_num);
+        int friends_total = 0;
+        if (friends_total == 0) {
+            friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
+            friends_num.setTextSize(16f);
+        } else friends_num.setText("Total Friends: " + friends_total);
 
     }
 
@@ -371,5 +429,9 @@ public class ProfileFragment extends Fragment {
     }
     public void setDescription(String desc) {
         this.setDescription("Achievements");
+    }
+
+    public Guest getUserInfoFromFirebase() {
+        return new Guest();
     }
 }
