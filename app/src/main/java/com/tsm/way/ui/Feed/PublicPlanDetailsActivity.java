@@ -1,6 +1,5 @@
-package com.tsm.way.ui.plan.activities;
+package com.tsm.way.ui.Feed;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -11,11 +10,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,9 +36,8 @@ import com.tsm.way.ui.plan.fragments.ConfirmedGuestListFragment;
 import com.tsm.way.ui.plan.fragments.PlanDiscussionFragment;
 import com.tsm.way.ui.plan.fragments.TaskFragment;
 
-import static com.tsm.way.firebase.FirebaseDBHelper.getFirebaseDatabaseInstance;
+public class PublicPlanDetailsActivity extends AppCompatActivity {
 
-public class PlanDetailsActivity extends AppCompatActivity {
 
     private final Fragment discussion = new PlanDiscussionFragment();
     private ImageView coverImageView;
@@ -50,7 +47,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plan_details);
+        setContentView(R.layout.activity_public_plan_details);
         supportPostponeEnterTransition();
         coverImageView = findViewById(R.id.plan_cover_image);
         Intent intentThatStartedThisActivity = getIntent();
@@ -66,13 +63,16 @@ public class PlanDetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        PublicPlanDetailsActivity.SectionsPagerAdapter mSectionsPagerAdapter = new PublicPlanDetailsActivity.SectionsPagerAdapter(getSupportFragmentManager());
         // Set up the ViewPager with the sections adapter.
         ViewPager mViewPager = findViewById(R.id.viewpager_plan_detail);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+
+        Button joinButton = findViewById(R.id.join_button);
+
     }
 
     private void handleIntentExtras(Intent intentThatStartedThisActivity) {
@@ -89,7 +89,7 @@ public class PlanDetailsActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(PlanDetailsActivity.this, "There is an Error!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PublicPlanDetailsActivity.this, "There is an Error!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -139,40 +139,14 @@ public class PlanDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.action_delete_plan) {
-            @SuppressWarnings("ConstantConditions") String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            if (uid.equals(plan.getHostUid())) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Delete Plan")
-                        .setMessage("Are you sure?")
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                DatabaseReference rootRef = getFirebaseDatabaseInstance().getReference();
-                                //noinspection ConstantConditions
-                                rootRef.child("userPlans").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                        .child(plan.getDiscussionID()).removeValue();
-                                rootRef.child("plans").child(plan.getDiscussionID()).removeValue();
-                                finish();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, null).show();
-
-                return true;
-            } else {
-                Toast.makeText(PlanDetailsActivity.this, "You do not have permission to delete", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(PublicPlanDetailsActivity.this, "You do not have permission to delete", Toast.LENGTH_SHORT).show();
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -198,12 +172,12 @@ public class PlanDetailsActivity extends AppCompatActivity {
                     return task;
             }
             return null;
+
         }
 
         @Override
         public int getCount() {
-            // Show 4 total pages.
-            return 4;
+            return 1;
         }
 
         @Override
@@ -211,14 +185,9 @@ public class PlanDetailsActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return "About";
-                case 1:
-                    return "Discussion";
-                case 3:
-                    return "Guests";
-                case 2:
-                    return "Tasks";
             }
             return null;
         }
     }
+
 }

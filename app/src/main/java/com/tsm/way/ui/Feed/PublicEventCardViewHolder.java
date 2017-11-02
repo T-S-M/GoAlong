@@ -18,7 +18,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
-import com.tsm.way.ui.plan.activities.PlanDetailsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -74,7 +73,7 @@ public class PublicEventCardViewHolder extends RecyclerView.ViewHolder {
         viewItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentDetail = new Intent(context, PlanDetailsActivity.class);
+                Intent intentDetail = new Intent(context, PublicPlanDetailsActivity.class);
                 intentDetail.putExtra("plan", model);
 
                 ActivityOptionsCompat options = ActivityOptionsCompat

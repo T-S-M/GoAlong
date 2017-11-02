@@ -46,10 +46,10 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
 
     public static final String TAG = "DiscoverFragment";
     RequestQueue mRequestQueue;
-    List<PlaceBean> placelist;
+    List<PlaceBean> placeList;
     String type;
     FixedPlaceListAdapter restaurantsAdapter;
-    EventViewerAdapter fbEventsAdater;
+    EventViewerAdapter fbEventsAdapter;
     RecyclerView parent;
     DiscoverViewsAdapter parentAdapter;
 
@@ -63,26 +63,28 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
         View rootView = inflater.inflate(R.layout.fragment_discover, container, false);
         Toolbar toolbar = rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
         parent = rootView.findViewById(R.id.parent_recycler_view);
         mRequestQueue = Volley.newRequestQueue(getContext());
 
-        populateRecyclerviews();
+        populateRecyclerViews();
         parent.setLayoutManager(new LinearLayoutManager(getContext()));
-        parentAdapter = new DiscoverViewsAdapter(getContext(), restaurantsAdapter, fbEventsAdater);
+        parentAdapter = new DiscoverViewsAdapter(getContext(), restaurantsAdapter, fbEventsAdapter);
         parent.setAdapter(parentAdapter);
         return rootView;
     }
 
-    private void populateRecyclerviews() {
+    private void populateRecyclerViews() {
 
         if (restaurantsAdapter != null) {
             return;
         }
-        if (fbEventsAdater != null) {
+        if (fbEventsAdapter != null) {
             return;
         }
 
@@ -106,8 +108,8 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
                         //jsonTView.setText("Response is: " + response.substring(0));
                         PlaceListJSONParser parser = new PlaceListJSONParser(response.substring(0), "restaurant");
                         try {
-                            placelist = parser.getPlaceBeanList();
-                            restaurantsAdapter = new FixedPlaceListAdapter(getContext(), placelist, new PlaceCardClickHandler(getContext()));
+                            placeList = parser.getPlaceBeanList();
+                            restaurantsAdapter = new FixedPlaceListAdapter(getContext(), placeList, new PlaceCardClickHandler(getContext()));
                             parentAdapter.setPlaceAdapter(restaurantsAdapter);
 
                         } catch (Exception e) {
@@ -136,8 +138,8 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
                             try {
                                 ArrayList<Plan> eventList;
                                 eventList = parser.getfbEventListData();
-                                fbEventsAdater = new EventViewerAdapter(getContext(), eventList, DiscoverFragment.this);
-                                parentAdapter.setEventAdapter(fbEventsAdater);
+                                fbEventsAdapter = new EventViewerAdapter(getContext(), eventList, DiscoverFragment.this);
+                                parentAdapter.setEventAdapter(fbEventsAdapter);
 
                             } catch (Exception e) {
                                 e.printStackTrace();

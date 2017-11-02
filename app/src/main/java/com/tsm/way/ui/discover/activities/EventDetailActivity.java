@@ -34,8 +34,10 @@ public class EventDetailActivity extends AppCompatActivity {
 
         Bundle planBundle = new Bundle();
         planBundle.putParcelable("plan", mplan);
-        Bundle discussionbundle = new Bundle();
-        discussionbundle.putString("id", mplan.getDiscussionID());
+
+        Bundle discussionBundle = new Bundle();
+        discussionBundle.putString("id", mplan.getDiscussionID());
+
         Fragment detail = new AboutPlanFragment();
         detail.setArguments(planBundle);
         getSupportFragmentManager().beginTransaction()
