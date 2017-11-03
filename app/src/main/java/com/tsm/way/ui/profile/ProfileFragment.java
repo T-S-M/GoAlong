@@ -327,7 +327,12 @@ public class ProfileFragment extends Fragment {
         int min = c.get(Calendar.MINUTE);
         //int ampm = c.get(Calendar.AM_PM);
 
-        if(timeOfDay >= 0 && timeOfDay < 12){
+        if(timeOfDay >= 0 && timeOfDay < 4){
+            Snackbar.make(view, "Don't stay up too late, "+user.getDisplayName()+"?\nYou'll be late for morning work.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+        }
+        if(timeOfDay >= 4 && timeOfDay < 12){
             Snackbar.make(view, "Good Morning, "+user.getDisplayName()+"!!"+" Have a good day!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);

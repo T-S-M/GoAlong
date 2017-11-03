@@ -29,8 +29,8 @@ public class About extends AppCompatActivity {
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setImage(R.drawable.dummy_image)
-                .setDescription("Go The Distance \n Developed By-\n1.Tanjid Hasan Tonmoy\n2.Sakib Hasan\n3.Mahsin Bin Akram")
+                .setImage(R.drawable.glogo)
+                .setDescription("Go The Distance \nDeveloped By-\n1.Tanjid Hasan Tonmoy\n2.Sakib Hasan\n3.Mahsin Bin Akram")
                 .addItem(new Element().setTitle("Version 1.0.0"))
                 .addItem(adsElement)
                 .addGroup("Connect with us")
