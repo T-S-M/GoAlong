@@ -10,9 +10,6 @@
         layout="@layout/layout_appbar" />
 
 
-
-
-
     <!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

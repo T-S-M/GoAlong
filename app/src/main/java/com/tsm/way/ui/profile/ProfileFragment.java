@@ -70,7 +70,7 @@ public class ProfileFragment extends Fragment {
     LinearLayout contactLayout,statusLayout;
     PieChart chart;
     boolean isVisitor;
-    ImageView fbButton;
+    ImageView fbButton,fav_button;
     ImageView GoogleButton;
     View view;
     CircleImageView profilePhoto;
@@ -78,6 +78,10 @@ public class ProfileFragment extends Fragment {
     String guestID;
     private Description desc;
     private ImageView editBio;
+
+    TextView popularity_cnt;
+    DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+    long total_popularity;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -109,6 +113,7 @@ public class ProfileFragment extends Fragment {
         profilePhoto = view.findViewById(R.id.user_profile_photo);
         fbButton = view.findViewById(R.id.fb_button);
         GoogleButton = view.findViewById(R.id.google_button);
+        fav_button = view.findViewById(R.id.fav_button);
         controlEditAccess();
 
         setRetainInstance(true);
@@ -163,6 +168,38 @@ public class ProfileFragment extends Fragment {
             fbButton.setVisibility(View.INVISIBLE);
             GoogleButton.setVisibility(View.INVISIBLE);
             editBio.setVisibility(View.INVISIBLE);
+
+            //adding popularity value
+            fav_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //fav_button.setImageResource(R.drawable.ic_love);
+                    final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    final DatabaseReference popRef = rootRef.child("popularity").child(uid);
+                    //if(voteRef.child(uid))
+                    popRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                popRef.child(uid).removeValue();
+                                fav_button.setImageResource(R.drawable.ic_love);
+                                popularity_cnt.setText(String.valueOf(total_popularity--));
+                            } else {
+                                popRef.child(uid).setValue(true);
+                                fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                                popularity_cnt.setText(String.valueOf(total_popularity++));
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+            });
+
             loadDataForGuestUser();
 
         }
@@ -195,12 +232,12 @@ public class ProfileFragment extends Fragment {
                 toggle.syncState();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
-                TextView friends_num = view.findViewById(R.id.friends_num);
-                int friends_total = 0;
-                if (friends_total == 0) {
-                    friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
-                    friends_num.setTextSize(16f);
-                } else friends_num.setText("Total Friends: " + friends_total);
+                TextView popularity_cnt = view.findViewById(R.id.popularity);
+                //int total_popularity ;
+                if (total_popularity == 0) {
+                    popularity_cnt.setText("Popularity: " + total_popularity + "\nPlease, add/invite some friends and Enjoy!");
+                    popularity_cnt.setTextSize(16f);
+                } else popularity_cnt.setText("Popularity: " + total_popularity);
 
             }
 
@@ -236,12 +273,12 @@ public class ProfileFragment extends Fragment {
         toggle.syncState();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
-        TextView friends_num = view.findViewById(R.id.friends_num);
-        int friends_total = 0;
-        if (friends_total == 0) {
-            friends_num.setText("Total Friends: " + friends_total + "\nPlease, add/invite some friends and Enjoy!");
-            friends_num.setTextSize(16f);
-        } else friends_num.setText("Total Friends: " + friends_total);
+        popularity_cnt = view.findViewById(R.id.popularity);
+        int total_popularity = 0;
+        if (total_popularity == 0) {
+            popularity_cnt.setText("Total Friends: " + total_popularity + "\nPlease, add/invite some friends and Enjoy!");
+            popularity_cnt.setTextSize(16f);
+        } else popularity_cnt.setText("Total Friends: " + total_popularity);
 
     }
 

@@ -84,24 +84,24 @@ public class PublicEventCardViewHolder extends RecyclerView.ViewHolder {
         });
 
         likeEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                final DatabaseReference voteRef = rootRef.child("votes").child(model.getDiscussionID());
-                //if(voteRef.child(uid))
-                voteRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            voteRef.child(uid).removeValue();
-                            voteCount.setText(String.valueOf(voteCountLong--));
-                            likeEvent.setImageResource(R.drawable.ic_thumbs_up_done);
-                        } else {
-                            voteRef.child(uid).setValue(true);
-                            voteCount.setText(String.valueOf(voteCountLong++));
-                            likeEvent.setImageResource(R.drawable.ic_thumbs_up);
-                        }
-                    }
+                        @Override
+                        public void onClick(View v) {
+                            final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            final DatabaseReference voteRef = rootRef.child("votes").child(model.getDiscussionID());
+                            //if(voteRef.child(uid))
+                            voteRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot.exists()) {
+                                        voteRef.child(uid).removeValue();
+                                        voteCount.setText(String.valueOf(voteCountLong--));
+                                        likeEvent.setImageResource(R.drawable.ic_thumbs_up_done);
+                                    } else {
+                                        voteRef.child(uid).setValue(true);
+                                        voteCount.setText(String.valueOf(voteCountLong++));
+                                        likeEvent.setImageResource(R.drawable.ic_thumbs_up);
+                                    }
+                                }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {

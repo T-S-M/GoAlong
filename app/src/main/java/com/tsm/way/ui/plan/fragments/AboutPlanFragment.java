@@ -47,7 +47,7 @@ public class AboutPlanFragment extends Fragment {
         date_time.setText(formattedTime);
         host_info.setText(p.getHostName());
         description.setText(p.getDescription());
-        place_info.setText(" Name : " + p.getPlaceName() + "\n" +" Adress : "+ p.getPlaceAddress() +"\n" +" Latitude- " + p.getPlaceLat()+ "    Longitude- " + p.getPlaceLong());
+        place_info.setText(" Name : " + p.getPlaceName() + "\n" +"Adress : "+ p.getPlaceAddress() +"\n" +"Latitude- " + p.getPlaceLat()+ "  Longitude- " + p.getPlaceLong());
 
         show_map = view.findViewById(R.id.show_map);
         show_map.setOnClickListener(new View.OnClickListener() {
