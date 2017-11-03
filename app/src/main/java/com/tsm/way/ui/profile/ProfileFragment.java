@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -45,10 +46,15 @@ import com.tsm.way.models.Guest;
 import com.tsm.way.ui.common.activities.AuthActivity;
 import com.tsm.way.utils.UrlsUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -62,20 +68,18 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     float plans_count[] = {0f, 0f ,0f , 0f};
     String plans_type[] = {"Interested", "Joined","Created","Invited people"};
-    TextView bio,contact,note;
+    TextView bio,contact,note,greetings;
     Guest appUser;
     Chart stat;
-    String photoUrl;
+    String photoUrl,guestID;
     DatabaseReference dbref,statRef;
     LinearLayout contactLayout,statusLayout;
     PieChart chart;
     boolean isVisitor;
-    ImageView fbButton,fav_button;
-    ImageView GoogleButton;
+    ImageView fbButton,fav_button,GoogleButton;
     View view;
     CircleImageView profilePhoto;
     Toolbar toolbar;
-    String guestID;
     private Description desc;
     private ImageView editBio;
 
@@ -128,7 +132,6 @@ public class ProfileFragment extends Fragment {
                     bioEdit();
                 }
             });
-
             // Adding / Edit the contact
             contactLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -163,6 +166,8 @@ public class ProfileFragment extends Fragment {
                     getActivity().finish();
                 }
             });
+
+            fav_button.setVisibility(view.INVISIBLE);
             loadDataForCurrentUser();
         } else {
             fbButton.setVisibility(View.INVISIBLE);
@@ -196,12 +201,10 @@ public class ProfileFragment extends Fragment {
 
                         }
                     });
-
                 }
             });
 
             loadDataForGuestUser();
-
         }
 
     }
@@ -238,12 +241,9 @@ public class ProfileFragment extends Fragment {
                     popularity_cnt.setText("Popularity: " + total_popularity + "\nPlease, add/invite some friends and Enjoy!");
                     popularity_cnt.setTextSize(16f);
                 } else popularity_cnt.setText("Popularity: " + total_popularity);
-
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -272,6 +272,9 @@ public class ProfileFragment extends Fragment {
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
+
+        //greetings
+        showGreetingMsg();
 
         popularity_cnt = view.findViewById(R.id.popularity);
         int total_popularity = 0;
@@ -310,6 +313,40 @@ public class ProfileFragment extends Fragment {
 
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
+    }
+
+
+    public void showGreetingMsg(){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        //System.out.println(sdf.format(new Date()));
+        greetings = view.findViewById(R.id.greetings);
+        Calendar c = Calendar.getInstance();
+        //int date = c.get(Calendar.DATE);
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+        int min = c.get(Calendar.MINUTE);
+        //int ampm = c.get(Calendar.AM_PM);
+
+        if(timeOfDay >= 0 && timeOfDay < 12){
+            Snackbar.make(view, "Good Morning, "+user.getDisplayName()+"!!"+" Have a good day!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+        }else if(timeOfDay >= 12 && timeOfDay < 16){
+            Snackbar.make(view, "Good Afternoon, "+user.getDisplayName()+"!!"+" Don't Forget to have Lunch.", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Afternoon!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+        }else if(timeOfDay >= 16 && timeOfDay < 21){
+            Snackbar.make(view, "Good Evening, "+user.getDisplayName()+"!!"+" Tired?? have some Snacks!", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Evening!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            if(timeOfDay>=21 && timeOfDay<=23)
+            Snackbar.make(view, "Had Dinner, "+user.getDisplayName()+"?? Eat well Sleep well.\n               Good Night!   ...zzZZZzZZ....", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            else if(timeOfDay>23)  Snackbar.make(view, "Good Night! "+user.getDisplayName()+" :)", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            greetings.setText("Feeling Tired,"+user.getDisplayName()+"?"+" Have dinner & Get Some Sleep."+"\nGood Night!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+        }
     }
 
     public void  addContact(){
