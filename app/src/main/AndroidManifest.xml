@@ -86,7 +86,9 @@
             android:name=".ui.profile.ShowOtherUserProfileActivity"
             android:label="@string/title_profile"
             android:theme="@style/AppThemeWithActionBar" />
-        <activity android:name=".ui.Feed.PublicPlanDetailsActivity" />
+        <activity
+            android:name=".ui.Feed.PublicPlanDetailsActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
     </application>
 
 </manifest>

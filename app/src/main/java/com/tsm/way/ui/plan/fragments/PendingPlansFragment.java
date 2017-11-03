@@ -1,6 +1,7 @@
 package com.tsm.way.ui.plan.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -20,6 +21,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
+import com.tsm.way.ui.Feed.PublicPlanDetailsActivity;
 import com.tsm.way.ui.plan.adapters.PendingPlansViewholder;
 
 /**
@@ -102,6 +104,9 @@ public class PendingPlansFragment extends Fragment implements PendingPlansViewho
                         .setAction("Action", null).show();
                 break;
             case R.id.expand_button:
+                Intent intentDetail = new Intent(getContext(), PublicPlanDetailsActivity.class);
+                intentDetail.putExtra("id_tag", planID);
+                getContext().startActivity(intentDetail);
                 break;
         }
     }

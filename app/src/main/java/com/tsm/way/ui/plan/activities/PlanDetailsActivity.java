@@ -59,9 +59,6 @@ public class PlanDetailsActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             coverImageView.setTransitionName(plan.getDiscussionID());
         }
-        showImageWithTransition(plan.getCoverUrl());
-        prepareBundles(plan);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //noinspection ConstantConditions
@@ -78,6 +75,8 @@ public class PlanDetailsActivity extends AppCompatActivity {
     private void handleIntentExtras(Intent intentThatStartedThisActivity) {
         if (intentThatStartedThisActivity.hasExtra("plan")) {
             plan = intentThatStartedThisActivity.getParcelableExtra("plan");
+            showImageWithTransition(plan.getCoverUrl());
+            prepareBundles(plan);
         } else if (intentThatStartedThisActivity.hasExtra("id_tag")) {
             String id = intentThatStartedThisActivity.getStringExtra("id_tag");
             DatabaseReference ref = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference("plans").child(id);
@@ -85,6 +84,8 @@ public class PlanDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     plan = dataSnapshot.getValue(Plan.class);
+                    showImageWithTransition(plan.getCoverUrl());
+                    prepareBundles(plan);
                 }
 
                 @Override

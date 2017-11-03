@@ -20,6 +20,7 @@ import com.tsm.way.models.Guest;
 import com.tsm.way.models.Plan;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class InviteGuestsActivity extends AppCompatActivity {
@@ -46,7 +47,17 @@ public class InviteGuestsActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userPendingRef.updateChildren(pushtouserMap);
+                Iterator it = pushtouserMap.entrySet().iterator();
+                while (it.hasNext()) {
+                    HashMap.Entry pair = (HashMap.Entry) it.next();
+                    String key = (String) pair.getKey();
+                    Map val = (HashMap) pair.getValue();
+                    Iterator it2 = val.entrySet().iterator();
+                    HashMap.Entry inviteVal = (HashMap.Entry) it2.next();
+                    userPendingRef.child(key).child(inviteVal.getKey().toString()).setValue(true);
+                    it.remove();
+                }
+                //userPendingRef.updateChildren(pushtouserMap);
                 Snackbar.make(v, "Invited!", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
                 finish();
