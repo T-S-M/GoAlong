@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/user_profile_name"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="13dp"
                         android:text="This is me"
                         android:textColor="#fff"
                         android:textSize="14sp" />
@@ -162,6 +162,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="6dp"
                 app:cardCornerRadius="8dp">
 
                 <RelativeLayout
@@ -195,6 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 android:elevation="4dp"
+                app:cardBackgroundColor="#e5fd9a1f"
                 app:cardCornerRadius="8dp">
             <TextView
                 android:id="@+id/popularity"
@@ -203,9 +205,8 @@
                 android:layout_margin="5dp"
                 android:layout_marginBottom="3dp"
                 android:layout_marginTop="3dp"
-                android:background="#fff"
                 android:clickable="true"
-                android:padding="20dp"
+                android:padding="10dp"
                 android:text="Popularity"
                 android:textAlignment="center"
                 android:textStyle="italic" />
@@ -216,16 +217,17 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 android:layout_margin="2dp"
+                app:cardBackgroundColor="#e5fd9a1f"
                 android:elevation="4dp">
                 <TextView
                     android:id="@+id/greetings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:background="#fff"
                     android:clickable="true"
-                    android:padding="20dp"
-                    android:text="Feeling good??" />
+                    android:padding="15dp"
+                    android:text="Feeling good??"
+                    android:textColor="#222223"/>
             </android.support.v7.widget.CardView>
 
 
@@ -234,7 +236,8 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 android:layout_margin="2dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardBackgroundColor="#e8ff981a">
 
             <LinearLayout
                 android:id="@+id/contactLayout"
@@ -243,12 +246,11 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_margin="5dp"
-                android:background="#fff"
                 android:clickable="true"
                 android:gravity="center_vertical"
                 android:minHeight="40dp"
                 android:orientation="horizontal"
-                android:padding="20dp">
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -266,13 +268,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="30dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="4dp"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:hint="Add Contact - +880......"
                     android:textAlignment="center"
                     android:textColor="#222223"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
 
             </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -283,7 +285,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
                 app:cardCornerRadius="8dp"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                app:cardBackgroundColor="#e5fd9a1f">
 
         <LinearLayout
             android:id="@+id/statusLayout"
@@ -291,12 +294,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="#fff"
             android:clickable="true"
             android:gravity="center_vertical"
             android:minHeight="40dp"
             android:orientation="horizontal"
-            android:padding="20dp">
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -314,15 +316,14 @@
                 android:id="@+id/status"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="end"
                 android:hint="Add something about you /What's in your mind..."
                 android:textAlignment="textStart"
                 android:textColor="#322f3b"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 tools:ignore="RtlCompat" />
             </LinearLayout>
 
