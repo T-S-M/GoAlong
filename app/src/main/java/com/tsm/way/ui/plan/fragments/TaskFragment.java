@@ -53,6 +53,8 @@ public class TaskFragment extends Fragment {
 
         if (user.getUid().equals(mPlan.getHostUid())) {
             enableEventAdminFeatures(view);
+        } else {
+            addTaskButtton.setVisibility(View.GONE);
         }
         RecyclerView taskview = view.findViewById(R.id.tasks_list_view);
         taskview.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
@@ -83,7 +85,6 @@ public class TaskFragment extends Fragment {
     }
 
     private void enableEventAdminFeatures(View view) {
-        addTaskButtton.setVisibility(View.VISIBLE);
         addTaskButtton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

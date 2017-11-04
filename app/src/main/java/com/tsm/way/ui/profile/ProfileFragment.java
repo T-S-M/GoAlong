@@ -80,12 +80,11 @@ public class ProfileFragment extends Fragment {
     View view;
     CircleImageView profilePhoto;
     Toolbar toolbar;
-    private Description desc;
-    private ImageView editBio;
-
     TextView popularity_cnt;
     DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
-    long total_popularity;
+    long totalPopularity;
+    private Description desc;
+    private ImageView editBio;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -167,43 +166,12 @@ public class ProfileFragment extends Fragment {
                 }
             });
 
-            fav_button.setVisibility(view.INVISIBLE);
+            fav_button.setVisibility(View.INVISIBLE);
             loadDataForCurrentUser();
         } else {
             fbButton.setVisibility(View.INVISIBLE);
             GoogleButton.setVisibility(View.INVISIBLE);
             editBio.setVisibility(View.INVISIBLE);
-
-            //adding popularity value
-            fav_button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //fav_button.setImageResource(R.drawable.ic_love);
-                    final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    final DatabaseReference popRef = rootRef.child("popularity").child(uid);
-                    //if(voteRef.child(uid))
-                    popRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                popRef.child(uid).removeValue();
-                                fav_button.setImageResource(R.drawable.ic_love);
-                                popularity_cnt.setText(String.valueOf(total_popularity--));
-                            } else {
-                                popRef.child(uid).setValue(true);
-                                fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                                popularity_cnt.setText(String.valueOf(total_popularity++));
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-                }
-            });
-
             loadDataForGuestUser();
         }
 
@@ -235,18 +203,72 @@ public class ProfileFragment extends Fragment {
                 toggle.syncState();
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
-                TextView popularity_cnt = view.findViewById(R.id.popularity);
-                //int total_popularity ;
-                if (total_popularity == 0) {
-                    popularity_cnt.setText("Popularity: " + total_popularity + "\nPlease, add/invite some friends and Enjoy!");
-                    popularity_cnt.setTextSize(16f);
-                } else popularity_cnt.setText("Popularity: " + total_popularity);
+                TextView popularityCount = view.findViewById(R.id.popularity);
+                //int totalPopularity ;
+                if (totalPopularity == 0) {
+                    popularityCount.setText("Popularity: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
+                    popularityCount.setTextSize(16f);
+                } else popularityCount.setText("Popularity: " + totalPopularity);
+                enableFavouriteButton(rootRef.child("popularity").child(user.getUid()), popularityCount);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
 
+    }
+
+    private void enableFavouriteButton(final DatabaseReference popRef, final TextView popularityCount) {
+        final String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        popRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                totalPopularity = dataSnapshot.getChildrenCount();
+                updateOrReadLikeValue(true, popRef, popularityCount, uid);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        fav_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateOrReadLikeValue(false, popRef, popularityCount, uid);
+                //fav_button.setImageResource(R.drawable.ic_love);
+            }
+        });
+
+    }
+
+    private void updateOrReadLikeValue(final boolean readOnly, final DatabaseReference popRef, final TextView popularityCount, final String uid) {
+        popRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    if (!readOnly) {
+                        popRef.child(uid).removeValue();
+                        fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        popularityCount.setText(String.valueOf(totalPopularity++));
+                    } else
+                        fav_button.setImageResource(R.drawable.ic_love);
+                } else {
+                    if (!readOnly) {
+                        popRef.child(uid).setValue(true);
+                        fav_button.setImageResource(R.drawable.ic_love);
+                        popularityCount.setText(String.valueOf(totalPopularity--));
+                    } else fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void loadDataForCurrentUser() {
