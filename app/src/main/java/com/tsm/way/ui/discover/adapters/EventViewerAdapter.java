@@ -14,7 +14,6 @@ import com.tsm.way.R;
 import com.tsm.way.models.Plan;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,9 +42,7 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
         holder.planNameTextView.setText(model.getTitle());
         Log.v("FB_IMAGE", model.getTitle());
         holder.planPlaceTextView.setText(model.getPlaceName());
-        long unixTime = model.getStartTime();
-        Date date = new java.util.Date(unixTime);
-        String formattedTime = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(date);
+        String formattedTime = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(model.getStartTime());
         holder.planDateTime.setText(formattedTime);
         if (model.getCoverUrl() != null) {
             String url = model.getCoverUrl();
