@@ -86,7 +86,6 @@ public class ProfileFragment extends Fragment {
     long totalPopularity;
     private Description desc;
     private ImageView editBio;
-    int total_popularity = 0;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -120,6 +119,7 @@ public class ProfileFragment extends Fragment {
         fbButton = view.findViewById(R.id.fb_button);
         GoogleButton = view.findViewById(R.id.google_button);
         fav_button = view.findViewById(R.id.fav_button);
+        popularity_cnt = view.findViewById(R.id.popularity);
         controlEditAccess();
 
         setRetainInstance(true);
@@ -208,11 +208,11 @@ public class ProfileFragment extends Fragment {
                 ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
                 TextView popularityCount = view.findViewById(R.id.popularity);
-                //int totalPopularity ;
-                if (totalPopularity == 0) {
-                    popularityCount.setText("Popularity: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
+                //totalPopularity ;
+                if (totalPopularity != 0) {
+                    popularityCount.setText("Popularity: " + totalPopularity+" Person(s) liked your profile! ");
                     popularityCount.setTextSize(16f);
-                } else popularityCount.setText("Popularity: " + totalPopularity);
+                } else  popularityCount.setText("Popularity: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
                 enableFavouriteButton(rootRef.child("popularity").child(user.getUid()), popularityCount);
             }
             @Override
@@ -257,9 +257,7 @@ public class ProfileFragment extends Fragment {
                         popRef.child(uid).removeValue();
                         fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         totalPopularity++;
-                        if(totalPopularity==0) {
-                            popularityCount.setText("Total Friends: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
-                        }else popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
+                        popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
                     } else
                         fav_button.setImageResource(R.drawable.ic_love);
                 } else {
@@ -267,9 +265,7 @@ public class ProfileFragment extends Fragment {
                         popRef.child(uid).setValue(true);
                         fav_button.setImageResource(R.drawable.ic_love);
                         totalPopularity--;
-                        if(totalPopularity==0) {
-                            popularityCount.setText("Total Friends: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
-                        }else popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
+                        popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
                     } else fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                 }
             }
@@ -305,6 +301,13 @@ public class ProfileFragment extends Fragment {
         toggle.syncState();
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.title_profile);
 
+        //totalPopularity ;
+        TextView popularityCount = view.findViewById(R.id.popularity);
+        if (totalPopularity != 0) {
+            popularityCount.setText("Popularity: " + totalPopularity+" Person(s) liked your profile! ");
+            popularityCount.setTextSize(16f);
+        } else  popularityCount.setText("Popularity: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
+        enableFavouriteButton(rootRef.child("popularity").child(user.getUid()), popularityCount);
         //greetings
         showGreetingMsg();
     }
@@ -359,7 +362,9 @@ public class ProfileFragment extends Fragment {
         if(timeOfDay >= 0 && timeOfDay < 4){
             Snackbar.make(view, "Don't stay up too late, "+user.getDisplayName()+"?\nYou'll be late for morning work.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min+" "+ampm);
+            if(timeOfDay==0)
+            greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+(timeOfDay+12)+":"+min+" "+ampm);
+            else greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+(timeOfDay+12)+":"+min+" "+ampm);
         }
         if(timeOfDay >= 4 && timeOfDay < 12){
             Snackbar.make(view, "Good Morning, "+user.getDisplayName()+"!!"+" Have a good day!", Snackbar.LENGTH_LONG)
