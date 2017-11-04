@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -52,7 +54,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -85,10 +86,12 @@ public class ProfileFragment extends Fragment {
     long totalPopularity;
     private Description desc;
     private ImageView editBio;
+    int total_popularity = 0;
     public ProfileFragment() {
         // Required empty public constructor
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -123,6 +126,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void controlEditAccess() {
         if (!isVisitor) {
             editBio.setOnClickListener(new View.OnClickListener() {
@@ -252,25 +256,31 @@ public class ProfileFragment extends Fragment {
                     if (!readOnly) {
                         popRef.child(uid).removeValue();
                         fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                        popularityCount.setText(String.valueOf(totalPopularity++));
+                        totalPopularity++;
+                        if(totalPopularity==0) {
+                            popularityCount.setText("Total Friends: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
+                        }else popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
                     } else
                         fav_button.setImageResource(R.drawable.ic_love);
                 } else {
                     if (!readOnly) {
                         popRef.child(uid).setValue(true);
                         fav_button.setImageResource(R.drawable.ic_love);
-                        popularityCount.setText(String.valueOf(totalPopularity--));
+                        totalPopularity--;
+                        if(totalPopularity==0) {
+                            popularityCount.setText("Total Friends: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
+                        }else popularityCount.setText("Popularity: " + String.valueOf(totalPopularity) +" Person(s) liked your profile! ");
                     } else fav_button.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadDataForCurrentUser() {
         toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -297,14 +307,6 @@ public class ProfileFragment extends Fragment {
 
         //greetings
         showGreetingMsg();
-
-        popularity_cnt = view.findViewById(R.id.popularity);
-        int total_popularity = 0;
-        if (total_popularity == 0) {
-            popularity_cnt.setText("Total Friends: " + total_popularity + "\nPlease, add/invite some friends and Enjoy!");
-            popularity_cnt.setTextSize(16f);
-        } else popularity_cnt.setText("Total Friends: " + total_popularity);
-
     }
 
     public void bioEdit(){
@@ -337,42 +339,47 @@ public class ProfileFragment extends Fragment {
         alertDialogAndroid.show();
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void showGreetingMsg(){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        //System.out.println(sdf.format(new Date()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        System.out.println(sdf.format(new Date()));
+
         greetings = view.findViewById(R.id.greetings);
         Calendar c = Calendar.getInstance();
         //int date = c.get(Calendar.DATE);
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         int min = c.get(Calendar.MINUTE);
-        //int ampm = c.get(Calendar.AM_PM);
+        int am_pm = c.get(Calendar.AM_PM);
+        String ampm;
+        if(am_pm==1){
+             ampm ="PM";
+        }else ampm = "AM";
 
         if(timeOfDay >= 0 && timeOfDay < 4){
             Snackbar.make(view, "Don't stay up too late, "+user.getDisplayName()+"?\nYou'll be late for morning work.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+            greetings.setText("You should sleep now, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min+" "+ampm);
         }
         if(timeOfDay >= 4 && timeOfDay < 12){
             Snackbar.make(view, "Good Morning, "+user.getDisplayName()+"!!"+" Have a good day!", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Morning!!!\nHave a good Day."+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min+" "+ampm);
         }else if(timeOfDay >= 12 && timeOfDay < 16){
             Snackbar.make(view, "Good Afternoon, "+user.getDisplayName()+"!!"+" Don't Forget to have Lunch.", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Afternoon!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Afternoon!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+(timeOfDay-12)+":"+min+" "+ampm);
         }else if(timeOfDay >= 16 && timeOfDay < 21){
-            Snackbar.make(view, "Good Evening, "+user.getDisplayName()+"!!"+" Tired?? have some Snacks!", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "Good Evening, "+user.getDisplayName()+"!!"+" Tired?? have some Snacks! :P", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Evening!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+            greetings.setText("How are you felling, "+user.getDisplayName()+"??"+"\nGood Evening!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+(timeOfDay-12)+":"+min+" "+ampm);
         }else if(timeOfDay >= 21 && timeOfDay < 24){
             if(timeOfDay>=21 && timeOfDay<=23)
             Snackbar.make(view, "Had Dinner, "+user.getDisplayName()+"?? Eat well Sleep well.\n               Good Night!   ...zzZZZzZZ....", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
             else if(timeOfDay>23)  Snackbar.make(view, "Good Night! "+user.getDisplayName()+" :)", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-            greetings.setText("Feeling Tired,"+user.getDisplayName()+"?"+" Have dinner & Get Some Sleep."+"\nGood Night!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+timeOfDay+":"+min);
+            greetings.setText("Feeling Tired,"+user.getDisplayName()+"?"+" Have dinner & Get Some Sleep."+"\nGood Night!!!"+"\nCurrent date: "+sdf.format(new Date())+"\nTime: "+(timeOfDay-12)+":"+min+" "+ampm);
         }
     }
 
@@ -500,7 +507,6 @@ public class ProfileFragment extends Fragment {
 
     private void setupPieChart(Chart stat) {
         //populating pie entries
-
         plans_count[0] = stat.getAcceptedCount();
         plans_count[1] = stat.getAcceptedCount()+stat.getCreatedCount();
         plans_count[2] = stat.getCreatedCount();
