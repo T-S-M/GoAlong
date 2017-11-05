@@ -134,7 +134,7 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            FacebookEventParser parser = new FacebookEventParser(response.substring(0));
+                            FacebookEventParser parser = new FacebookEventParser(response.substring(0), response.substring(0));
                             try {
                                 ArrayList<Plan> eventList;
                                 eventList = parser.getfbEventListData();

@@ -16,7 +16,7 @@ public class FacebookEventParser {
 
     private String eventsData;
 
-    public FacebookEventParser(String eventsData) {
+    public FacebookEventParser(String substring, String eventsData) {
         this.eventsData = eventsData;
     }
 
@@ -53,7 +53,7 @@ public class FacebookEventParser {
         long start_time = 0, end_time = 0;
         int attending_count = 0, maybe_count = 0;
         //cover
-        String offsetX = null, offsetY = null, source = null, cover_id = null;
+        String source = null, cover_id = null;
         // place
         String place_name = null, place_id = null;
         //location
@@ -89,9 +89,6 @@ public class FacebookEventParser {
                     if (data.has("cover")) {
                         JSONObject cover = data.getJSONObject("cover");
                         {
-                            //offsetX
-                            //offsetY
-
                             if (cover.has("source")) {
                                 source = cover.getString("source");
                             } else {

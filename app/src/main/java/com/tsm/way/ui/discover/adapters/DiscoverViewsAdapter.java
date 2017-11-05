@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.tsm.way.R;
+import com.tsm.way.ui.discover.activities.EventListActivity;
 import com.tsm.way.ui.discover.activities.PlaceListActivity;
 import com.tsm.way.utils.CategoriesUtil;
 
@@ -71,7 +72,7 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
             ((ViewHolderfbEvents) holder).more1.setOnClickListener(new View.OnClickListener() {
                                                                        @Override
                                                                        public void onClick(View v) {
-                                                                           Intent intent = new Intent(mContext, PlaceListActivity.class);
+                                                                           Intent intent = new Intent(mContext, EventListActivity.class);
                                                                            intent.putExtra("Events", "Events");
                                                                            mContext.startActivity(intent);
                                                                        }
@@ -137,8 +138,8 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
 
         public ViewHolderfbEvents(View itemView) {
             super(itemView);
-            more1 = (TextView) itemView.findViewById(R.id.more1);
-            events_recyclerview = (RecyclerView) itemView.findViewById(R.id.events_recyclerview);
+            more1 = itemView.findViewById(R.id.more1);
+            events_recyclerview = itemView.findViewById(R.id.events_recyclerview);
             events_recyclerview.setHasFixedSize(true);
         }
     }
@@ -151,8 +152,8 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
 
         public ViewHolderRV(View itemView) {
             super(itemView);
-            more2 = (TextView) itemView.findViewById(R.id.more2);
-            resturants_recyclerview = (RecyclerView) itemView.findViewById(R.id.resturants_recyclerview_r);
+            more2 = itemView.findViewById(R.id.more2);
+            resturants_recyclerview = itemView.findViewById(R.id.resturants_recyclerview_r);
             resturants_recyclerview.setHasFixedSize(true);
         }
 
@@ -164,7 +165,7 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
 
         public CategoryViewHolder(View itemView) {
             super(itemView);
-            categoriesGridView = (GridView) itemView.findViewById(R.id.main_categories);
+            categoriesGridView = itemView.findViewById(R.id.main_categories);
         }
     }
 }
