@@ -12,9 +12,12 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.tsm.way.R;
+import com.tsm.way.models.Plan;
 import com.tsm.way.ui.discover.activities.EventListActivity;
 import com.tsm.way.ui.discover.activities.PlaceListActivity;
 import com.tsm.way.utils.CategoriesUtil;
+
+import java.util.ArrayList;
 
 public class DiscoverViewsAdapter extends RecyclerView.Adapter {
     private final int FB_EVENTS = 0, RESTAURANT = 1, CATEGORY = 2;
@@ -73,7 +76,7 @@ public class DiscoverViewsAdapter extends RecyclerView.Adapter {
                                                                        @Override
                                                                        public void onClick(View v) {
                                                                            Intent intent = new Intent(mContext, EventListActivity.class);
-                                                                           intent.putExtra("Events", "Events");
+                                                                           intent.putExtra("Events", (ArrayList<Plan>) eventAdapter.fbEventList);
                                                                            mContext.startActivity(intent);
                                                                        }
                                                                    }

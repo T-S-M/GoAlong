@@ -12,13 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.facebook.AccessToken;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -32,12 +25,9 @@ import com.tsm.way.models.Plan;
 import com.tsm.way.ui.common.activities.MainActivity;
 import com.tsm.way.ui.discover.adapters.EventListAdapter;
 import com.tsm.way.utils.EventCardClickHandler;
-import com.tsm.way.utils.FacebookEventParser;
-import com.tsm.way.utils.UrlsUtil;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import static com.tsm.way.ui.common.activities.MainActivity.mLastKnownLocation;
 
 public class EventListActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -45,8 +35,7 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
     private static final float DEFAULT_ZOOM = 15;
     MapFragment mapFragment;
     RecyclerView fbEventRecyclerView;
-    RequestQueue mRequestQueue;
-    List<Plan> fbEventList;
+    ArrayList<Plan> planlist;
     String type;
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
@@ -59,8 +48,8 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (getIntent().hasExtra("type")) {
-            type = getIntent().getStringExtra("type");
+        if (getIntent().hasExtra("Events")) {
+            planlist = getIntent().getParcelableArrayListExtra("Events");
         }
 
         fbEventRecyclerView = findViewById(R.id.events_list_recyclerview);
@@ -74,64 +63,31 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
             mapFragment.getMapAsync(this);
         } else {
             updateLocationUI();
-            updateMapLocation();
         }
-
-        mRequestQueue = Volley.newRequestQueue(this);
         populateRecyclerview();
     }
 
 
     private void populateRecyclerview() {
 
-        String latitude = "23.734";
-        String longitude = "90.3928";
-        if (mLastKnownLocation != null) {
-            latitude = String.valueOf(mLastKnownLocation.getLatitude());
-            longitude = String.valueOf(mLastKnownLocation.getLongitude());
-        }
-        if (type == null) {
-            type = "restaurant";
-        }
-        String accessToken = String.valueOf(AccessToken.getCurrentAccessToken());
-        String urlString = UrlsUtil.getFbBaseUrl(accessToken, "Dhaka");
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, urlString,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //jsonTView.setText("Response is: " + response.substring(0));
-                        FacebookEventParser parser = new FacebookEventParser(response.substring(0), "data");
-                        try {
-                            fbEventList = parser.getfbEventListData();
-                            fbEventRecyclerView.setAdapter(new EventListAdapter(EventListActivity.this, fbEventList, new EventCardClickHandler(EventListActivity.this)));
-                            fbEventRecyclerView.setVisibility(View.VISIBLE);
-                            addMapMarkers(fbEventList);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //jsonTView.setText("That didn't work!");
-            }
-        });
-        // Add the request to the RequestQueue.
-        mRequestQueue.add(stringRequest);
+        fbEventRecyclerView.setAdapter(new EventListAdapter(EventListActivity.this, planlist, new EventCardClickHandler(EventListActivity.this)));
+        fbEventRecyclerView.setVisibility(View.VISIBLE);
+        addMapMarkers(planlist);
     }
 
     private void addMapMarkers(List<Plan> fbEventList) {
         if (mMap != null) {
-            for (Plan place : fbEventList) {
+            for (Plan event : fbEventList) {
                 MarkerOptions markerOptions = new MarkerOptions();
-                LatLng latLng = new LatLng(place.getPlaceLat(), place.getPlaceLong());
+                LatLng latLng = new LatLng(event.getPlaceLat(), event.getPlaceLong());
                 markerOptions.position(latLng);
-                markerOptions.title(place.getPlaceName() + " : " + place.getPlaceAddress());
-
+                markerOptions.title(event.getPlaceName() + " : " + event.getPlaceAddress());
                 mMap.addMarker(markerOptions);
             }
+            mCameraPosition = CameraPosition.fromLatLngZoom(
+                    new LatLng(fbEventList.get(0).getPlaceLat(),
+                            fbEventList.get(0).getPlaceLong()), DEFAULT_ZOOM);
+            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
         }
     }
 
@@ -170,30 +126,5 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
         mMap.setPadding(0, 92, 8, 48);
         updateLocationUI();
-        updateMapLocation();
-    }
-
-    private void updateMapLocation() {
-        // Set the map's camera position to the current location of the device.
-        if (mCameraPosition != null) {
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-            //Log.v(TAG, "Camera moved");
-        } else if (mLastKnownLocation != null) {
-            mCameraPosition = CameraPosition.fromLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(),
-                    mLastKnownLocation.getLongitude()), DEFAULT_ZOOM);
-            mMap.moveCamera(CameraUpdateFactory.newCameraPosition(mCameraPosition));
-        } else {
-            Log.v("TAG", "Current location is null. Using defaults.");
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-            // mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mRequestQueue != null) {
-            mRequestQueue.cancelAll(TAG);
-        }
     }
 }

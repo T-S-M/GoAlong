@@ -12,27 +12,21 @@ import com.bumptech.glide.Glide;
 import com.tsm.way.R;
 import com.tsm.way.models.Plan;
 import com.tsm.way.utils.EventCardClickHandler;
-import com.tsm.way.utils.UrlsUtil;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.EventListAdapterViewHolder> {
 
     private final EventListAdapterOnclickHandler mClickHandler;
     Context mContext;
-    List<Plan> fbEventList;
+    ArrayList<Plan> fbEventList;
 
-    public EventListAdapter(Context mContext, List<Plan> placeBeanList, EventCardClickHandler mClickHandler) {
+    public EventListAdapter(Context mContext, ArrayList<Plan> placeBeanList, EventCardClickHandler mClickHandler) {
         this.mContext = mContext;
         this.fbEventList = placeBeanList;
         this.mClickHandler = mClickHandler;
-    }
-
-    public void setData(List<Plan> fbEventList) {
-        this.fbEventList = fbEventList;
-        notifyDataSetChanged();
     }
 
     @Override
@@ -50,9 +44,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
         String formattedTime = new SimpleDateFormat("EEEE, MMMM dd, yyyy hh:mm a", Locale.US).format(mplan.getStartTime());
         holder.startTimeTextView.setText(formattedTime);
         if (mplan.getCoverUrl() != null) {
-            String imageUrl = UrlsUtil.getSinglePhotoUrlString(mContext, mplan.getCoverUrl(), "350", "300");
             Glide.with(mContext)
-                    .load(imageUrl)
+                    .load(mplan.getCoverUrl())
                     .into(holder.thumbnailImage);
         }
     }
