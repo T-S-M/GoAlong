@@ -28,7 +28,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop" />
         <activity
-            android:name=".ui.common.activities.PlaceDetailActivity"
+            android:name=".ui.discover.activities.PlaceDetailActivity"
             android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity
             android:name=".ui.discover.activities.PlaceListActivity"
@@ -55,7 +55,7 @@
             android:parentActivityName=".ui.common.activities.MainActivity" />
         <activity
             android:name=".ui.plan.activities.InviteGuestsActivity"
-            android:parentActivityName=".ui.common.activities.PlaceDetailActivity"
+            android:parentActivityName=".ui.discover.activities.PlaceDetailActivity"
             android:theme="@style/AppThemeWithActionBar" />
         <activity
             android:name=".ui.discover.activities.EventDetailActivity"

@@ -1,4 +1,4 @@
-package com.tsm.way.ui.common.activities;
+package com.tsm.way.ui.discover.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,8 +23,10 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.location.places.Place;
 import com.tsm.way.R;
 import com.tsm.way.models.PlaceDetailBean;
+import com.tsm.way.ui.common.activities.CreatePlanActivity;
 import com.tsm.way.ui.common.adapters.GalleryImageAdapter;
 import com.tsm.way.ui.common.adapters.ReviewAdapter;
+import com.tsm.way.utils.CommonUtils;
 import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -33,7 +36,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     PlaceDetailBean detailbean;
     RecyclerView reviewRecyclerView, gallery_recyclerview;
     FloatingActionsMenu fabMenu;
-    FloatingActionButton addPlan;
+    FloatingActionButton callFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         fabMenu = findViewById(R.id.fab_menu_place_detail);
-        addPlan = findViewById(R.id.add_plan);
+        FloatingActionButton addPlan = findViewById(R.id.add_plan);
         addPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -53,6 +56,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 }
             }
         );
+        callFab = findViewById(R.id.call_place);
 
         final TextView name = findViewById(R.id.name);
         final TextView address = findViewById(R.id.address);
@@ -109,6 +113,16 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                                 gallery_recyclerview.setAdapter(new GalleryImageAdapter(detailbean.getPhotos(), PlaceDetailActivity.this));
                                 gallery_recyclerview.setVisibility(View.VISIBLE);
+                                callFab.setOnClickListener(new View.OnClickListener() {
+                                                               @Override
+                                                               public void onClick(View v) {
+                                                                   if (!(detailbean.getInternational_phone_number().equals("Not available")))
+                                                                       CommonUtils.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                                                   else
+                                                                       Toast.makeText(PlaceDetailActivity.this, "No number available", Toast.LENGTH_SHORT).show();
+                                                               }
+                                                           }
+                                );
 
                             } catch (Exception e) {
                                 e.printStackTrace();

@@ -47,6 +47,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FacebookAccountHelperActivity;
 import com.tsm.way.ui.Feed.FeedFragment;
+import com.tsm.way.ui.discover.activities.PlaceDetailActivity;
 import com.tsm.way.ui.discover.fragments.DiscoverFragment;
 import com.tsm.way.ui.plan.fragments.PlanFragment;
 import com.tsm.way.ui.profile.ProfileFragment;

@@ -46,6 +46,7 @@ import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Chart;
 import com.tsm.way.models.Guest;
 import com.tsm.way.ui.common.activities.AuthActivity;
+import com.tsm.way.utils.CommonUtils;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.text.SimpleDateFormat;
@@ -64,26 +65,33 @@ import static com.tsm.way.ui.common.activities.MainActivity.drawer;
 /**
  * A simple {@link Fragment} subclass.
  */
+@SuppressWarnings("unchecked")
 public class ProfileFragment extends Fragment {
 
-    FirebaseUser user;
-    float plans_count[] = {0f, 0f ,0f , 0f};
-    String plans_type[] = {"Interested", "Joined","Created","Invited people"};
-    TextView bio,contact,note,greetings;
-    Guest appUser;
-    Chart stat;
-    String photoUrl,guestID;
-    DatabaseReference dbref,statRef;
-    LinearLayout contactLayout,statusLayout;
-    PieChart chart;
-    boolean isVisitor;
-    ImageView fbButton,fav_button,GoogleButton;
-    View view;
-    CircleImageView profilePhoto;
-    Toolbar toolbar;
-    TextView popularity_cnt;
-    DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
-    long totalPopularity;
+    private final float[] plans_count = {0f, 0f, 0f, 0f};
+    private final String[] plans_type = {"Interested", "Joined", "Created", "Invited people"};
+    private final DatabaseReference rootRef = FirebaseDBHelper.getFirebaseDatabaseInstance().getReference();
+    private FirebaseUser user;
+    private TextView bio;
+    private TextView contact;
+    private TextView note;
+    private Guest appUser;
+    private Chart stat;
+    private String photoUrl;
+    private String guestID;
+    private DatabaseReference dbref;
+    private DatabaseReference statRef;
+    private LinearLayout contactLayout;
+    private LinearLayout statusLayout;
+    private PieChart chart;
+    private boolean isVisitor;
+    private ImageView fbButton;
+    private ImageView fav_button;
+    private ImageView GoogleButton;
+    private View view;
+    private CircleImageView profilePhoto;
+    private Toolbar toolbar;
+    private long totalPopularity;
     private Description desc;
     private ImageView editBio;
     public ProfileFragment() {
@@ -119,7 +127,7 @@ public class ProfileFragment extends Fragment {
         fbButton = view.findViewById(R.id.fb_button);
         GoogleButton = view.findViewById(R.id.google_button);
         fav_button = view.findViewById(R.id.fav_button);
-        popularity_cnt = view.findViewById(R.id.popularity);
+        TextView popularity_cnt = view.findViewById(R.id.popularity);
         controlEditAccess();
 
         setRetainInstance(true);
@@ -135,15 +143,12 @@ public class ProfileFragment extends Fragment {
                     bioEdit();
                 }
             });
-            // Adding / Edit the contact
             contactLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     addContact();
                 }
             });
-
-            // Adding / Edit the note
             statusLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -186,9 +191,9 @@ public class ProfileFragment extends Fragment {
         guestRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Guest user = dataSnapshot.getValue(Guest.class);
+                final Guest user = dataSnapshot.getValue(Guest.class);
                 ((TextView) view.findViewById(R.id.user_profile_name)).setText(user.getDisplayName());
-                if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl().toString();
+                if (user.getPhotoUrl() != null) photoUrl = user.getPhotoUrl();
                 else
                     photoUrl = UrlsUtil.getGravatarUrl(user.getEmail(), "wavatar");
                 Glide.with(getContext())
@@ -214,6 +219,12 @@ public class ProfileFragment extends Fragment {
                     popularityCount.setTextSize(16f);
                 } else  popularityCount.setText("Popularity: " + totalPopularity + "\nPlease, add/invite some friends and Enjoy!");
                 enableFavouriteButton(rootRef.child("popularity").child(user.getUid()), popularityCount);
+                contactLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        CommonUtils.dialPhoneNumber(user.getContact(), getContext());
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -312,7 +323,7 @@ public class ProfileFragment extends Fragment {
         showGreetingMsg();
     }
 
-    public void bioEdit(){
+    private void bioEdit() {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
         View mView = layoutInflaterAndroid.inflate(R.layout.profilebioedit, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
@@ -343,12 +354,12 @@ public class ProfileFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void showGreetingMsg(){
+    private void showGreetingMsg() {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         System.out.println(sdf.format(new Date()));
 
-        greetings = view.findViewById(R.id.greetings);
+        TextView greetings = view.findViewById(R.id.greetings);
         Calendar c = Calendar.getInstance();
         //int date = c.get(Calendar.DATE);
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
@@ -388,7 +399,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public void  addContact(){
+    private void addContact() {
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
         View mView = layoutInflaterAndroid.inflate(R.layout.editcontact, null);
         AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext());
@@ -417,7 +428,8 @@ public class ProfileFragment extends Fragment {
         AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
         alertDialogAndroid.show();
     }
-    public void addNote(){
+
+    private void addNote() {
 
         LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
         View mView = layoutInflaterAndroid.inflate(R.layout.addnote, null);
@@ -540,11 +552,5 @@ public class ProfileFragment extends Fragment {
         chart.getDescription().setText("Plan Statistics");
         chart.invalidate();
     }
-    public void setDescription(String desc) {
-        this.setDescription("Achievements");
-    }
 
-    public Guest getUserInfoFromFirebase() {
-        return new Guest();
-    }
 }

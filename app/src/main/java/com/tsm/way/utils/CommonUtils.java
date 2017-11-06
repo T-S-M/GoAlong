@@ -1,5 +1,9 @@
 package com.tsm.way.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -17,5 +21,13 @@ public final class CommonUtils {
         Date date = new java.util.Date(timeStamp);
         String formattedTime = new SimpleDateFormat("MMM dd, hh:mm a", Locale.US).format(date);
         return formattedTime;
+    }
+
+    public static void dialPhoneNumber(String phoneNumber, Context context) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
     }
 }
