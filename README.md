@@ -5,7 +5,7 @@ This is an academic Project for Application development lab, Fall – 2017, Depa
 **Developed by:**
 
 - [Tanjid Hasan Tonmoy](https://www.github.com/thtonmoy)
-- Sakib Hasan
+- [Sakib Hasan](https://github.com/Sakib2263)
 - Mahsin Bin Akram
 
 **Overview:**
