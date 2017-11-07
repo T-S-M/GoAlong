@@ -222,7 +222,10 @@ public class ProfileFragment extends Fragment {
                 contactLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(user.getContact()!= null)
                         ConstantsHelperMethodsUtil.dialPhoneNumber(user.getContact(), getContext());
+                        else  Snackbar.make(view, "Sorry, Contact Number is not available!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                 });
             }

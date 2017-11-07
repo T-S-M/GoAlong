@@ -116,9 +116,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                                                public void onClick(View v) {
                                                                    if (!(detailbean.getFormatted_phone_number().equals("Not available")))
                                                                        ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getFormatted_phone_number(), PlaceDetailActivity.this);
-                                                                   else
+                                                                   else {
                                                                        Toast.makeText(PlaceDetailActivity.this, "No Local number available", Toast.LENGTH_SHORT).show();
-                                                                   ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                                                       if (!(detailbean.getInternational_phone_number().equals("Not available")))
+                                                                           ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                                                   }
                                                                }
                                                            }
                                 );
