@@ -112,7 +112,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageButton2"
+                android:id="@+id/callButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 fab:srcCompat="@drawable/ic_phone_black_24dp" />

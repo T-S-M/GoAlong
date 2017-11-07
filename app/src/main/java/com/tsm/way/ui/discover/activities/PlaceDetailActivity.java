@@ -32,7 +32,7 @@ import com.tsm.way.utils.UrlsUtil;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    String placeID,url;
+    String placeID, url;
     PlaceDetailBean detailbean;
     RecyclerView reviewRecyclerView, gallery_recyclerview;
     FloatingActionsMenu fabMenu;
@@ -49,12 +49,12 @@ public class PlaceDetailActivity extends AppCompatActivity {
         fabMenu = findViewById(R.id.fab_menu_place_detail);
         FloatingActionButton addPlan = findViewById(R.id.add_plan);
         addPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                startActivity(new Intent(PlaceDetailActivity.this, CreatePlanActivity.class));
-                finish();
-                }
-            }
+                                       @Override
+                                       public void onClick(View v) {
+                                           startActivity(new Intent(PlaceDetailActivity.this, CreatePlanActivity.class));
+                                           finish();
+                                       }
+                                   }
         );
         callFab = findViewById(R.id.call_place);
 
@@ -75,7 +75,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         gallery_recyclerview.setHasFixedSize(true);
         gallery_recyclerview.setLayoutManager(layoutManager2);
-
 
 
         if (getIntent().hasExtra("id")) {
@@ -104,22 +103,22 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
                             try {
                                 detailbean = detailParser.getPlaceDetail();
-                                name.setText(detailbean.getName()+"\n");
-                                address.setText("Address: " +detailbean.getFormatted_address());
-                                contact.setText("Contact No. : "+detailbean.getFormatted_phone_number()+"\nInterbational Phone No. :"+detailbean.getInternational_phone_number());
+                                name.setText(detailbean.getName() + "\n");
+                                address.setText("Address: " + detailbean.getFormatted_address());
+                                contact.setText("Contact No. : " + detailbean.getFormatted_phone_number() + "\nInterbational Phone No. :" + detailbean.getInternational_phone_number());
                                 rating.setRating(detailbean.getRating());
                                 reviewRecyclerView.setAdapter(new ReviewAdapter(detailbean.getReviews(), PlaceDetailActivity.this));
                                 reviewRecyclerView.setVisibility(View.VISIBLE);
-
                                 gallery_recyclerview.setAdapter(new GalleryImageAdapter(detailbean.getPhotos(), PlaceDetailActivity.this));
                                 gallery_recyclerview.setVisibility(View.VISIBLE);
                                 callFab.setOnClickListener(new View.OnClickListener() {
                                                                @Override
                                                                public void onClick(View v) {
-                                                                   if (!(detailbean.getInternational_phone_number().equals("Not available")))
-                                                                       ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                                                   if (!(detailbean.getFormatted_phone_number().equals("Not available")))
+                                                                       ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getFormatted_phone_number(), PlaceDetailActivity.this);
                                                                    else
-                                                                       Toast.makeText(PlaceDetailActivity.this, "No number available", Toast.LENGTH_SHORT).show();
+                                                                       Toast.makeText(PlaceDetailActivity.this, "No Local number available", Toast.LENGTH_SHORT).show();
+                                                                   ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
                                                                }
                                                            }
                                 );
@@ -138,11 +137,21 @@ public class PlaceDetailActivity extends AppCompatActivity {
             queue.add(stringRequest);
         }
 
+        findViewById(R.id.callButton)
+                .setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            if (!(detailbean.getFormatted_phone_number().equals("Not available")))
+                                                ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getFormatted_phone_number(), PlaceDetailActivity.this);
+                                            else
+                                                Toast.makeText(PlaceDetailActivity.this, "No Local number available", Toast.LENGTH_SHORT).show();
+                                            ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                        }
+                                    }
+                );
         Intent intent = getIntent();
         String placeId = intent.getStringExtra("placeId");
 
     }
-
-
 
 }
