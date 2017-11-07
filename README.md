@@ -20,7 +20,7 @@ In this modern age and busy life with little time to spare, make the most of you
 4. Make New Friends
 
 
-**Watch on Youtube: **
+**Watch on Youtube:**
 
 [![Watch App first Look on youtube](http://img.youtube.com/vi/0Pp5lIdOEF4/0.jpg)](https://www.youtube.com/watch?v=0Pp5lIdOEF4)
 
