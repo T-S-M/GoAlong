@@ -1,6 +1,7 @@
 package com.tsm.way.ui.discover.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -24,12 +25,11 @@ import com.tsm.way.R;
 import com.tsm.way.models.Plan;
 import com.tsm.way.ui.common.activities.MainActivity;
 import com.tsm.way.ui.discover.adapters.EventListAdapter;
-import com.tsm.way.utils.EventCardClickHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventListActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class EventListActivity extends AppCompatActivity implements OnMapReadyCallback, EventListAdapter.EventListAdapterOnclickHandler {
 
     public static final String TAG = "EventListActivity";
     private static final float DEFAULT_ZOOM = 15;
@@ -70,7 +70,7 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void populateRecyclerview() {
 
-        fbEventRecyclerView.setAdapter(new EventListAdapter(EventListActivity.this, planlist, new EventCardClickHandler(EventListActivity.this)));
+        fbEventRecyclerView.setAdapter(new EventListAdapter(EventListActivity.this, planlist, EventListActivity.this));
         fbEventRecyclerView.setVisibility(View.VISIBLE);
         addMapMarkers(planlist);
     }
@@ -126,5 +126,12 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
         mMap = googleMap;
         mMap.setPadding(0, 92, 8, 48);
         updateLocationUI();
+    }
+
+    @Override
+    public void onClick(Plan event) {
+        Intent intent = new Intent(EventListActivity.this, EventDetailActivity.class);
+        intent.putExtra("plan", event);
+        startActivity(intent);
     }
 }

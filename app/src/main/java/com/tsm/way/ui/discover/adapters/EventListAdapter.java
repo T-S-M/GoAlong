@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tsm.way.R;
 import com.tsm.way.models.Plan;
-import com.tsm.way.utils.EventCardClickHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +22,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     Context mContext;
     ArrayList<Plan> fbEventList;
 
-    public EventListAdapter(Context mContext, ArrayList<Plan> placeBeanList, EventCardClickHandler mClickHandler) {
+    public EventListAdapter(Context mContext, ArrayList<Plan> placeBeanList, EventListAdapterOnclickHandler mClickHandler) {
         this.mContext = mContext;
         this.fbEventList = placeBeanList;
         this.mClickHandler = mClickHandler;
@@ -56,7 +55,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
     }
 
     public interface EventListAdapterOnclickHandler {
-        void onClick(String id);
+        void onClick(Plan event);
     }
 
     public class EventListAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -78,8 +77,8 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.Even
 
         @Override
         public void onClick(View v) {
-            String placeID = fbEventList.get(getAdapterPosition()).getGooglePlaceID();
-            mClickHandler.onClick(placeID);
+            Plan event = fbEventList.get(getAdapterPosition());
+            mClickHandler.onClick(event);
         }
     }
 }

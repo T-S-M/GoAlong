@@ -92,7 +92,9 @@
         <activity
             android:name=".ui.Feed.PublicPlanDetailsActivity"
             android:parentActivityName=".ui.common.activities.MainActivity" />
-        <activity android:name=".ui.discover.activities.EventListActivity"></activity>
+        <activity
+            android:name=".ui.discover.activities.EventListActivity"
+            android:parentActivityName=".ui.common.activities.MainActivity" />
     </application>
 
 </manifest>
