@@ -46,7 +46,6 @@ public class EventViewerAdapter extends RecyclerView.Adapter<EventViewerAdapter.
         holder.planDateTime.setText(formattedTime);
         if (model.getCoverUrl() != null) {
             String url = model.getCoverUrl();
-            Log.v("FB_IMAGE", url);
             Glide.with(mContext)
                     .load(url)
                     .into(holder.coverPhoto);

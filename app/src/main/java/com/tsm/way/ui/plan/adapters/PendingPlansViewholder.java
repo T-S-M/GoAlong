@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.tsm.way.R;
 import com.tsm.way.models.Plan;
-import com.tsm.way.utils.CommonUtils;
+import com.tsm.way.utils.ConstantsHelperMethodsUtil;
 
 public class PendingPlansViewholder extends RecyclerView.ViewHolder {
     private TextView titleTextview;
@@ -28,7 +28,7 @@ public class PendingPlansViewholder extends RecyclerView.ViewHolder {
 
     public void bindDataToViewHolder(final Plan model, Context context, final PendingClickHandler clickHandler) {
         titleTextview.setText(model.getTitle());
-        String info = "On " + CommonUtils.getFormattedTimeFromTimestamp(model.getStartTime()) + " in \n" + model.getPlaceName();
+        String info = "On " + ConstantsHelperMethodsUtil.getFormattedTimeFromTimestamp(model.getStartTime()) + " in \n" + model.getPlaceName();
         infoTextView.setText(info);
         ignoreButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -26,7 +26,7 @@ import com.tsm.way.models.PlaceDetailBean;
 import com.tsm.way.ui.common.activities.CreatePlanActivity;
 import com.tsm.way.ui.common.adapters.GalleryImageAdapter;
 import com.tsm.way.ui.common.adapters.ReviewAdapter;
-import com.tsm.way.utils.CommonUtils;
+import com.tsm.way.utils.ConstantsHelperMethodsUtil;
 import com.tsm.way.utils.PlaceDetailParser;
 import com.tsm.way.utils.UrlsUtil;
 
@@ -117,7 +117,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                                                                @Override
                                                                public void onClick(View v) {
                                                                    if (!(detailbean.getInternational_phone_number().equals("Not available")))
-                                                                       CommonUtils.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
+                                                                       ConstantsHelperMethodsUtil.dialPhoneNumber(detailbean.getInternational_phone_number(), PlaceDetailActivity.this);
                                                                    else
                                                                        Toast.makeText(PlaceDetailActivity.this, "No number available", Toast.LENGTH_SHORT).show();
                                                                }

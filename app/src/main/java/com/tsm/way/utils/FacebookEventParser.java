@@ -37,17 +37,7 @@ public class FacebookEventParser {
 
 
     public ArrayList<Plan> getfbEventListData() throws Exception {
-
-
-        // events JSONArray
         JSONArray events = null;
-
-        // Hashmap for RecylerView
-        //??????
-
-        // url to get json data
-        String url = "";
-
         //data
         String event_name = null, event_id = null, description = null;
         long start_time = 0, end_time = 0;
@@ -101,18 +91,17 @@ public class FacebookEventParser {
                             }
                         }
                     } else {
-                        //???;
                     }
 
                 if (data.has("start_time")) {
-                    //start_time = Long.parseLong(data.getString("start_time"));
+                    start_time = ConstantsHelperMethodsUtil.getTimestampFromString(data.getString("start_time"));
 
                     } else {
                         start_time = 0;
                     }
 
                 if (data.has("end_time")) {
-                    //end_time = Long.parseLong(data.getString("end_time"));
+                    end_time = ConstantsHelperMethodsUtil.getTimestampFromString(data.getString("end_time"));
                     } else {
                         end_time = 0;
                     }
@@ -194,8 +183,8 @@ public class FacebookEventParser {
                 plan.setFbEventId(event_id);
                 plan.setTitle(event_name);
                 plan.setCoverUrl(source);
-                //plan.setStartTime(start_time);
-                //plan.setEndTime(end_time);
+                plan.setStartTime(start_time);
+                plan.setEndTime(end_time);
                 plan.setDescription(description);
                 plan.setGooglePlaceID(place_id);
                 plan.setPlaceName(place_name);

@@ -123,10 +123,7 @@ public class DiscoverFragment extends Fragment implements EventViewerAdapter.Eve
             }
         });
 
-        if (AccessToken.getCurrentAccessToken() == null) {
-            //Todo replace toast with snackbar or something more appropiate
-            // Toast.makeText(getContext(), "Please Sign in with FB", Toast.LENGTH_SHORT).show();
-        } else {
+        if (AccessToken.getCurrentAccessToken() != null) {
             String YOUR_TOKEN = AccessToken.getCurrentAccessToken().getToken();
             String fbRequestUrl = UrlsUtil.getFbBaseUrl(YOUR_TOKEN, "dhaka");
 

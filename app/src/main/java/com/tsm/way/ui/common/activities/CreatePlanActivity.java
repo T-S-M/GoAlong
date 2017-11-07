@@ -40,7 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import com.tsm.way.R;
 import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Plan;
-import com.tsm.way.utils.CommonUtils;
+import com.tsm.way.utils.ConstantsHelperMethodsUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -260,11 +260,11 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         mPlan.setHostUid(user.getUid());
         mPlan.setHostName(user.getDisplayName());
         if (plantypeSpinner.getSelectedItem().equals(getString(R.string.plan_type_public))) {
-            mPlan.setEventType(CommonUtils.PLAN_TYPE_PUBLIC_EVENT);
+            mPlan.setEventType(ConstantsHelperMethodsUtil.PLAN_TYPE_PUBLIC_EVENT);
             pushPublicEvent(mPlan);
             return;
         } else
-            mPlan.setEventType((CommonUtils.PLAN_TYPE_PRIVATE_EVENT));
+            mPlan.setEventType((ConstantsHelperMethodsUtil.PLAN_TYPE_PRIVATE_EVENT));
 
         String pushKey = userPlanRef.push().getKey();
 
@@ -334,7 +334,7 @@ public class CreatePlanActivity extends AppCompatActivity implements View.OnClic
         mPlan.setPlaceLong(latLng.longitude);
         mPlan.setPlaceName(placeName);
         whereTextView.setText(placeName);
-        mPlan.setEventType(CommonUtils.PLAN_TYPE_PRIVATE_EVENT);
+        mPlan.setEventType(ConstantsHelperMethodsUtil.PLAN_TYPE_PRIVATE_EVENT);
         mPlan.setGooglePlaceID(place.getId());
     }
 }

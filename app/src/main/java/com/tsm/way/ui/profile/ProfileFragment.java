@@ -46,7 +46,7 @@ import com.tsm.way.firebase.FirebaseDBHelper;
 import com.tsm.way.models.Chart;
 import com.tsm.way.models.Guest;
 import com.tsm.way.ui.common.activities.AuthActivity;
-import com.tsm.way.utils.CommonUtils;
+import com.tsm.way.utils.ConstantsHelperMethodsUtil;
 import com.tsm.way.utils.UrlsUtil;
 
 import java.text.SimpleDateFormat;
@@ -222,7 +222,7 @@ public class ProfileFragment extends Fragment {
                 contactLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        CommonUtils.dialPhoneNumber(user.getContact(), getContext());
+                        ConstantsHelperMethodsUtil.dialPhoneNumber(user.getContact(), getContext());
                     }
                 });
             }

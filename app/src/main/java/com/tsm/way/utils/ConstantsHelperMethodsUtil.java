@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public final class CommonUtils {
+public final class ConstantsHelperMethodsUtil {
 
     public static final int PLAN_TYPE_PRIVATE_EVENT = 8801;
     public static final int PLAN_TYPE_PUBLIC_EVENT = 8802;
@@ -21,6 +22,17 @@ public final class CommonUtils {
         Date date = new java.util.Date(timeStamp);
         String formattedTime = new SimpleDateFormat("MMM dd, hh:mm a", Locale.US).format(date);
         return formattedTime;
+    }
+
+    public static long getTimestampFromString(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:sszzzzzz");
+        Date date = null;
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
     }
 
     public static void dialPhoneNumber(String phoneNumber, Context context) {
