@@ -6,7 +6,7 @@ This is an academic Project for Application development lab, Fall – 2017, Depa
 
 - [Tanjid Hasan Tonmoy](https://www.github.com/thtonmoy)
 - [Sakib Hasan](https://github.com/Sakib2263)
-- Mahsin Bin Akram
+- [Mahsin Bin Akram](https://github.com/MahsinTheWannaBeBatman)
 
 **Overview:**
 
@@ -19,6 +19,7 @@ In this modern age and busy life with little time to spare, make the most of you
 3. Attend Events
 4. Make New Friends
 
+(Note: App is under development)
 
 **Watch on Youtube:**
 
