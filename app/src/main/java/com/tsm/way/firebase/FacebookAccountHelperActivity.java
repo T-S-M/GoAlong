@@ -83,7 +83,7 @@ public class FacebookAccountHelperActivity extends AppCompatActivity {
                             FirebaseUser user = task.getResult().getUser();
                             Toast.makeText(FacebookAccountHelperActivity.this, "Facebook account linked",
                                     Toast.LENGTH_SHORT).show();
-                            //updateUI(user);
+                            //update(user);
                             finish();
                         } else {
                             Toast.makeText(FacebookAccountHelperActivity.this, "Authentication failed.",

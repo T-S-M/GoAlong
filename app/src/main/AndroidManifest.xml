@@ -19,7 +19,6 @@
             android:theme="@style/AppTheme.BrandedLaunch">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -61,7 +60,7 @@
             android:name=".ui.discover.activities.EventDetailActivity"
             android:parentActivityName=".ui.common.activities.MainActivity"
             android:theme="@style/AppThemeWithActionBar" />
-        .
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/GOOGLE_PLACES_API_KEY" />

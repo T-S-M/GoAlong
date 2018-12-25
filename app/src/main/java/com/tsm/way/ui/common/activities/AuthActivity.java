@@ -30,13 +30,13 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFirebaseAuth = FirebaseAuth.getInstance();
-        //getFacebookKeyHash();
+        getFacebookKeyHash();
         mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // Toast.makeText(AuthActivity.this, "You're now signed in. Welcome", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AuthActivity.this, "You're now signed in. Welcome", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AuthActivity.this, MainActivity.class));
                     finish();
                 } else {
@@ -53,7 +53,6 @@ public class AuthActivity extends AppCompatActivity {
                 }
             }
         };
-
     }
 
     @Override
@@ -94,7 +93,8 @@ public class AuthActivity extends AppCompatActivity {
             }
         } catch (PackageManager.NameNotFoundException e) {
 
-        } catch (NoSuchAlgorithmException e) {     }
-    }
+        } catch (NoSuchAlgorithmException e) {
 
+        }
+    }
 }

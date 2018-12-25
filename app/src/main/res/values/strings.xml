@@ -80,4 +80,6 @@
     <string name="account">Account</string>
     <string name="unlink_fb">Sign Out</string>
     <string name="promt_task_description">Details</string>
+    <string name="facebook_app_id">172572739954464</string>
+    <string name="fb_login_protocol_scheme">fb172572739954464</string>
 </resources>

@@ -73,4 +73,4 @@
             app:layout_anchorGravity="bottom|right|end"
             app:srcCompat="@drawable/ic_edit_black_24dp" />-->
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>

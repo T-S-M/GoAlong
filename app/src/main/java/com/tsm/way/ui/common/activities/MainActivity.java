@@ -66,27 +66,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private FusedLocationProviderClient mFusedLocationClient;
     private SharedPreferences preferences;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        setupBottomNavigation();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout);
+         @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
+            preferences = PreferenceManager.getDefaultSharedPreferences(this);
+            setupBottomNavigation();
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            drawer = findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
 
-        mGoogleApiClient = new GoogleApiClient
-                .Builder(this)
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .addApi(LocationServices.API)
-                .enableAutoManage(this, this)
-                .build();
-        mGoogleApiClient.connect();
+            mGoogleApiClient = new GoogleApiClient
+                    .Builder(this)
+                    .addApi(Places.GEO_DATA_API)
+                    .addApi(Places.PLACE_DETECTION_API)
+                    .addApi(LocationServices.API)
+                    .enableAutoManage(this, this)
+                    .build();
+            mGoogleApiClient.connect();
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getDeviceLocation();

@@ -36,9 +36,9 @@ public class EventListActivity extends AppCompatActivity implements OnMapReadyCa
     MapFragment mapFragment;
     RecyclerView fbEventRecyclerView;
     ArrayList<Plan> planlist;
-    String type;
     private GoogleMap mMap;
     private CameraPosition mCameraPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
